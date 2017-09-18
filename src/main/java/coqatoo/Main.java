@@ -5,6 +5,8 @@ import helpers.FileHelper;
 import java.io.*;
 import java.util.*;
 
+import static java.lang.Thread.sleep;
+
 public class Main {
     static final Map<String, List<String>> parameters = new HashMap<String, List<String>>();
 
@@ -33,16 +35,28 @@ public class Main {
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(stdout));
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin));
-                String coqtopOutput = "";
 
-                for (String s : fileLines) {
+                Map<String, String> inputsToOutputs = new HashMap<>();
 
-                    while (reader.ready()) {
-                        coqtopOutput = reader.readLine();
-                        System.out.println(coqtopOutput);
-                    }
-                    writer.write(s+"\n");
+                for (String input : fileLines) {
+                    sleep(100);
+                    writer.write(input+"\n");
                     writer.flush();
+
+                    String output = "";
+                    while (reader.ready()) {
+                        String temp = reader.readLine();
+                        if (!temp.contains("Welcome to Coq")) { //Ignore the first output of coqtop
+                            output += temp+"\n";
+                        }
+
+                    }
+                    inputsToOutputs.put(input, output);
+                    System.out.println(input);
+                    System.out.println(output);
+
+
+
                 }
                 reader.close();
                 writer.close();
