@@ -35,20 +35,21 @@ public class Main {
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(stdout));
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin));
+                reader.readLine(); //Ignore the first output of coqtop
 
                 Map<String, String> inputsToOutputs = new HashMap<>();
 
+                //TODO Record only the inputs/outputs relevant to the lemma/theorem given as argument
                 for (String input : fileLines) {
-                    sleep(100);
                     writer.write(input+"\n");
                     writer.flush();
 
                     String output = "";
+                    while (!reader.ready()) {
+                        sleep(1);
+                    }
                     while (reader.ready()) {
-                        String temp = reader.readLine();
-                        if (!temp.contains("Welcome to Coq")) { //Ignore the first output of coqtop
-                            output += temp+"\n";
-                        }
+                            output += reader.readLine()+"\n";
 
                     }
                     inputsToOutputs.put(input, output);
