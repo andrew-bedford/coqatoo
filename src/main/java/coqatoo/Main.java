@@ -32,6 +32,7 @@ public class Main {
 
                 OutputStream stdin = process.getOutputStream();
                 InputStream stdout = process.getInputStream();
+                InputStream stderr = process.getErrorStream(); //TODO Output coqtop errors
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(stdout));
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin));
@@ -48,19 +49,19 @@ public class Main {
                     while (!reader.ready()) {
                         sleep(1);
                     }
+
                     while (reader.ready()) {
-                            output += reader.readLine()+"\n";
+                        output += reader.readLine() + "\n";
 
                     }
                     inputsToOutputs.put(input, output);
                     System.out.println(input);
                     System.out.println(output);
 
-
-
                 }
                 reader.close();
                 writer.close();
+
             }
             catch (Exception e) { e.printStackTrace(); }
 
