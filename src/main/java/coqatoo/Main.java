@@ -2,11 +2,8 @@ package coqatoo;
 
 import helpers.FileHelper;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 public class Main {
     static final Map<String, List<String>> parameters = new HashMap<String, List<String>>();
@@ -23,6 +20,34 @@ public class Main {
 
             verifyFileExists(filePath);
             verifyLemmaIsPresentInFile(filePath, lemmaName);
+
+            String fileContents = FileHelper.convertFileToString(new File(filePath));
+            String[] fileLines = fileContents.split("\n");
+            try {
+                //Note: "coqtop < file" feeds the whole contents of file to coqtop automatically, but we need to execute it line by line
+                ProcessBuilder processBuilder = new ProcessBuilder("coqtop");
+                Process process = processBuilder.start();
+
+                OutputStream stdin = process.getOutputStream();
+                InputStream stdout = process.getInputStream();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(stdout));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin));
+                String coqtopOutput = "";
+
+                for (String s : fileLines) {
+
+                    while (reader.ready()) {
+                        coqtopOutput = reader.readLine();
+                        System.out.println(coqtopOutput);
+                    }
+                    writer.write(s+"\n");
+                    writer.flush();
+                }
+                reader.close();
+                writer.close();
+            }
+            catch (Exception e) { e.printStackTrace(); }
 
         }
     }
