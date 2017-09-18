@@ -1,5 +1,7 @@
 package coqatoo;
 
+import helpers.FileHelper;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +19,16 @@ public class Main {
         else if (parameters.containsKey("-text")) {
             String filePath = parameters.get("-text").get(0);
             String lemmaName = parameters.get("-text").get(1);
-            System.out.println(filePath + " " + lemmaName);
+
+            verifyFileExists(filePath);
+            
+        }
+    }
+
+    private static void verifyFileExists(String filePath) {
+        if (!FileHelper.fileExists(filePath)) {
+            System.err.println("File '"+filePath+"' not found.");
+            System.exit(1);
         }
     }
 
