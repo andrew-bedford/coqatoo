@@ -14,7 +14,7 @@ public class Main {
         parseArguments(args);
         if (parameters.isEmpty() || parameters.containsKey("-help")) {
             System.out.println("Options:");
-            System.out.println("-text [.v file] [lemma/theorem name]\t\t Converts the Coq proof of [lemma/theorem name] in file [file] to text (i.e., classical proof).");
+            System.out.println("-text [.v file] [lemma/theorem name]\t\t Converts the Coq proof of [lemma/theorem name] in file [file] to plain text.");
         }
         else if (parameters.containsKey("-text")) {
             String filePath = parameters.get("-text").get(0);
