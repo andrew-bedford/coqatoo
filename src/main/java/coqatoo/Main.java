@@ -2,6 +2,7 @@ package coqatoo;
 
 import helpers.FileHelper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,13 +22,22 @@ public class Main {
             String lemmaName = parameters.get("-text").get(1);
 
             verifyFileExists(filePath);
-            
+            verifyLemmaIsPresentInFile(filePath, lemmaName);
+
+        }
+    }
+
+    private static void verifyLemmaIsPresentInFile(String filePath, String lemmaName) {
+        String fileContents = FileHelper.convertFileToString(new File(filePath));
+        if (!fileContents.contains(lemmaName)) {
+            System.err.println("Error: The file '"+filePath+"' does not seem to contain a lemma/theorem/example named '"+lemmaName+"'");
+            System.exit(1);
         }
     }
 
     private static void verifyFileExists(String filePath) {
         if (!FileHelper.fileExists(filePath)) {
-            System.err.println("File '"+filePath+"' not found.");
+            System.err.println("Error: File '"+filePath+"' not found.");
             System.exit(1);
         }
     }
