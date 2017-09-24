@@ -23,6 +23,7 @@ public class Main {
             verifyFileExists(filePath);
             verifyLemmaIsPresentInFile(filePath, lemmaName);
 
+            //TODO Regroup the mapping of inputs to outputs in a single function
             String fileContents = FileHelper.convertFileToString(new File(filePath));
             String[] fileLines = fileContents.split("\n");
             try {
@@ -38,9 +39,10 @@ public class Main {
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin));
                 reader.readLine(); //Ignore the first output of coqtop
 
+                //TODO Replace map with appropriate datastructure. It cannot be a map because a same tactic can be applied at different moments and result in different outputs
                 Map<String, String> inputsToOutputs = new HashMap<>();
 
-                //TODO Record only the inputs/outputs relevant to the lemma/theorem given as argument
+                //TODO Feed entire file, but record only the inputs/outputs relevant to the lemma/theorem given as argument
                 for (String input : fileLines) {
                     writer.write(input+"\n");
                     writer.flush();
