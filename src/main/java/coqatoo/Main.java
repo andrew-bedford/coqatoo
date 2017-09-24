@@ -1,6 +1,9 @@
 package coqatoo;
 
+import coqatoo.coq.Input;
+import coqatoo.coq.Output;
 import helpers.FileHelper;
+import javafx.util.Pair;
 
 import java.io.*;
 import java.util.*;
@@ -39,8 +42,7 @@ public class Main {
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin));
                 reader.readLine(); //Ignore the first output of coqtop
 
-                //TODO Replace map with appropriate datastructure. It cannot be a map because a same tactic can be applied at different moments and result in different outputs
-                Map<String, String> inputsToOutputs = new HashMap<>();
+                List<Pair<Input, Output>> inputsToOutputs = new ArrayList<>();
 
                 //TODO Feed entire file, but record only the inputs/outputs relevant to the lemma/theorem given as argument
                 for (String input : fileLines) {
@@ -56,7 +58,7 @@ public class Main {
                         output += reader.readLine() + "\n";
 
                     }
-                    inputsToOutputs.put(input, output);
+                    inputsToOutputs.add(new Pair<>(new Input(input), new Output(output)));
                     System.out.println(input);
                     System.out.println(output);
 

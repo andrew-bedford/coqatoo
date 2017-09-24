@@ -6,12 +6,16 @@ Proof.
     intros H HP HQ.
     apply H.
     apply conj.
-    -- assumption.
-    -- assumption.
+    --
+        assumption.
+    --
+        assumption.
   - (* <- *)
     intros H HPQ.
     inversion HPQ.
     apply H.
-    -- assumption.
-    -- assumption.
+    --
+        assumption.
+    --
+        assumption.
 Qed.
