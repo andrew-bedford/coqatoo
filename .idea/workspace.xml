@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="da278831-57d9-4671-ba0f-08da0f7f96a3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/test/coqatoo/conj_imp_equiv.v" afterPath="$PROJECT_DIR$/out/test/coqatoo/conj_imp_equiv.v" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/coqatoo/Main.java" afterPath="$PROJECT_DIR$/src/main/java/coqatoo/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/coqatoo/coq/Assumption.java" afterPath="$PROJECT_DIR$/src/main/java/coqatoo/coq/Assumption.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/coqatoo/coq/Coqtop.java" afterPath="$PROJECT_DIR$/src/main/java/coqatoo/coq/Coqtop.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/coqatoo/coq/Goal.java" afterPath="$PROJECT_DIR$/src/main/java/coqatoo/coq/Goal.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/coqatoo/coq/Output.java" afterPath="$PROJECT_DIR$/src/main/java/coqatoo/coq/Output.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/coqatoo/coq/Proof.java" afterPath="$PROJECT_DIR$/src/main/java/coqatoo/coq/Proof.java" />
     </list>
@@ -26,8 +22,8 @@
       <file leaf-file-name="Proof.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/coq/Proof.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="461">
-              <caret line="62" column="0" lean-forward="false" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+            <state relative-caret-position="520">
+              <caret line="53" column="29" lean-forward="false" selection-start-line="53" selection-start-column="29" selection-end-line="53" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -60,8 +56,8 @@
       <file leaf-file-name="Coqtop.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/coq/Coqtop.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="172">
-              <caret line="36" column="0" lean-forward="false" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+            <state relative-caret-position="204">
+              <caret line="12" column="29" lean-forward="false" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -82,8 +78,8 @@
       <file leaf-file-name="Output.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/coq/Output.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="21" column="45" lean-forward="false" selection-start-line="21" selection-start-column="45" selection-end-line="21" selection-end-column="45" />
+            <state relative-caret-position="567">
+              <caret line="55" column="61" lean-forward="true" selection-start-line="55" selection-start-column="61" selection-end-line="55" selection-end-column="61" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -136,6 +132,11 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>indentation</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -155,10 +156,10 @@
         <option value="$PROJECT_DIR$/src/main/java/coqatoo/coq/Input.java" />
         <option value="$PROJECT_DIR$/src/main/java/coqatoo/text/Rewriter.java" />
         <option value="$PROJECT_DIR$/src/main/java/coqatoo/coq/Process.java" />
-        <option value="$PROJECT_DIR$/src/main/java/coqatoo/coq/Coqtop.java" />
         <option value="$PROJECT_DIR$/src/main/java/coqatoo/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/coqatoo/coq/Goal.java" />
         <option value="$PROJECT_DIR$/src/main/java/coqatoo/coq/Assumption.java" />
+        <option value="$PROJECT_DIR$/src/main/java/coqatoo/coq/Coqtop.java" />
         <option value="$PROJECT_DIR$/src/main/java/coqatoo/coq/Output.java" />
         <option value="$PROJECT_DIR$/src/main/java/coqatoo/coq/Proof.java" />
       </list>
@@ -357,7 +358,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -396,18 +396,24 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/coqatoo/coq/Proof.java</url>
-          <line>103</line>
+          <line>115</line>
           <properties />
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/coqatoo/coq/Proof.java</url>
-          <line>55</line>
+          <line>134</line>
           <properties />
-          <option name="timeStamp" value="32" />
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/coqatoo/coq/Proof.java</url>
+          <line>80</line>
+          <properties />
+          <option name="timeStamp" value="34" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="33" />
+      <option name="time" value="35" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
@@ -788,16 +794,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/coq/Coqtop.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="36" column="0" lean-forward="false" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/coq/InputType.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -843,10 +839,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/coq/Output.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/coq/Coqtop.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="21" column="45" lean-forward="false" selection-start-line="21" selection-start-column="45" selection-end-line="21" selection-end-column="45" />
+        <state relative-caret-position="204">
+          <caret line="12" column="29" lean-forward="false" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -863,10 +859,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/coq/Output.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="567">
+          <caret line="55" column="61" lean-forward="true" selection-start-line="55" selection-start-column="61" selection-end-line="55" selection-end-column="61" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/coq/Proof.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="62" column="0" lean-forward="false" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+        <state relative-caret-position="520">
+          <caret line="53" column="29" lean-forward="false" selection-start-line="53" selection-start-column="29" selection-end-line="53" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

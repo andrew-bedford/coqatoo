@@ -35,6 +35,7 @@ public class Proof {
     //TODO Insert rewrite logic here
     public String getTextVersion() {
         String textVersion = "";
+        String indentation = "";
 
         int i = 0;
         for(Pair<Input, Output> p : _inputsOutputs) {
@@ -44,17 +45,22 @@ public class Proof {
             Set<Assumption> assumptionsBeforeTactic = new HashSet<>();
             Set<Assumption> assumptionsAddedAfterTactic = new HashSet<>();
             assumptionsAddedAfterTactic.addAll(output.getAssumptions());
+
             if (i != 0) {
                 previousOutput = _inputsOutputs.get(i-1).getValue();
                 assumptionsBeforeTactic.addAll(previousOutput.getAssumptions()); //TODO Cleaner
+
+                //Decrease indentation level if a subproof has been completed
+                if (previousOutput.getValue().contains("subproof is complete")) { indentation = indentation.substring(0, indentation.length()-2); }
             }
 
             assumptionsAddedAfterTactic.removeAll(assumptionsBeforeTactic);
 
             switch (input.getType()) {
                 case APPLY:
+                    textVersion += indentation;
                     String lemmaName = input.getValue().split(" ")[1].replace(".", ""); //Obtains the "A" in "apply A."
-                    String lemmaDefinition = "";
+                    String lemmaDefinition = "  ";
                     for (Assumption a : assumptionsBeforeTactic) {
                         if (a.getName().equals(lemmaName)) {
                             lemmaDefinition = a.getValue();
@@ -67,12 +73,17 @@ public class Proof {
                     }
                     break;
                 case ASSUMPTION:
+                    textVersion += indentation;
                     textVersion += "True, because it is one of our assumptions.\n";
                     break;
                 case BULLET:
-                    textVersion += String.format(" - Case %s:\n", output.getGoal().toString());
+                    //indentation += "  ";
+                    textVersion += indentation;
+                    textVersion += String.format("- Case %s:\n", output.getGoal().toString());
+                    indentation += "  ";
                     break;
                 case INTROS:
+                    textVersion += indentation;
                     for (Assumption a : assumptionsAddedAfterTactic) {
                         if (a.isValueKnownType()) {
                             textVersion += String.format("Assume that %s is an arbitrary object of type %s. ", a.getName(), a.getValue());
@@ -85,6 +96,7 @@ public class Proof {
                     textVersion += String.format("Let us show that %s is true.\n", output.getGoal().toString());
                     break;
                 case INVERSION:
+                    textVersion += indentation;
                     String inversionLemmaName = input.getValue().split(" ")[1].replace(".", ""); //Obtains the "A" in "apply A."
                     String inversionLemmaDefinition = "";
                     for (Assumption a : assumptionsBeforeTactic) {

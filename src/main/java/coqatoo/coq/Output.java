@@ -61,7 +61,6 @@ public class Output {
                         }
                         else {
                             assumptions.add(new Assumption(s));
-                            System.out.println("ADDING ASSUMPT " + s + "\n");
                         }
 
                     }

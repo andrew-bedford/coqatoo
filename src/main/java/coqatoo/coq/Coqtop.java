@@ -10,7 +10,7 @@ import static java.lang.Thread.sleep;
 
 public class Coqtop {
 
-    Boolean _debugging = false;
+    Boolean _debugging = true;
     java.lang.Process _process;
     OutputStream _stdin;
     InputStream _stdout;
