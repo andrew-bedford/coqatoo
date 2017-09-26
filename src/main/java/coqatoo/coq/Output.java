@@ -6,14 +6,28 @@ import java.util.Set;
 public class Output {
     private String _value;
     private Set<Assumption> _assumptions;
+    private Goal _goal;
 
     public Output(String value) {
         _value = value;
         _assumptions = determineAssumptions(_value);
+        _goal = determineGoal(_value);
     }
 
     public String getValue() { return _value; }
+
     public Set<Assumption> getAssumptions() { return _assumptions; }
+
+    public Goal getGoal() { return _goal; }
+
+    private Goal determineGoal(String value) {
+        String[] t = value.split("============================\n ");
+        if (t.length > 1) {
+            return new Goal(t[1]);
+        }
+
+        return new Goal("");
+    }
 
     private Set<Assumption> determineAssumptions(String value) {
         Set<Assumption> assumptions = new HashSet<>();

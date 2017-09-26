@@ -5,11 +5,12 @@ public class Input {
     private InputType _type;
 
     public Input(String value) {
-        _value = value.trim();
+        _value = value.trim(); //TODO Remove existing comments from input
         _type = determineType(_value);
     }
 
     public String getValue() { return _value; }
+    public InputType getType() { return _type; }
 
     private InputType determineType(String value) {
         if (value.startsWith("Abort")) { return InputType.ABORT; }
