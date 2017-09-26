@@ -10,6 +10,7 @@ import static java.lang.Thread.sleep;
 
 public class Coqtop {
 
+    Boolean _debugging = false;
     java.lang.Process _process;
     OutputStream _stdin;
     InputStream _stdout;
@@ -50,12 +51,13 @@ public class Coqtop {
 
                 }
                 inputsOutputs.add(new Pair<>(new Input(input), new Output(output)));
-                System.out.println(input);
-                System.out.println(output);
+
+                if (_debugging) {
+                    System.out.println(input);
+                    System.out.println(output);
+                }
 
             }
-            //reader.close();
-            //writer.close();
         }
         catch (Exception e) { e.printStackTrace(); }
 

@@ -5,9 +5,17 @@ Proof.
   - (* -> *)
     intros H HP HQ.
     apply H.
-    apply conj; assumption.
+    apply conj.
+    --
+        assumption.
+    --
+        assumption.
   - (* <- *)
     intros H HPQ.
     inversion HPQ.
-    apply H; assumption.
+    apply H.
+    --
+        assumption.
+    --
+        assumption.
 Qed.

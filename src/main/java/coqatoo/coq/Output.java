@@ -1,7 +1,10 @@
 package coqatoo.coq;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class Output {
     private String _value;
@@ -23,7 +26,11 @@ public class Output {
     private Goal determineGoal(String value) {
         String[] t = value.split("============================\n ");
         if (t.length > 1) {
-            return new Goal(t[1]);
+            if (t[1].indexOf("\n") != -1) {
+                return new Goal (t[1].split("\n")[0].trim());
+            }
+
+            return new Goal(t[1].trim());
         }
 
         return new Goal("");
@@ -32,11 +39,13 @@ public class Output {
     private Set<Assumption> determineAssumptions(String value) {
         Set<Assumption> assumptions = new HashSet<>();
 
+        //Example of "value"
+        //1 focused subgoal\n(unfocused: 0)\n \n P, Q, R : Prop\n H : P -> Q -> R\n HPQ : P /\ Q\n H0 : P\n H1 : Q\n ============================\n R\n
         String[] t = value.split("============================\n ");
         if (t.length > 1) {
             t = t[0].split("\n  \n ");
             if (t.length > 1) {
-                t = t[1].split("\n ");
+                t = t[1].split("\n "); //Splits "P, Q, R : Prop" from "H : P -> Q -> R" from "HPQ : P /\ Q" from "H0 : P" from "H1 : Q"
 
                 for (String s : t) {
                     if (!s.trim().isEmpty()) {
@@ -52,6 +61,7 @@ public class Output {
                         }
                         else {
                             assumptions.add(new Assumption(s));
+                            System.out.println("ADDING ASSUMPT " + s + "\n");
                         }
 
                     }

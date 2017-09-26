@@ -28,6 +28,16 @@ public class Main {
 
             //TODO Feed entire file, but record only the inputs/outputs relevant to the lemma/theorem given as argument
             Proof proof = new Proof(fileContents);
+            System.out.println("---------------------------------------------");
+            System.out.println("|             Coq Version                   |");
+            System.out.println("---------------------------------------------");
+            System.out.println(fileContents);
+
+            System.out.println("---------------------------------------------");
+            System.out.println("|             Text Version                  |");
+            System.out.println("---------------------------------------------");
+            System.out.println(proof.getTextVersion());
+
 
         }
     }
