@@ -12,7 +12,7 @@ public class Assumption {
     public String getValue() { return _value; }
     public String getName() { return _name; }
 
-    public Boolean isValueKnownType() {
+    public Boolean isValueOfKnownType() {
         if (_value.equals("Prop")) { return true; }
         return false;
     }

@@ -3,8 +3,6 @@ package coqatoo.coq;
 import coqatoo.Main;
 import javafx.util.Pair;
 
-import java.io.*;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -85,7 +83,7 @@ public class Proof {
                 case INTROS:
                     textVersion += indentation;
                     for (Assumption a : assumptionsAddedAfterTactic) {
-                        if (a.isValueKnownType()) {
+                        if (a.isValueOfKnownType()) {
                             textVersion += String.format("Assume that %s is an arbitrary object of type %s. ", a.getName(), a.getValue());
                         }
                         else {
@@ -107,7 +105,7 @@ public class Proof {
 
                     String enumerationOfAddedAssumptions = "";
                     for (Assumption a : assumptionsAddedAfterTactic) {
-                        if (!a.isValueKnownType()) {
+                        if (!a.isValueOfKnownType()) {
                             enumerationOfAddedAssumptions += a.getValue() + ", ";
                         }
                     }
@@ -121,7 +119,8 @@ public class Proof {
                 case PROOF:
                     textVersion += input.getValue() + "\n";
                     break;
-
+                case SPLIT:
+                    break;
                 case QED:
                     textVersion += "Qed\n";
                     break;
