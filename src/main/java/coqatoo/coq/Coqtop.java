@@ -53,8 +53,10 @@ public class Coqtop {
                 inputsOutputs.add(new Pair<>(new Input(input), new Output(output)));
 
                 if (_debugging) {
-                    System.out.println(input);
-                    System.out.println(output);
+                    System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+                    System.out.println("Input: " + input.trim());
+                    System.out.println("Output: \n" + output);
+                    System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 }
 
             }
