@@ -47,16 +47,12 @@ public class Proof {
             if (i != 0) {
                 previousOutput = _inputsOutputs.get(i-1).getValue();
                 assumptionsBeforeTactic.addAll(previousOutput.getAssumptions()); //TODO Cleaner
-
-                //Decrease indentation level if a subproof has been completed
-                if (previousOutput.getValue().contains("subproof is complete")) { indentation = indentation.substring(0, indentation.length()-2); }
             }
 
             assumptionsAddedAfterTactic.removeAll(assumptionsBeforeTactic);
 
             switch (input.getType()) {
                 case APPLY:
-                    textVersion += indentation;
                     String lemmaName = input.getValue().split(" ")[1].replace(".", ""); //Obtains the "A" in "apply A."
                     String lemmaDefinition = "  ";
                     for (Assumption a : assumptionsBeforeTactic) {
@@ -67,6 +63,7 @@ public class Proof {
                     //TODO Adapt output if definition is not of the form "A -> B"
                     int indexOfLastImplication = lemmaDefinition.lastIndexOf("->");
                     if (indexOfLastImplication != -1) {
+                        textVersion += indentation;
                         textVersion += String.format("By our hypothesis %s, we know that %s is true if %s is true.\n", lemmaDefinition, previousOutput.getGoal().toString(), lemmaDefinition.substring(0, indexOfLastImplication));
                     }
                     break;
@@ -75,9 +72,9 @@ public class Proof {
                     textVersion += "True, because it is one of our assumptions.\n";
                     break;
                 case BULLET:
-                    //indentation += "  ";
+                    indentation = updatedIndentationLevel(input);
                     textVersion += indentation;
-                    textVersion += String.format("- Case %s:\n", output.getGoal().toString());
+                    textVersion += String.format("%s Case %s:\n", input.getValue(), output.getGoal().toString());
                     indentation += "  ";
                     break;
                 case INTROS:
@@ -132,6 +129,20 @@ public class Proof {
         }
 
         return textVersion;
+    }
+
+    private String updatedIndentationLevel(Input input) {
+        //Assumes that the input is of type BULLET
+        if (input.getType() == InputType.BULLET) {
+            int indentationLevel = input.getValue().split(" ")[0].length(); //The bullet length determines the indendation level (e.g., - = 1, -- = 2, --- = 3)
+            String indentation = "";
+            for (int i = 1; i <= indentationLevel; i++) {
+                indentation += "  ";
+            }
+            return indentation;
+        }
+
+        return "";
     }
 
 
