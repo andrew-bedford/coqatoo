@@ -45,4 +45,13 @@ Qed
 
 While Coqatoo was primarily designed for educational purposes (i.e., to help Coq newcomers better understand Coq proofs and how they relate to classical proofs), it can also be used by seasoned veterans of Coq.
 
+## Assumptions
+For the moment, Coqatoo makes a few assumptions about the proof.
+ - Proofs do not use automation (e.g., auto/eauto or the ; operator)
+ - Proofs are structured using bullets.
+ - Proofs only use the following tactics: apply, assumption, intro, intros, inversion, split.
+
 ## Usage
+```
+-text [.v file] [lemma/theorem name]		 Converts the Coq proof of [lemma/theorem name] in file [file] to plain text.
+```
