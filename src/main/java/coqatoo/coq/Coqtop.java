@@ -38,7 +38,7 @@ public class Coqtop {
 
         try {
             for (String input : scriptLines) {
-                _writer.write(input+"\n");
+                _writer.write(input.replaceAll("auto\\.", "info_auto\\.")+"\n"); //FIXME Temporary measure to translate auto to info_auto and obtain the sequence of tactics used on the first execution of Coqtop
                 _writer.flush();
 
                 String output = "";

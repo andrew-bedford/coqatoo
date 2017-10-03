@@ -4,6 +4,7 @@ public enum InputType {
     ABORT,
     APPLY,
     ASSUMPTION,
+    AUTO,
     BULLET,
     INTRO,
     INTROS,

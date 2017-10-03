@@ -11,14 +11,42 @@ import static java.lang.Thread.sleep;
 
 public class Proof {
     String _script;
+    String _scriptWithUnfoldedAutos;
     List<Pair<Input, Output>> _inputsOutputs;
 
     public Proof(String script) {
         _script = script;
         _inputsOutputs = Main.coqtop.execute(_script);
+
+        _scriptWithUnfoldedAutos = generateScriptWithUnfoldedAutos(_inputsOutputs);
+        if (!_scriptWithUnfoldedAutos.equals(_script)) {
+            Coqtop coqtop = new Coqtop();
+            _inputsOutputs = coqtop.execute(_scriptWithUnfoldedAutos);
+        }
     }
 
-    public Goal getProofGoal() {
+    private String generateScriptWithUnfoldedAutos(List<Pair<Input, Output>> inputsOutputs) {
+        String scriptWithUnfoldedAutos = "";
+        for(Pair<Input, Output> p : _inputsOutputs) {
+            Input i = p.getKey();
+            Output o = p.getValue();
+            if (i.getType() == InputType.AUTO) {
+                String[] tacticsUsedByAuto = o.getValue().split("\n");
+                for (String s : tacticsUsedByAuto) {
+                    if (!s.contains("(* info auto: *)")) { //Ignore the first line of the info_auto
+                        scriptWithUnfoldedAutos += s.replace("simple ", "") + "\n"; //FIXME Temporary fix to transform the "simple apply" into "apply".
+                    }
+                }
+
+            }
+            else {
+                scriptWithUnfoldedAutos += i.getValue() + "\n";
+            }
+        }
+        return scriptWithUnfoldedAutos;
+    }
+
+    public Goal getProofGlobalGoal() {
         for(Pair<Input, Output> p : _inputsOutputs) {
             Input i = p.getKey();
             Output o = p.getValue();
@@ -76,6 +104,19 @@ public class Proof {
                     textVersion += indentation;
                     textVersion += String.format("%s Case %s:\n", input.getValue(), output.getGoal().toString());
                     indentation += "  ";
+                    break;
+                case INTRO: //FIXME Exactly the same thing as INTROS
+                    textVersion += indentation;
+                    for (Assumption a : assumptionsAddedAfterTactic) {
+                        if (a.isValueOfKnownType()) {
+                            textVersion += String.format("Assume that %s is an arbitrary object of type %s. ", a.getName(), a.getValue());
+                        }
+                        else {
+                            textVersion += String.format("Suppose that %s is true. ", a.getValue());
+                        }
+                    }
+
+                    textVersion += String.format("Let us show that %s is true.\n", output.getGoal().toString());
                     break;
                 case INTROS:
                     textVersion += indentation;
