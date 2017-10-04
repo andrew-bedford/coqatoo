@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="da278831-57d9-4671-ba0f-08da0f7f96a3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/test/coqatoo/conj_imp_equiv.v" afterPath="$PROJECT_DIR$/out/test/coqatoo/conj_imp_equiv.v" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/coqatoo/coq/Coqtop.java" afterPath="$PROJECT_DIR$/src/main/java/coqatoo/coq/Coqtop.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/coqatoo/coq/Input.java" afterPath="$PROJECT_DIR$/src/main/java/coqatoo/coq/Input.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/coqatoo/coq/InputType.java" afterPath="$PROJECT_DIR$/src/main/java/coqatoo/coq/InputType.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/coqatoo/coq/Proof.java" afterPath="$PROJECT_DIR$/src/main/java/coqatoo/coq/Proof.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -25,8 +21,8 @@
       <file leaf-file-name="Proof.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/coq/Proof.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
-              <caret line="107" column="68" lean-forward="false" selection-start-line="107" selection-start-column="68" selection-end-line="107" selection-end-column="68" />
+            <state relative-caret-position="397">
+              <caret line="128" column="25" lean-forward="false" selection-start-line="128" selection-start-column="25" selection-end-line="128" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -302,7 +298,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main (auto to text)">
+  <component name="RunManager" selected="Application.Main (conj_imp_equiv to text)">
     <configuration name="Main (auto to text)" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="coqatoo.Main" />
@@ -393,7 +389,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32979852" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32979852" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -887,8 +883,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/coq/Proof.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="107" column="68" lean-forward="false" selection-start-line="107" selection-start-column="68" selection-end-line="107" selection-end-column="68" />
+        <state relative-caret-position="397">
+          <caret line="128" column="25" lean-forward="false" selection-start-line="128" selection-start-column="25" selection-end-line="128" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
