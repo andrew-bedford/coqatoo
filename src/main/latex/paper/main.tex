@@ -1,5 +1,6 @@
 %% For double-blind review submission, w/o CCS and ACM Reference (max submission space)
-\documentclass[sigplan,review]{acmart}\settopmatter{printfolios=true,printccs=false,printacmref=false}
+\documentclass[sigplan,review,9pt]{acmart}\settopmatter{printfolios=true,printccs=false,printacmref=false}
+  
 %% For double-blind review submission, w/ CCS and ACM Reference
 %\documentclass[sigplan,review,anonymous]{acmart}\settopmatter{printfolios=true}
 %% For single-blind review submission, w/o CCS and ACM Reference (max submission space)
@@ -8,7 +9,6 @@
 %\documentclass[sigplan,review]{acmart}\settopmatter{printfolios=true}
 %% For final camera-ready submission, w/ required CCS and ACM Reference
 %\documentclass[sigplan]{acmart}\settopmatter{}
-
 
 %% Conference information
 %% Supplied to authors by publisher for camera-ready submission;
@@ -49,104 +49,149 @@
 \usepackage{subcaption} %% For complex figures with subfigures/subcaptions
                         %% http://ctan.org/pkg/subcaption
 
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+
+\input{definitions.tex}
 
 \begin{document}
 
 %% Title information
-\title[Coqatoo]{Coqatoo: Converting Coq Proofs to Standard Proofs}
+\title[Coqatoo]{\coqatoo: Generating Natural Language Versions of Coq Proofs}
 
 
 %% Author information
-%% Contents and number of authors suppressed with 'anonymous'.
-%% Each author should be introduced by \author, followed by
-%% \authornote (optional), \orcid (optional), \affiliation, and
-%% \email.
-%% An author may have multiple affiliations and/or emails; repeat the
-%% appropriate command.
-%% Many elements are not rendered, but should be provided for metadata
-%% extraction tools.
-
-%% Author with single affiliation.
 \author{Andrew Bedford}
-%\authornote{with author1 note}          %% \authornote is optional;
-                                        %% can be repeated if necessary
 \orcid{0000-0003-3101-4272}             %% \orcid is optional
 \affiliation{
-%  \position{Position1}
-%  \department{Department1}              %% \department is recommended
   \institution{Université Laval}            %% \institution is required
-%  \streetaddress{Street1 Address1}
-%  \city{City1}
   \state{Quebec}
-%  \postcode{Post-Code1}
   \country{Canada}                    %% \country is recommended
 }
 \email{andrew.bedford.1@ulaval.ca}          %% \email is recommended
 
 
 %% Abstract
-%% Note: \begin{abstract}...\end{abstract} environment must come
-%% before \maketitle command
 \begin{abstract}
-Text of abstract \ldots.
+  We present \coqatoo, a command-line utility capable of automatically generating natural language versions of Coq proofs. We illustrate its use on a simple proof.
 \end{abstract}
-
-
-%% 2012 ACM Computing Classification System (CSS) concepts
-%% Generate at 'http://dl.acm.org/ccs/ccs.cfm'.
-%\begin{CCSXML}
-%<ccs2012>
-%<concept>
-%<concept_id>10011007.10011006.10011008</concept_id>
-%<concept_desc>Software and its engineering~General programming languages</concept_desc>
-%<concept_significance>500</concept_significance>
-%</concept>
-%<concept>
-%<concept_id>10003456.10003457.10003521.10003525</concept_id>
-%<concept_desc>Social and professional topics~History of programming languages</concept_desc>
-%<concept_significance>300</concept_significance>
-%</concept>
-%</ccs2012>
-%\end{CCSXML}
-
-%\ccsdesc[500]{Software and its engineering~General programming languages}
-%\ccsdesc[300]{Social and professional topics~History of programming languages}
-%% End of generated code
-
-
-%% Keywords
-\keywords{coq, tool}  %% \keywords are mandatory in final camera-ready submission
 
 \maketitle
 
 \section{Introduction}
+Due to their numerous advantages, formal proofs and proof assistants, such as Coq, are becoming increasingly popular. One disadvantage of using proof assistants is that the resulting proofs can sometimes be hard to read and understand, particularly for less-experienced users. In an attempt to address this issue, Coscoy et al.~\cite{DBLP:conf/tlca/CoscoyKT95} developed in 1995 an algorithm capable of \emph{generating natural language proofs} from Coq's proof objects (i.e., calculus of inductive construction $\lambda$-terms) and implemented their approach in two development environments: CtCoq~\cite{CtCoq} and its successor Pcoq~\cite{Pcoq}. Unfortunately, these development environments are no longer available; Pcoq's last version dates from 2003 and requires Coq 7.4.
 
-\paragraph{Contributions}
-\begin{itemize}
-  \item{We present Coqatoo, a tool capable of automatically converting Coq proofs to standard proofs.}
-  \item{We illustrate its use on a simple proof.}
-  \item{We make our implementation available as an open-source project.}
-\end{itemize}
+In order to bring this useful feature to modern development environments, we have implemented our own rewriting algorithm: Coqatoo.
 
 
-\section{Conclusion}
-While Coqatoo is only a proof-of-concept for the moment, we hope that the community will . 
+\section{Overview of Coqatoo}
+Our approach is inspired by the one proposed by Coscoy et al. The main difference is that our implementation uses the high-level proof scripts (i.e., sequences of tactics) to generate the natural language proofs instead of using Coq's low-level proof objects. By choosing to do so, we can avoid the verbosity that comes from using low-level objects~\cite{DBLP:conf/lacl/Coscoy96} and avoid losing valuable information such as the tactics that are used, the user's comments and the variable names. 
 
-\subsection{Future Work}
-\begin{itemize}
-  \item{Add support for additional common tactics.}
-  \item{Add support for proofs containing automation.}
-\end{itemize}
+To illustrate our approach, consider the proof script in Listing~\ref{listing:input}.
+\begin{lstlisting}[label=listing:input,captionpos=b,caption=Input]
+  Lemma conj_imp_equiv : forall P Q R:Prop, 
+    ((P /\ Q -> R) <-> (P -> Q -> R)).
+  Proof.
+    intros.
+    split.
+    - intros H HP HQ.
+      apply H.
+      apply conj.
+      -- assumption.
+      -- assumption.
+    - intros H HPQ.
+      inversion HPQ.
+      apply H.
+      -- assumption.
+      -- assumption.
+  Qed.
+\end{lstlisting}
+
+Coqatoo's rather straightforward approach and can be decomposed in two steps: information extraction and tactic-based rewriting. 
+
+\paragraph{Step 1: Information extraction}
+Using an instance of the \texttt{coqtop} process and the proof script given as input, Coqatoo captures the state of the proof (i.e., current assumptions and remaining goals) after each tactic execution. For example, Listing~\ref{listing:before-intros} represents the initial state of the proof and Listing~\ref{listing:after-intros} represent the state after the execution of the \lstinline{intros} tactic.
+\begin{lstlisting}[label=listing:before-intros, captionpos=b,caption={State before executing the first intros tactic}]
+  1 subgoal
+  
+  ============================
+  forall P Q R : Prop, (P /\ Q -> R) <-> (P -> Q -> R)
+\end{lstlisting}
+
+\begin{lstlisting}[label=listing:after-intros,captionpos=b,caption={State after executing the first intros tactic}]
+  1 subgoal
+  
+  P, Q, R : Prop
+  ============================
+  (P /\ Q -> R) <-> (P -> Q -> R)
+\end{lstlisting}
+These intermediary states allow us to identify the changes caused by the execution of a tactic (e.g., added/removed variables, hypotheses, subgoals).
+
+If the \lstinline{auto} tactic is present within the script, it is replaced with \lstinline{info_auto} in order to obtain the sequence of tactics used by \lstinline{auto} to solve the goal (if it does).
+
+\paragraph{Step 2: Tactic-based rewriting}
+Once the extraction of information is complete, we start the natural language proof generation. For each supported tactic, we have defined rewriting rules. For example, for the \lstinline{intros} tactic we first determine the types of the objects that are introduced. If they are variables, then we produce a sentence of the form \lstinline{"Assume that ... are arbitrary objects of type ..."}. If they are hypotheses, then we instead produce a sentence of the form \lstinline{"Suppose that ... are true"}. Finally, we insert a sentence indicating what is left to prove: \lstinline{"Let us show that ..."}. 
+
+Using tactic-based rewriting allows us to not only produce natural language versions of the proofs, but to also generate annotated versions of it (see Listing~\ref{listing:output} for example), where each tactic is accompanied with an informal explanation. We believe that this format will be particularly useful for new Coq users.
+
+\begin{figure*}
+\begin{lstlisting}[label=listing:output, captionpos=b, caption={Output}]
+  Lemma conj_imp_equiv : forall P Q R:Prop, ((P /\ Q -> R) <-> (P -> Q -> R)).
+  Proof.
+  (* Assume that P, Q and R are arbitrary objects of type Prop. Let us show that (P /\ Q -> R) <-> (P -> Q -> R) is true. *) intros.
+  split.
+    - (* Case (P /\ Q -> R) -> P -> Q -> R: *) 
+      (* Suppose that P, Q and P /\ Q -> R are true. Let us show that R is true. *) intros H HP HQ.
+      (* By our hypothesis P /\ Q -> R, we know that R is true if P /\ Q  is true. *) apply H.
+      apply conj.
+      -- (* Case P: *)
+         (* True, because it is one of our assumptions. *) assumption.
+      -- (* Case Q: *)
+         (* True, because it is one of our assumptions. *) assumption.
+    - (* Case (P -> Q -> R) -> P /\ Q -> R: *)
+      (* Suppose that P /\ Q and P -> Q -> R are true. Let us show that R is true. *) intros H HPQ.
+      (* By inversion on P /\ Q, we know that P, Q are also true. *) inversion HPQ.
+      (* By our hypothesis P -> Q -> R, we know that R is true if P -> Q  is true. *) apply H.
+      -- (* Case P: *)
+         (* True, because it is one of our assumptions. *) assumption.
+      -- (* Case Q: *)
+         (* True, because it is one of our assumptions. *) assumption.
+  Qed.
+\end{lstlisting}
+\end{figure*}
+
+
+
+\pagebreak
+\section{Future Work}
+Coqatoo is only a proof-of-concept for the moment. As such, there remains much to be done before it can be of real use. 
+
+\paragraph{Increase the number of supported tactics}
+The number of tactics that it supports is limited to only a handful (see Coqatoo's GitHub repository~\cite{Coqatoo} for more details). We expect that, with the help of the community, we will be able to support enough tactics to generate natural language versions of most proofs in the \emph{Software Foundations} book.
+
+\paragraph{Add partial support for automation}
+Other than the \lstinline{auto} tactic, Coqatoo currently does not support automation. We plan on adding partial support for automation in the future, starting with the chaining operator "\lstinline{;}". To support this operator we will need to produce a tree of the proof. We are exploring the possibility of using the Prooftree library~\cite{Prooftree}.
+
+
+\paragraph{Automatically structure proofs}
+We currently assume that proofs are structured using "-" bullets and use these to determine the level of indentation that must be added to each line. Using the proof tree, we should be able to automatically insert bullets and hence, determine the correct indentation.
+
+\paragraph{Better multi-lingual support}
+Coqatoo can currently generate proofs in english or french. We plan on adding support for additional languages if there is a demand, but before doing so, we need to refactor the code so that they can be added without having to modify/recompile the code.
+
+\paragraph{Integration with development environments} Once it is sufficiently developed, we plan on integrating our utility in modern Coq development environments such as CoqIDE and ProofGeneral.
+
+\newpage
 
 %% Acknowledgments
 \begin{acks}
-  We would like to thank Josée Desharnais, Nadia Tawbi, Souad El-Hatib and the anonymous reviewers for their helpful comments.
+  We would like to thank Josée Desharnais, Nadia Tawbi, Souad El Hatib and the reviewers for their comments.
 
-  We would also like to thank the authors of the book \textit{Software Foundations} for making it so easy to start writing proofs in Coq.
+  We would also like to thank the Coq community for the large number of resources and tutorials that are available online.
 \end{acks}
 
-
 %% Bibliography
-%\bibliography{bibfile}
+\bibliography{references}
 
 \end{document}
