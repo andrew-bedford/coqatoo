@@ -1,7 +1,7 @@
 package coqatoo;
 
 import coqatoo.coq.Coqtop;
-import coqatoo.coq.Proof;
+import coqatoo.rewriters.DefaultRewriter;
 import helpers.FileHelper;
 
 import java.io.*;
@@ -10,6 +10,7 @@ import java.util.*;
 public class Main {
     static final Map<String, List<String>> parameters = new HashMap<String, List<String>>();
     public static Coqtop coqtop;
+    public static Locale locale = new Locale("en"); //English is set as default locale
 
     public static void main(String[] args) {
         coqtop = new Coqtop();
@@ -18,7 +19,18 @@ public class Main {
             System.out.println("Options:");
             System.out.println("-text [.v file] [lemma/theorem name]\t\t Converts the Coq proof of [lemma/theorem name] in file [file] to plain text.");
         }
-        else if (parameters.containsKey("-text")) {
+        if (parameters.containsKey("-language")) {
+            String language = parameters.get("-language").get(0);
+            if (language.equals("en") || language.equals("fr")) {
+                locale = new Locale(language);
+            }
+            else {
+                System.err.println("Unsupported language. Coqatoo currently supports: en, fr.");
+                System.exit(0);
+            }
+
+        }
+        if (parameters.containsKey("-text")) {
             String filePath = parameters.get("-text").get(0);
             String lemmaName = parameters.get("-text").get(1);
 
@@ -27,7 +39,7 @@ public class Main {
             String fileContents = FileHelper.convertFileToString(new File(filePath));
 
             //TODO Feed entire file, but record only the inputs/outputs relevant to the lemma/theorem given as argument
-            Proof proof = new Proof(fileContents);
+            DefaultRewriter proof = new DefaultRewriter(fileContents);
             System.out.println("---------------------------------------------");
             System.out.println("|             Coq Version                   |");
             System.out.println("---------------------------------------------");

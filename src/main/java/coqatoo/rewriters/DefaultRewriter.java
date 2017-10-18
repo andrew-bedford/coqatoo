@@ -1,20 +1,25 @@
-package coqatoo.coq;
+package coqatoo.rewriters;
 
 import coqatoo.Main;
+import coqatoo.coq.*;
+import coqatoo.rewriters.Rewriter;
 import javafx.util.Pair;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import static java.lang.Thread.sleep;
 
-public class Proof {
+public class DefaultRewriter implements Rewriter {
+
+    ResourceBundle rewritingBundle = ResourceBundle.getBundle("RewritingBundle", Main.locale);
     String _script;
     String _scriptWithUnfoldedAutos;
     List<Pair<Input, Output>> _inputsOutputs;
 
-    public Proof(String script) {
+    public DefaultRewriter(String script) {
         _script = script;
         _inputsOutputs = Main.coqtop.execute(_script);
 
@@ -92,44 +97,44 @@ public class Proof {
                     int indexOfLastImplication = lemmaDefinition.lastIndexOf("->");
                     if (indexOfLastImplication != -1) {
                         textVersion += indentation;
-                        textVersion += String.format("By our hypothesis %s, we know that %s is true if %s is true.\n", lemmaDefinition, previousOutput.getGoal().toString(), lemmaDefinition.substring(0, indexOfLastImplication));
+                        textVersion += String.format(rewritingBundle.getString("apply"), lemmaDefinition, previousOutput.getGoal().toString(), lemmaDefinition.substring(0, indexOfLastImplication));
                     }
                     break;
                 case ASSUMPTION:
                     textVersion += indentation;
-                    textVersion += "True, because it is one of our assumptions.\n";
+                    textVersion += rewritingBundle.getString("assumption");
                     break;
                 case BULLET:
                     indentation = updatedIndentationLevel(input);
                     textVersion += indentation;
-                    textVersion += String.format("%s Case %s:\n", input.getValue(), output.getGoal().toString());
+                    textVersion += String.format(rewritingBundle.getString("bullet"), input.getValue(), output.getGoal().toString());
                     indentation += "  ";
                     break;
                 case INTRO: //FIXME Exactly the same thing as INTROS
                     textVersion += indentation;
                     for (Assumption a : assumptionsAddedAfterTactic) {
                         if (a.isValueOfKnownType()) {
-                            textVersion += String.format("Assume that %s is an arbitrary object of type %s. ", a.getName(), a.getValue());
+                            textVersion += String.format(rewritingBundle.getString("intros.assume"), a.getName(), a.getValue());
                         }
                         else {
-                            textVersion += String.format("Suppose that %s is true. ", a.getValue());
+                            textVersion += String.format(rewritingBundle.getString("intros.suppose"), a.getValue());
                         }
                     }
 
-                    textVersion += String.format("Let us show that %s is true.\n", output.getGoal().toString());
+                    textVersion += String.format(rewritingBundle.getString("intros.goal"), output.getGoal().toString());
                     break;
                 case INTROS:
                     textVersion += indentation;
                     for (Assumption a : assumptionsAddedAfterTactic) {
                         if (a.isValueOfKnownType()) {
-                            textVersion += String.format("Assume that %s is an arbitrary object of type %s. ", a.getName(), a.getValue());
+                            textVersion += String.format(rewritingBundle.getString("intros.assume"), a.getName(), a.getValue());
                         }
                         else {
-                            textVersion += String.format("Suppose that %s is true. ", a.getValue());
+                            textVersion += String.format(rewritingBundle.getString("intros.suppose"), a.getValue());
                         }
                     }
 
-                    textVersion += String.format("Let us show that %s is true.\n", output.getGoal().toString());
+                    textVersion += String.format(rewritingBundle.getString("intros.goal"), output.getGoal().toString());
                     break;
                 case INVERSION:
                     textVersion += indentation;
@@ -149,7 +154,7 @@ public class Proof {
                     }
                     enumerationOfAddedAssumptions = enumerationOfAddedAssumptions.substring(0, enumerationOfAddedAssumptions.length()-2); //Remove the last ", "
 
-                    textVersion += String.format("By inversion on %s, we know that %s are also true.\n", inversionLemmaDefinition, enumerationOfAddedAssumptions);
+                    textVersion += String.format(rewritingBundle.getString("inversion"), inversionLemmaDefinition, enumerationOfAddedAssumptions);
                     break;
                 case LEMMA:
                     textVersion += input.getValue() + "\n";
@@ -187,4 +192,8 @@ public class Proof {
     }
 
 
+    @Override
+    public void rewrite(String proofScript) {
+
+    }
 }
