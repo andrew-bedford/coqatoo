@@ -12,23 +12,12 @@ import java.util.Set;
 
 import static java.lang.Thread.sleep;
 
-public class DefaultRewriter implements Rewriter {
+public class PlainTextRewriter implements Rewriter {
 
     ResourceBundle rewritingBundle = ResourceBundle.getBundle("RewritingBundle", Main.locale);
     String _script;
     String _scriptWithUnfoldedAutos;
     List<Pair<Input, Output>> _inputsOutputs;
-
-    public DefaultRewriter(String script) {
-        _script = script;
-        _inputsOutputs = Main.coqtop.execute(_script);
-
-        _scriptWithUnfoldedAutos = generateScriptWithUnfoldedAutos(_inputsOutputs);
-        if (!_scriptWithUnfoldedAutos.equals(_script)) {
-            Coqtop coqtop = new Coqtop();
-            _inputsOutputs = coqtop.execute(_scriptWithUnfoldedAutos);
-        }
-    }
 
     private String generateScriptWithUnfoldedAutos(List<Pair<Input, Output>> inputsOutputs) {
         String scriptWithUnfoldedAutos = "";
@@ -63,7 +52,6 @@ public class DefaultRewriter implements Rewriter {
         return null;
     }
 
-    //TODO Insert rewrite logic here
     public String getTextVersion() {
         String textVersion = "";
         String indentation = "";
@@ -197,6 +185,15 @@ public class DefaultRewriter implements Rewriter {
 
     @Override
     public void rewrite(String proofScript) {
+        _script = proofScript;
+        _inputsOutputs = Main.coqtop.execute(_script);
 
+        _scriptWithUnfoldedAutos = generateScriptWithUnfoldedAutos(_inputsOutputs);
+        if (!_scriptWithUnfoldedAutos.equals(_script)) {
+            Coqtop coqtop = new Coqtop();
+            _inputsOutputs = coqtop.execute(_scriptWithUnfoldedAutos);
+        }
+
+        System.out.println(getTextVersion());
     }
 }

@@ -55,8 +55,8 @@ Coqatoo was primarily designed for educational purposes. That is, to help Coq ne
 
 ## Usage
 ```
--file [.v file]		  The file containing the Coq proof.
--language [fr | en]   The target language.
+-file [.v file]         The file containing the Coq proof.
+-language [fr | en]     The target language.
 ```
 
 ## Assumptions

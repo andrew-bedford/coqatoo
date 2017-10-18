@@ -1,7 +1,7 @@
 package coqatoo;
 
 import coqatoo.coq.Coqtop;
-import coqatoo.rewriters.DefaultRewriter;
+import coqatoo.rewriters.PlainTextRewriter;
 import helpers.FileHelper;
 
 import java.io.*;
@@ -39,16 +39,16 @@ public class Main {
             String fileContents = FileHelper.convertFileToString(new File(filePath));
 
             //TODO Feed entire file, but record only the inputs/outputs relevant to the lemma/theorem given as argument
-            DefaultRewriter proof = new DefaultRewriter(fileContents);
+            PlainTextRewriter plainTextRewriter = new PlainTextRewriter();
             System.out.println("---------------------------------------------");
             System.out.println("|             Coq Version                   |");
             System.out.println("---------------------------------------------");
             System.out.println(fileContents);
 
             System.out.println("---------------------------------------------");
-            System.out.println("|             Text Version                  |");
+            System.out.println("|            Plain Text Version             |");
             System.out.println("---------------------------------------------");
-            System.out.println(proof.getTextVersion());
+            plainTextRewriter.rewrite(fileContents);
 
 
         }

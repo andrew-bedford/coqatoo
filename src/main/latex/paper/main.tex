@@ -86,7 +86,7 @@ In order to bring this useful feature to modern development environments, we hav
 
 
 \section{Overview of Coqatoo}
-Our approach is inspired by the one proposed by Coscoy et al. The main difference is that our implementation uses the high-level proof scripts (i.e., sequences of tactics) to generate the natural language proofs instead of using Coq's low-level proof objects. By choosing to do so, we can avoid the verbosity that comes from using low-level objects~\cite{DBLP:conf/lacl/Coscoy96} and avoid losing valuable information such as the tactics that are used, the user's comments and the variable names. 
+Our approach is inspired by the one proposed by Coscoy et al. The main difference is that our implementation uses the high-level proof scripts (i.e., sequence of tactics) to generate the natural language proofs instead of using Coq's low-level proof objects. By choosing to do so, we can avoid the verbosity that comes from using low-level objects~\cite{DBLP:conf/lacl/Coscoy96} and avoid losing valuable information such as the tactics that are used, the user's comments and the variable names. 
 
 To illustrate our approach, consider the proof script in Listing~\ref{listing:input}.
 \begin{lstlisting}[label=listing:input,captionpos=b,caption=Input]
@@ -108,7 +108,7 @@ To illustrate our approach, consider the proof script in Listing~\ref{listing:in
   Qed.
 \end{lstlisting}
 
-Coqatoo's rather straightforward approach and can be decomposed in two steps: information extraction and tactic-based rewriting. 
+Coqatoo's approach can be decomposed in two steps: information extraction and tactic-based rewriting. 
 
 \paragraph{Step 1: Information extraction}
 Using an instance of the \texttt{coqtop} process and the proof script given as input, Coqatoo captures the state of the proof (i.e., current assumptions and remaining goals) after each tactic execution. For example, Listing~\ref{listing:before-intros} represents the initial state of the proof and Listing~\ref{listing:after-intros} represent the state after the execution of the \lstinline{intros} tactic.
@@ -128,7 +128,7 @@ Using an instance of the \texttt{coqtop} process and the proof script given as i
 \end{lstlisting}
 These intermediary states allow us to identify the changes caused by the execution of a tactic (e.g., added/removed variables, hypotheses, subgoals).
 
-If the \lstinline{auto} tactic is present within the script, it is replaced with \lstinline{info_auto} in order to obtain the sequence of tactics used by \lstinline{auto} to solve the goal (if it does).
+If the \lstinline{auto} tactic is present within the script, it is replaced with \lstinline{info_auto} in order to obtain the sequence of tactics that is used by \lstinline{auto}.
 
 \paragraph{Step 2: Tactic-based rewriting}
 Once the extraction of information is complete, we start the natural language proof generation. For each supported tactic, we have defined rewriting rules. For example, for the \lstinline{intros} tactic we first determine the types of the objects that are introduced. If they are variables, then we produce a sentence of the form \lstinline{"Assume that ... are arbitrary objects of type ..."}. If they are hypotheses, then we instead produce a sentence of the form \lstinline{"Suppose that ... are true"}. Finally, we insert a sentence indicating what is left to prove: \lstinline{"Let us show that ..."}. 
