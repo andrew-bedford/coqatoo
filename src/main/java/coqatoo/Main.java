@@ -30,12 +30,12 @@ public class Main {
             }
 
         }
-        if (parameters.containsKey("-text")) {
-            String filePath = parameters.get("-text").get(0);
-            String lemmaName = parameters.get("-text").get(1);
+        if (parameters.containsKey("-file")) {
+            String filePath = parameters.get("-file").get(0);
+            //String lemmaName = parameters.get("-text").get(1);
 
             verifyFileExists(filePath);
-            verifyLemmaIsPresentInFile(filePath, lemmaName);
+            //verifyLemmaIsPresentInFile(filePath, lemmaName);
             String fileContents = FileHelper.convertFileToString(new File(filePath));
 
             //TODO Feed entire file, but record only the inputs/outputs relevant to the lemma/theorem given as argument

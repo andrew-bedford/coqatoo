@@ -62,5 +62,6 @@ For the moment, Coqatoo makes a few assumptions about the proof:
 
 ## Usage
 ```
--text [.v file] [lemma/theorem name]		 Converts the Coq proof of [lemma/theorem name] in file [file] to plain text.
+-file [.v file]		  The file containing the Coq proof.
+-language [fr | en]   The target language.
 ```
