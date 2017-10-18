@@ -98,19 +98,7 @@ public class PlainTextRewriter implements Rewriter {
                     textVersion += String.format(rewritingBundle.getString("bullet"), input.getValue(), output.getGoal().toString());
                     indentation += "  ";
                     break;
-                case INTRO: //FIXME Exactly the same thing as INTROS
-                    textVersion += indentation;
-                    for (Assumption a : assumptionsAddedAfterTactic) {
-                        if (a.isValueOfKnownType()) {
-                            textVersion += String.format(rewritingBundle.getString("intros.assume"), a.getName(), a.getValue());
-                        }
-                        else {
-                            textVersion += String.format(rewritingBundle.getString("intros.suppose"), a.getValue());
-                        }
-                    }
-
-                    textVersion += String.format(rewritingBundle.getString("intros.goal"), output.getGoal().toString());
-                    break;
+                case INTRO:
                 case INTROS:
                     textVersion += indentation;
                     for (Assumption a : assumptionsAddedAfterTactic) {
