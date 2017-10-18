@@ -18,8 +18,8 @@
       <file leaf-file-name="DefaultRewriter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/rewriters/DefaultRewriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="165" column="70" lean-forward="false" selection-start-line="165" selection-start-column="70" selection-end-line="165" selection-end-column="70" />
+            <state relative-caret-position="432">
+              <caret line="73" column="41" lean-forward="true" selection-start-line="73" selection-start-column="41" selection-end-line="73" selection-end-column="41" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <marker date="1508359870532" expanded="true" signature="8285:8292" ph="{...}" />
@@ -31,8 +31,8 @@
       <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="43" column="31" lean-forward="true" selection-start-line="43" selection-start-column="31" selection-end-line="43" selection-end-column="31" />
+            <state relative-caret-position="495">
+              <caret line="75" column="8" lean-forward="false" selection-start-line="75" selection-start-column="8" selection-end-line="75" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -866,17 +866,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/rewriters/DefaultRewriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="165" column="70" lean-forward="false" selection-start-line="165" selection-start-column="70" selection-end-line="165" selection-end-column="70" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <marker date="1508359870532" expanded="true" signature="8285:8292" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="529">
@@ -885,10 +874,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/rewriters/DefaultRewriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="73" column="41" lean-forward="true" selection-start-line="73" selection-start-column="41" selection-end-line="73" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1508359870532" expanded="true" signature="8285:8292" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="43" column="31" lean-forward="true" selection-start-line="43" selection-start-column="31" selection-end-line="43" selection-end-column="31" />
+        <state relative-caret-position="495">
+          <caret line="75" column="8" lean-forward="false" selection-start-line="75" selection-start-column="8" selection-end-line="75" selection-end-column="8" />
           <folding />
         </state>
       </provider>

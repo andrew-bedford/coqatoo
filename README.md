@@ -53,15 +53,24 @@ Qed
 
 Coqatoo was primarily designed for educational purposes. That is, to help Coq newcomers better understand Coq proofs and how they relate to classical proofs.
 
-## Assumptions
-For the moment, Coqatoo makes a few assumptions about the proof:
- - Proofs do not use automation (e.g., auto/eauto or the ; operator).
- - Proofs are structured using bullets.
- - Proofs only use the following tactics: apply, assumption, intro, intros, inversion, split.
- - The .v file given as input contains only the proof that we want to convert.
-
 ## Usage
 ```
 -file [.v file]		  The file containing the Coq proof.
 -language [fr | en]   The target language.
 ```
+
+## Assumptions
+For the moment, Coqatoo makes a few assumptions about the proof:
+ - The .v file given as input contains only the proof that we want to convert.
+ - Proofs do not use automation (e.g., auto/eauto or the ; operator).
+ - Proofs are structured using bullets.
+
+### Supported Tactics
+ - apply
+ - assumption
+ - auto
+ - intro
+ - intros
+ - inversion
+ - reflexivity
+ - split
