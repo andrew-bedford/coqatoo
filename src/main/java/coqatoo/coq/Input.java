@@ -22,7 +22,8 @@ public class Input {
         if (value.startsWith("intro")) { return InputType.INTRO; }
         if (value.startsWith("inversion")) { return InputType.INVERSION; }
         if (value.startsWith("Lemma")) { return InputType.LEMMA; }
-        if (value.startsWith("DefaultRewriter")) { return InputType.PROOF; }
+        if (value.startsWith("Proof")) { return InputType.PROOF; }
+        if (value.startsWith("reflexivity")) { return InputType.REFLEXIVITY; }
         if (value.startsWith("split")) { return InputType.SPLIT; }
         if (value.startsWith("Qed")) { return InputType.QED; }
 

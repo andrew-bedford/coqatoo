@@ -162,6 +162,9 @@ public class DefaultRewriter implements Rewriter {
                 case PROOF:
                     textVersion += input.getValue() + "\n";
                     break;
+                case REFLEXIVITY:
+                    textVersion += rewritingBundle.getString("reflexivity");
+                    break;
                 case SPLIT:
                     break;
                 case QED:

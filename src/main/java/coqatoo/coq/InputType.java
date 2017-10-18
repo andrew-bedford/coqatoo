@@ -11,6 +11,7 @@ public enum InputType {
     INVERSION,
     LEMMA,
     PROOF,
+    REFLEXIVITY,
     SPLIT,
     UNKNOWN,
     QED

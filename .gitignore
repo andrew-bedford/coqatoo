@@ -31,3 +31,5 @@ out/*
 *.aux
 *.cut
 *.fdb_latexmk
+*.bbl
+*.blg

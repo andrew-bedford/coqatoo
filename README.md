@@ -1,5 +1,5 @@
 # Coqatoo
-Coqatoo (coq-to) is a command-line utility that converts Coq proofs to human-friendly formats.
+Coqatoo (coq-to) is a command-line utility that generates natural language versions of Coq proofs.
 
 For example, from the following lemma:
 ```ML
@@ -51,7 +51,7 @@ Case <-:
 Qed
 ```
 
-While Coqatoo was primarily designed for educational purposes (i.e., to help Coq newcomers better understand Coq proofs and how they relate to classical proofs), it can also be used by seasoned veterans of Coq.
+Coqatoo was primarily designed for educational purposes. That is, to help Coq newcomers better understand Coq proofs and how they relate to classical proofs.
 
 ## Assumptions
 For the moment, Coqatoo makes a few assumptions about the proof:
