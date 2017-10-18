@@ -1,6 +1,7 @@
 package coqatoo;
 
 import coqatoo.coq.Coqtop;
+import coqatoo.rewriters.AnnotationRewriter;
 import coqatoo.rewriters.PlainTextRewriter;
 import helpers.FileHelper;
 
@@ -39,7 +40,7 @@ public class Main {
             String fileContents = FileHelper.convertFileToString(new File(filePath));
 
             //TODO Feed entire file, but record only the inputs/outputs relevant to the lemma/theorem given as argument
-            PlainTextRewriter plainTextRewriter = new PlainTextRewriter();
+
             System.out.println("---------------------------------------------");
             System.out.println("|             Coq Version                   |");
             System.out.println("---------------------------------------------");
@@ -48,7 +49,14 @@ public class Main {
             System.out.println("---------------------------------------------");
             System.out.println("|            Plain Text Version             |");
             System.out.println("---------------------------------------------");
+            PlainTextRewriter plainTextRewriter = new PlainTextRewriter();
             plainTextRewriter.rewrite(fileContents);
+
+            System.out.println("---------------------------------------------");
+            System.out.println("|             Annotated Version             |");
+            System.out.println("---------------------------------------------");
+            AnnotationRewriter annotationRewriter = new AnnotationRewriter();
+            annotationRewriter.rewrite(fileContents);
 
 
         }

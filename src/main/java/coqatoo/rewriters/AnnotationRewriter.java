@@ -2,7 +2,6 @@ package coqatoo.rewriters;
 
 import coqatoo.Main;
 import coqatoo.coq.*;
-import coqatoo.rewriters.Rewriter;
 import javafx.util.Pair;
 
 import java.util.HashSet;
@@ -10,9 +9,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import static java.lang.Thread.sleep;
-
-public class PlainTextRewriter implements Rewriter {
+public class AnnotationRewriter implements Rewriter {
 
     ResourceBundle rewritingBundle = ResourceBundle.getBundle("RewritingBundle", Main.locale);
     String _script;
@@ -85,22 +82,32 @@ public class PlainTextRewriter implements Rewriter {
                     int indexOfLastImplication = lemmaDefinition.lastIndexOf("->");
                     if (indexOfLastImplication != -1) {
                         textVersion += indentation;
-                        textVersion += String.format(rewritingBundle.getString("apply")+"\n", lemmaDefinition, previousOutput.getGoal().toString(), lemmaDefinition.substring(0, indexOfLastImplication));
+                        textVersion += "(* ";
+                        textVersion += String.format(rewritingBundle.getString("apply"), lemmaDefinition, previousOutput.getGoal().toString(), lemmaDefinition.substring(0, indexOfLastImplication));
+                        textVersion += "*) ";
+                        textVersion += input.getValue()+"\n";
                     }
                     break;
                 case ASSUMPTION:
                     textVersion += indentation;
-                    textVersion += rewritingBundle.getString("assumption")+"\n";
+                    textVersion += "(* ";
+                    textVersion += rewritingBundle.getString("assumption");
+                    textVersion += "*) ";
+                    textVersion += input.getValue()+"\n";
                     break;
                 case BULLET:
                     indentation = updatedIndentationLevel(input);
                     textVersion += indentation;
-                    textVersion += String.format(rewritingBundle.getString("bullet")+"\n", input.getValue(), output.getGoal().toString());
+                    textVersion += input.getValue();
+                    textVersion += " (* ";
+                    textVersion += String.format(rewritingBundle.getString("bullet"), input.getValue(), output.getGoal().toString());
+                    textVersion += " *)\n";
                     indentation += "  ";
                     break;
                 case INTRO:
                 case INTROS:
                     textVersion += indentation;
+                    textVersion += "(* ";
                     for (Assumption a : assumptionsAddedAfterTactic) {
                         if (a.isValueOfKnownType()) {
                             textVersion += String.format(rewritingBundle.getString("intros.assume"), a.getName(), a.getValue());
@@ -110,7 +117,9 @@ public class PlainTextRewriter implements Rewriter {
                         }
                     }
 
-                    textVersion += String.format(rewritingBundle.getString("intros.goal")+"\n", output.getGoal().toString());
+                    textVersion += String.format(rewritingBundle.getString("intros.goal"), output.getGoal().toString());
+                    textVersion += "*) ";
+                    textVersion += input.getValue()+"\n";
                     break;
                 case INVERSION:
                     textVersion += indentation;
@@ -129,8 +138,10 @@ public class PlainTextRewriter implements Rewriter {
                         }
                     }
                     enumerationOfAddedAssumptions = enumerationOfAddedAssumptions.substring(0, enumerationOfAddedAssumptions.length()-2); //Remove the last ", "
-
-                    textVersion += String.format(rewritingBundle.getString("inversion")+"\n", inversionLemmaDefinition, enumerationOfAddedAssumptions);
+                    textVersion += "(* ";
+                    textVersion += String.format(rewritingBundle.getString("inversion"), inversionLemmaDefinition, enumerationOfAddedAssumptions);
+                    textVersion += "*) ";
+                    textVersion += input.getValue()+"\n";
                     break;
                 case LEMMA:
                     textVersion += input.getValue() + "\n";
@@ -139,7 +150,10 @@ public class PlainTextRewriter implements Rewriter {
                     textVersion += input.getValue() + "\n";
                     break;
                 case REFLEXIVITY:
-                    textVersion += rewritingBundle.getString("reflexivity")+"\n";
+                    textVersion += "(* ";
+                    textVersion += rewritingBundle.getString("reflexivity");
+                    textVersion += "*) ";
+                    textVersion += input.getValue()+"\n";
                     break;
                 case SPLIT:
                     break;
