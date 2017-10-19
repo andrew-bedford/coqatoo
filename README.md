@@ -61,7 +61,7 @@ Coqatoo was primarily designed for educational purposes. That is, to help Coq ne
 ## Assumptions
 For the moment, Coqatoo makes a few assumptions about the proof:
  - The .v file given as input contains only the proof that we want to convert.
- - Proofs do not use automation (e.g., auto/eauto or the ; operator).
+ - Proofs do not use automation (e.g., inline Ltac or the ; operator).
  - Proofs are structured using bullets.
 
 ### Supported Tactics

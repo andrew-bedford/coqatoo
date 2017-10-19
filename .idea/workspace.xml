@@ -3,11 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="da278831-57d9-4671-ba0f-08da0f7f96a3" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/RewritingBundle_en.properties" afterPath="$PROJECT_DIR$/src/main/java/RewritingBundle_en.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/RewritingBundle_fr.properties" afterPath="$PROJECT_DIR$/src/main/java/RewritingBundle_fr.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/coqatoo/coq/Input.java" afterPath="$PROJECT_DIR$/src/main/java/coqatoo/coq/Input.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/coqatoo/coq/InputType.java" afterPath="$PROJECT_DIR$/src/main/java/coqatoo/coq/InputType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/coqatoo/rewriters/PlainTextRewriter.java" afterPath="$PROJECT_DIR$/src/main/java/coqatoo/rewriters/PlainTextRewriter.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -34,11 +29,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="70" column="11" lean-forward="false" selection-start-line="70" selection-start-column="11" selection-end-line="70" selection-end-column="11" />
+            <state relative-caret-position="223">
+              <caret line="64" column="39" lean-forward="true" selection-start-line="64" selection-start-column="39" selection-end-line="64" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -94,7 +89,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RewritingBundle_en.properties" pinned="false" current-in-tab="true">
+      <file leaf-file-name="RewritingBundle_en.properties" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/RewritingBundle_en.properties">
           <provider editor-type-id="ResourceBundle">
             <state />
@@ -184,12 +179,12 @@
         <option value="$PROJECT_DIR$/src/main/java/coqatoo/rewriters/AnnotationRewriter.java" />
         <option value="$PROJECT_DIR$/src/test/resources/conj_imp_equiv_unformatted.v" />
         <option value="$PROJECT_DIR$/src/main/java/coqatoo/coq/Output.java" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/main/java/RewritingBundle_fr.properties" />
         <option value="$PROJECT_DIR$/src/main/java/RewritingBundle_en.properties" />
         <option value="$PROJECT_DIR$/src/main/java/coqatoo/coq/InputType.java" />
         <option value="$PROJECT_DIR$/src/main/java/coqatoo/coq/Input.java" />
         <option value="$PROJECT_DIR$/src/main/java/coqatoo/rewriters/PlainTextRewriter.java" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -900,14 +895,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="70" column="11" lean-forward="false" selection-start-line="70" selection-start-column="11" selection-end-line="70" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/RewritingBundle_fr.properties">
       <provider editor-type-id="ResourceBundle">
         <state />
@@ -926,6 +913,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="3" column="62" lean-forward="false" selection-start-line="3" selection-start-column="62" selection-end-line="3" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="64" column="39" lean-forward="true" selection-start-line="64" selection-start-column="39" selection-end-line="64" selection-end-column="39" />
           <folding />
         </state>
       </provider>
