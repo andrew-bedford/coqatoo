@@ -27,28 +27,27 @@ Qed.
 ```
 Coqatoo produces the following output:
 ```
-Assume that P, Q and R are arbitrary propositions. [intros]
-Let us show that ((P /\ Q) -> R) <-> (P -> Q -> R) is true.
-Case ->:
-	Suppose that (P /\ Q) -> R, P and Q are true. [intros H HP HQ]
-	Let us show that R is true. 
-	By our hypothesis (P /\ Q) -> R, we know R is true if (P /\ Q) is true. [apply H]
-	[apply conj]
-	Case P:
-		True, because it is one of our assumptions. [assumption]
-	Case Q:
-		True, because it is one of our assumptions. [assumption]
-	
-Case <-:
-	Suppose that (P -> Q -> R) and (P /\ Q). [intros H HPQ]
-	Let us show that R is true.
-	By inversion on (P /\ Q), we know that P and Q are also true. [inversion HPQ]
-	By our hypothesis (P -> Q -> R), we know R is true if P and Q are true. [apply H]
-	Case P:
-		True, because it is one of our assumptions. [assumption]
-	Case Q:
-		True, because it is one of our assumptions. [assumption]
-Qed
+Lemma conj_imp_equiv : forall P Q R:Prop, ((P /\ Q -> R) <-> (P -> Q -> R)).
+Proof.
+  (* Assume that P, Q and R are arbitrary objects of type Prop. Let us show that (P /\ Q -> R) <-> (P -> Q -> R) is true. *) intros.
+  split.
+  - (* Case (P /\ Q -> R) -> P -> Q -> R: *)
+    (* Suppose that P, Q and P /\ Q -> R are true. Let us show that R is true. *) intros H HP HQ.
+    (* By our hypothesis P /\ Q -> R, we know that R is true if P /\ Q  is true. *) apply H.
+    apply conj.
+    -- (* Case P: *)
+       (* True, because it is one of our assumptions. *) assumption.
+    -- (* Case Q: *)
+     (* True, because it is one of our assumptions. *) assumption.
+  - (* Case (P -> Q -> R) -> P /\ Q -> R: *)
+    (* Suppose that P /\ Q and P -> Q -> R are true. Let us show that R is true. *) intros H HPQ.
+    (* By inversion on P /\ Q, we know that P, Q are also true. *) inversion HPQ.
+    (* By our hypothesis P -> Q -> R, we know that R is true if P -> Q  is true. *) apply H.
+    -- (* Case P: *)
+       (* True, because it is one of our assumptions. *) assumption.
+    -- (* Case Q: *)
+       (* True, because it is one of our assumptions. *) assumption.
+Qed.
 ```
 
 Coqatoo was primarily designed for educational purposes. That is, to help Coq newcomers better understand Coq proofs and how they relate to classical proofs.
@@ -56,7 +55,7 @@ Coqatoo was primarily designed for educational purposes. That is, to help Coq ne
 ## Usage
 ```
 -file [.v file]         The file containing the Coq proof.
--language [fr | en]     The target language.
+-language [fr | en]     The target language. English by default.
 ```
 
 ## Assumptions
@@ -71,7 +70,9 @@ For the moment, Coqatoo makes a few assumptions about the proof:
  - auto
  - intro
  - intros
+ - intuition
  - inversion
  - reflexivity
  - simpl
  - split
+ - unfold
