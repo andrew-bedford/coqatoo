@@ -68,12 +68,13 @@ For the moment, Coqatoo makes a few assumptions about the proof:
  - apply
  - assumption
  - auto
+ - destruct
  - intro
  - intros
  - intuition
  - inversion
- - reflexivity
  - omega
+ - reflexivity
  - simpl
  - split
  - unfold

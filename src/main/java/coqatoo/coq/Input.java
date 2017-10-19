@@ -18,6 +18,7 @@ public class Input {
         if (value.startsWith("assumption")) { return InputType.ASSUMPTION; }
         if (value.startsWith("auto")) { return InputType.AUTO; }
         if (value.startsWith("-") || value.startsWith("+") || value.startsWith("*")) { return InputType.BULLET; } //TODO Add support for { } bullets
+        if (value.startsWith("destruct")) { return InputType.DESTRUCT; }
         if (value.startsWith("intros")) { return InputType.INTROS; }
         if (value.startsWith("intro")) { return InputType.INTRO; }
         if (value.startsWith("intuition")) { return InputType.INTUITION; }

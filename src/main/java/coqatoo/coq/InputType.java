@@ -6,6 +6,7 @@ public enum InputType {
     ASSUMPTION,
     AUTO,
     BULLET,
+    DESTRUCT,
     INTRO,
     INTROS,
     INTUITION,

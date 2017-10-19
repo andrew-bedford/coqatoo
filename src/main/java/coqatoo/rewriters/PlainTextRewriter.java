@@ -97,6 +97,10 @@ public class PlainTextRewriter implements Rewriter {
                     textVersion += String.format(rewritingBundle.getString("bullet")+"\n", input.getValue(), output.getGoal().toString());
                     indentation += "  ";
                     break;
+                case DESTRUCT:
+                    String destructedObject = input.getValue().substring(input.getValue().indexOf(" "), input.getValue().length()-1); //Obtains the "(A B)" in "destruct (A B)."
+                    textVersion += String.format(rewritingBundle.getString("destruct")+"\n", destructedObject);
+                    break;
                 case INTRO:
                 case INTROS:
                     textVersion += indentation;
