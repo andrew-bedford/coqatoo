@@ -11,6 +11,7 @@ public enum InputType {
     INTUITION,
     INVERSION,
     LEMMA,
+    OMEGA,
     PROOF,
     REFLEXIVITY,
     SIMPL,

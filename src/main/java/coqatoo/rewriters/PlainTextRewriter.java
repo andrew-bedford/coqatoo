@@ -137,6 +137,9 @@ public class PlainTextRewriter implements Rewriter {
                 case LEMMA:
                     textVersion += input.getValue() + "\n";
                     break;
+                case OMEGA:
+                    textVersion += rewritingBundle.getString("omega")+"\n";
+                    break;
                 case PROOF:
                     textVersion += input.getValue() + "\n";
                     break;

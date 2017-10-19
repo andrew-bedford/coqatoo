@@ -73,6 +73,7 @@ For the moment, Coqatoo makes a few assumptions about the proof:
  - intuition
  - inversion
  - reflexivity
+ - omega
  - simpl
  - split
  - unfold
