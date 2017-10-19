@@ -73,4 +73,5 @@ For the moment, Coqatoo makes a few assumptions about the proof:
  - intros
  - inversion
  - reflexivity
+ - simpl
  - split

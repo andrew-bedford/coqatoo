@@ -2,7 +2,6 @@ package coqatoo.rewriters;
 
 import coqatoo.Main;
 import coqatoo.coq.*;
-import coqatoo.rewriters.Rewriter;
 import javafx.util.Pair;
 
 import java.util.HashSet;
@@ -141,6 +140,9 @@ public class PlainTextRewriter implements Rewriter {
                 case REFLEXIVITY:
                     textVersion += rewritingBundle.getString("reflexivity")+"\n";
                     break;
+                case SIMPL: //TODO "simpl in ..."
+                    textVersion += String.format(rewritingBundle.getString("simpl")+"\n", previousOutput.getGoal(), output.getGoal());
+                    break;
                 case SPLIT:
                     break;
                 case QED:
@@ -173,6 +175,46 @@ public class PlainTextRewriter implements Rewriter {
 
     @Override
     public void rewrite(String proofScript) {
+       // String formattedScript = formatScript(proofScript);
+       extractInformation(proofScript);
+
+       System.out.println(getTextVersion());
+    }
+
+    private String formatScript(String proofScript) {
+        String formattedScript = proofScript;
+
+        //Step 1: Format proof so that there is one tactic/chain per line
+        formattedScript = formattedScript.replaceAll("\\.", "\\.\n");
+
+        //Step 2: Remove bullets
+        String[] lines = formattedScript.split("\n");
+        formattedScript = "";
+        for(String line : lines) {
+            String l = line.trim();
+            while (l.startsWith("-") || l.startsWith("*") || l.startsWith("+") || l.startsWith("{") || l.startsWith("}")) {
+                l = l.substring(1, l.length()).trim();
+            }
+            if (!l.equals("")) {
+                formattedScript += l + "\n";
+            }
+        }
+
+        //Step 3: Execute formatted script to get the list of inputs/outputs
+        _inputsOutputs = Main.coqtop.execute(formattedScript);
+
+        //Step 4: Build the proof tree
+        for(Pair<Input,Output> p : _inputsOutputs) {
+            p.getValue().getNumberOfRemainingSubgoals();
+        }
+
+
+        //System.out.println(formattedScript);
+        return formattedScript;
+
+    }
+
+    private void extractInformation(String proofScript) {
         _script = proofScript;
         _inputsOutputs = Main.coqtop.execute(_script);
 
@@ -181,7 +223,5 @@ public class PlainTextRewriter implements Rewriter {
             Coqtop coqtop = new Coqtop();
             _inputsOutputs = coqtop.execute(_scriptWithUnfoldedAutos);
         }
-
-        System.out.println(getTextVersion());
     }
 }
