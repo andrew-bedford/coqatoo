@@ -27,6 +27,7 @@ public class Input {
         if (value.startsWith("reflexivity")) { return InputType.REFLEXIVITY; }
         if (value.startsWith("simpl")) { return InputType.SIMPL; }
         if (value.startsWith("split")) { return InputType.SPLIT; }
+        if (value.startsWith("unfold")) { return InputType.UNFOLD; }
         if (value.startsWith("Qed")) { return InputType.QED; }
 
         return InputType.UNKNOWN;

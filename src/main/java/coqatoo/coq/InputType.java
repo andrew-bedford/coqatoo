@@ -15,6 +15,7 @@ public enum InputType {
     REFLEXIVITY,
     SIMPL,
     SPLIT,
+    UNFOLD,
     UNKNOWN,
     QED
 }

@@ -148,6 +148,10 @@ public class PlainTextRewriter implements Rewriter {
                     break;
                 case SPLIT:
                     break;
+                case UNFOLD:
+                    String unfoldedDefinition = input.getValue().split(" ")[1].replace(".", ""); //Obtains the "A" in "unfold A."
+                    textVersion += String.format(rewritingBundle.getString("unfold")+"\n", unfoldedDefinition, output.getGoal().toString());
+                    break;
                 case QED:
                     textVersion += "Qed\n";
                     break;
