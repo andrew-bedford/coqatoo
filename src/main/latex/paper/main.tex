@@ -80,16 +80,48 @@
 \maketitle
 
 \section{Introduction}
-Due to their numerous advantages, formal proofs and proof assistants, such as Coq, are becoming increasingly popular. One disadvantage of using proof assistants is that the resulting proofs can sometimes be hard to read and understand, particularly for less-experienced users. In an attempt to address this issue, Coscoy et al.~\cite{DBLP:conf/tlca/CoscoyKT95} developed in 1995 an algorithm capable of \emph{generating natural language proofs} from Coq's proof objects (i.e., calculus of inductive construction $\lambda$-terms) and implemented their approach in two development environments: CtCoq~\cite{CtCoq} and its successor Pcoq~\cite{Pcoq}. Unfortunately, these development environments are no longer available; Pcoq's last version dates from 2003 and requires Coq 7.4.
+Due to their numerous advantages, formal proofs and proof assistants, such as Coq, are becoming increasingly popular. One disadvantage of using proof assistants is that the resulting proofs can sometimes be hard to read and understand, particularly for less-experienced users. In an attempt to address this issue, Coscoy et al.~\cite{DBLP:conf/tlca/CoscoyKT95} developed in 1995 an algorithm capable of \emph{generating natural language proofs} from Coq's proof objects (i.e., calculus of inductive construction $\lambda$-terms) and implemented their approach in two development environments: CtCoq~\cite{CtCoq} and its successor Pcoq~\cite{Pcoq}. Unfortunately, these development environments are no longer available or maintained; Pcoq's last version dates from 2003 and requires Coq 7.4.
 
 In order to bring this useful feature to modern development environments, we have implemented our own rewriting algorithm: Coqatoo.
 
 
 \section{Overview of Coqatoo}
-Our approach is inspired by the one proposed by Coscoy et al. The main difference is that our implementation uses the high-level proof scripts (i.e., sequence of tactics) to generate the natural language proofs instead of using Coq's low-level proof objects. By choosing to do so, we can avoid the verbosity that comes from using low-level objects~\cite{DBLP:conf/lacl/Coscoy96} and avoid losing valuable information such as the tactics that are used, the user's comments and the variable names. 
+Much like Nuprl's text generation algorithm~\cite{DBLP:conf/aaai/Holland-MinkleyBC99}, Coqatoo uses high-level proof scripts to generate natural language proofs instead of the low-level proof objects used by Coscoy et al. By doing so, we can avoid the verbosity that comes from using low-level objects~\cite{DBLP:conf/lacl/Coscoy96} and avoid losing valuable information such as the tactics that are used, the user's comments and the variable names. 
 
+Coqatoo's rewriting algorithm can be decomposed in two steps: information extraction and tactic-based rewriting. 
+
+\paragraph{Step 1: Information extraction}
+Using an instance of the \texttt{coqtop} process and the proof script given as input, Coqatoo executes the tactics one by one and captures the intermediary proof states. 
+
+For example, Listing~\ref{listing:before-intros} represents the initial state of Listing~\ref{listing:input}'s proof and Listing~\ref{listing:after-intros} represents the state after executing the first \lstinline{intros} tactic.
+\begin{lstlisting}[label=listing:before-intros, captionpos=b,caption={State before executing the first intros tactic}]
+  1 subgoal
+  
+  ============================
+  forall P Q R : Prop, (P /\ Q -> R) <-> (P -> Q -> R)
+\end{lstlisting}
+\pagebreak
+\begin{lstlisting}[label=listing:after-intros,captionpos=b,caption={State after executing the first intros tactic}]
+  1 subgoal
+  
+  P, Q, R : Prop
+  ============================
+  (P /\ Q -> R) <-> (P -> Q -> R)
+\end{lstlisting}
+These intermediary states, which contains the current assumptions and remaining goals, allow us to identify the changes caused by the execution of a tactic (e.g., added/removed variables, hypotheses or subgoals).
+
+
+
+\paragraph{Step 2: Tactic-based rewriting}
+Once the extraction of information is complete, we start the natural language proof generation. For each supported tactic, we have defined simple rewriting rules. 
+
+For example, for the \lstinline{intros} tactic we first determine the types of the objects that are introduced. If they are variables, then we produce a sentence of the form \lstinline{"Assume that ... are arbitrary objects of type ..."}. If they are hypotheses, then we instead produce a sentence of the form \lstinline{"Suppose that ... are true"}. Finally, we insert a sentence indicating what is left to prove: \lstinline{"Let us show that ..."}. 
+
+Note that the sentences that we use to produce the natural language versions are kept in files that are separate from the code. This allows Coqatoo to support multiple languages and proof styles. For the moment, it can output proofs in English or French, in plain text or in annotation mode (see Listing~\ref{listing:output} for example). In annotation mode, each tactic is accompanied with an informal explanation. We believe that this format will be particularly useful for new Coq users.
+
+\subsection{Example}
 To illustrate our approach, consider the proof script in Listing~\ref{listing:input}.
-\begin{lstlisting}[label=listing:input,captionpos=b,caption=Input]
+\begin{lstlisting}[label=listing:input,captionpos=b,caption=Proof script given as input]
   Lemma conj_imp_equiv : forall P Q R:Prop, 
     ((P /\ Q -> R) <-> (P -> Q -> R)).
   Proof.
@@ -108,35 +140,8 @@ To illustrate our approach, consider the proof script in Listing~\ref{listing:in
   Qed.
 \end{lstlisting}
 
-Coqatoo's approach can be decomposed in two steps: information extraction and tactic-based rewriting. 
-
-\paragraph{Step 1: Information extraction}
-Using an instance of the \texttt{coqtop} process and the proof script given as input, Coqatoo captures the state of the proof (i.e., current assumptions and remaining goals) after each tactic execution. For example, Listing~\ref{listing:before-intros} represents the initial state of the proof and Listing~\ref{listing:after-intros} represent the state after the execution of the \lstinline{intros} tactic.
-\begin{lstlisting}[label=listing:before-intros, captionpos=b,caption={State before executing the first intros tactic}]
-  1 subgoal
-  
-  ============================
-  forall P Q R : Prop, (P /\ Q -> R) <-> (P -> Q -> R)
-\end{lstlisting}
-
-\begin{lstlisting}[label=listing:after-intros,captionpos=b,caption={State after executing the first intros tactic}]
-  1 subgoal
-  
-  P, Q, R : Prop
-  ============================
-  (P /\ Q -> R) <-> (P -> Q -> R)
-\end{lstlisting}
-These intermediary states allow us to identify the changes caused by the execution of a tactic (e.g., added/removed variables, hypotheses, subgoals).
-
-If the \lstinline{auto} tactic is present within the script, it is replaced with \lstinline{info_auto} in order to obtain the sequence of tactics that is used by \lstinline{auto}.
-
-\paragraph{Step 2: Tactic-based rewriting}
-Once the extraction of information is complete, we start the natural language proof generation. For each supported tactic, we have defined rewriting rules. For example, for the \lstinline{intros} tactic we first determine the types of the objects that are introduced. If they are variables, then we produce a sentence of the form \lstinline{"Assume that ... are arbitrary objects of type ..."}. If they are hypotheses, then we instead produce a sentence of the form \lstinline{"Suppose that ... are true"}. Finally, we insert a sentence indicating what is left to prove: \lstinline{"Let us show that ..."}. 
-
-Using tactic-based rewriting allows us to not only produce natural language versions of the proofs, but to also generate annotated versions of it (see Listing~\ref{listing:output} for example), where each tactic is accompanied with an informal explanation. We believe that this format will be particularly useful for new Coq users.
-
 \begin{figure*}
-\begin{lstlisting}[label=listing:output, captionpos=b, caption={Output}]
+\begin{lstlisting}[label=listing:output, captionpos=b, caption={Output in annotation mode}]
   Lemma conj_imp_equiv : forall P Q R:Prop, ((P /\ Q -> R) <-> (P -> Q -> R)).
   Proof.
   (* Assume that P, Q and R are arbitrary objects of type Prop. Let us show that (P /\ Q -> R) <-> (P -> Q -> R) is true. *) intros.
@@ -171,14 +176,11 @@ Coqatoo is only a proof-of-concept for the moment. As such, there remains much t
 The number of tactics that it supports is limited to only a handful (see Coqatoo's GitHub repository~\cite{Coqatoo} for more details). We expect that, with the help of the community, we will be able to support enough tactics to generate natural language versions of most proofs in the \emph{Software Foundations} book.
 
 \paragraph{Add partial support for automation}
-Other than the \lstinline{auto} tactic, Coqatoo currently does not support automation. We plan on adding partial support for automation in the future, starting with the chaining operator "\lstinline{;}". To support this operator we will need to produce a tree of the proof. We are exploring the possibility of using the Prooftree library~\cite{Prooftree}.
+In regards to automation, Coqatoo only supports the \lstinline{auto} tactic: if the \lstinline{auto} tactic is present within the script, it is replaced with \lstinline{info_auto} in order to obtain the sequence of tactics that is used by \lstinline{auto}. We plan on adding partial support for automation in the future, starting with the chaining operator "\lstinline{;}". To support this operator we will need to construct a tree representation of the proof. We are exploring the possibility of using the Prooftree library~\cite{Prooftree}.
 
 
 \paragraph{Automatically structure proofs}
 We currently assume that proofs are structured using "-" bullets and use these to determine the level of indentation that must be added to each line. Using the proof tree, we should be able to automatically insert bullets and hence, determine the correct indentation.
-
-\paragraph{Better multi-lingual support}
-Coqatoo can currently generate proofs in english or french. We plan on adding support for additional languages if there is a demand, but before doing so, we need to refactor the code so that they can be added without having to modify/recompile the code.
 
 \paragraph{Integration with development environments} Once it is sufficiently developed, we plan on integrating our utility in modern Coq development environments such as CoqIDE and ProofGeneral.
 

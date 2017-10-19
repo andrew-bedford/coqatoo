@@ -23,6 +23,14 @@ public class Output {
 
     public Goal getGoal() { return _goal; }
 
+    //Assuming that there are no bullets in the script, then the output will always start with "[int] subgoals".
+    //We can make this assumption because Coqatoo should have removed the bullets.
+    public int getNumberOfRemainingSubgoals() {
+        if (_value.startsWith("No more subgoals")) { return 0; }
+
+        return Integer.parseInt(_value.substring(0, _value.indexOf(" "))); //Extracts the [int] from the string "[int] subgoals] and returns it;
+    }
+
     private Goal determineGoal(String value) {
         String[] t = value.split("============================\n ");
         if (t.length > 1) {
