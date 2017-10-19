@@ -111,6 +111,9 @@ public class PlainTextRewriter implements Rewriter {
 
                     textVersion += String.format(rewritingBundle.getString("intros.goal")+"\n", output.getGoal().toString());
                     break;
+                case INTUITION:
+                    textVersion += String.format(rewritingBundle.getString("intuition")+"\n", previousOutput.getGoal().toString());
+                    break;
                 case INVERSION:
                     textVersion += indentation;
                     String inversionLemmaName = input.getValue().split(" ")[1].replace(".", ""); //Obtains the "A" in "apply A."
@@ -141,7 +144,7 @@ public class PlainTextRewriter implements Rewriter {
                     textVersion += rewritingBundle.getString("reflexivity")+"\n";
                     break;
                 case SIMPL: //TODO "simpl in ..."
-                    textVersion += String.format(rewritingBundle.getString("simpl")+"\n", previousOutput.getGoal(), output.getGoal());
+                    textVersion += String.format(rewritingBundle.getString("simpl")+"\n", previousOutput.getGoal().toString(), output.getGoal().toString());
                     break;
                 case SPLIT:
                     break;

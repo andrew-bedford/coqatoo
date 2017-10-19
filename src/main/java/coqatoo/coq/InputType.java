@@ -8,6 +8,7 @@ public enum InputType {
     BULLET,
     INTRO,
     INTROS,
+    INTUITION,
     INVERSION,
     LEMMA,
     PROOF,
