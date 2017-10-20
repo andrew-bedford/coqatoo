@@ -2,18 +2,18 @@ package coqatoo.coq;
 
 public class Assumption {
     private String _name;
-    private String _value;
+    private String _type;
 
-    public Assumption(String value) { //TODO Other name than "value"?
+    public Assumption(String value) {
         _name = value.split(":")[0].trim(); //TODO Cleaner
-        _value = value.split(":")[1].trim();
+        _type = value.split(":")[1].trim();
     }
 
-    public String getValue() { return _value; }
+    public String getType() { return _type; }
     public String getName() { return _name; }
 
-    public Boolean isValueOfKnownType() {
-        if (_value.equals("Prop")) { return true; }
+    public Boolean isOfKnownType() {
+        if (_type.equals("Prop")) { return true; }
         return false;
     }
 
@@ -28,12 +28,12 @@ public class Assumption {
         Assumption otherAssumption = (Assumption)other;
 
         if (!this._name.equals(otherAssumption._name)) { return false; }
-        if (!this._value.equals(otherAssumption._value)) { return false; }
+        if (!this._type.equals(otherAssumption._type)) { return false; }
 
         return true;
     }
     @Override public int hashCode() {
-        return _value.hashCode();
+        return _type.hashCode();
     }
 
 }

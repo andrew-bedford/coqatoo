@@ -77,7 +77,7 @@ public class PlainTextRewriter implements Rewriter {
                     String lemmaDefinition = "  ";
                     for (Assumption a : assumptionsBeforeTactic) {
                         if (a.getName().equals(lemmaName)) {
-                            lemmaDefinition = a.getValue();
+                            lemmaDefinition = a.getType();
                         }
                     }
                     //TODO Adapt output if definition is not of the form "A -> B"
@@ -105,11 +105,11 @@ public class PlainTextRewriter implements Rewriter {
                 case INTROS:
                     textVersion += indentation;
                     for (Assumption a : assumptionsAddedAfterTactic) {
-                        if (a.isValueOfKnownType()) {
-                            textVersion += String.format(rewritingBundle.getString("intros.assume"), a.getName(), a.getValue());
+                        if (a.isOfKnownType()) {
+                            textVersion += String.format(rewritingBundle.getString("intros.assume"), a.getName(), a.getType());
                         }
                         else {
-                            textVersion += String.format(rewritingBundle.getString("intros.suppose"), a.getValue());
+                            textVersion += String.format(rewritingBundle.getString("intros.suppose"), a.getType());
                         }
                     }
 
@@ -124,14 +124,14 @@ public class PlainTextRewriter implements Rewriter {
                     String inversionLemmaDefinition = "";
                     for (Assumption a : assumptionsBeforeTactic) {
                         if (a.getName().equals(inversionLemmaName)) {
-                            inversionLemmaDefinition = a.getValue();
+                            inversionLemmaDefinition = a.getType();
                         }
                     }
 
                     String enumerationOfAddedAssumptions = "";
                     for (Assumption a : assumptionsAddedAfterTactic) {
-                        if (!a.isValueOfKnownType()) {
-                            enumerationOfAddedAssumptions += a.getValue() + ", ";
+                        if (!a.isOfKnownType()) {
+                            enumerationOfAddedAssumptions += a.getType() + ", ";
                         }
                     }
                     enumerationOfAddedAssumptions = enumerationOfAddedAssumptions.substring(0, enumerationOfAddedAssumptions.length()-2); //Remove the last ", "
