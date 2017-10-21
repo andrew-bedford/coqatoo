@@ -9,7 +9,7 @@ Proof.
 Qed.
 ```
 Coqatoo produces the following output:
-```
+```ML
 Lemma conj_imp_equiv : forall P Q R:Prop, ((P /\ Q -> R) <-> (P -> Q -> R)).
 Proof.
   (* Assume that P, Q and R are arbitrary objects of type Prop. Let us show that (P /\ Q -> R) <-> (P -> Q -> R) is true. *) intros.
