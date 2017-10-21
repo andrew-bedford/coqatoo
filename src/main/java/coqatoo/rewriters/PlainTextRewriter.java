@@ -4,10 +4,7 @@ import coqatoo.Main;
 import coqatoo.coq.*;
 import javafx.util.Pair;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 import static java.lang.Thread.sleep;
 
@@ -189,10 +186,10 @@ public class PlainTextRewriter implements Rewriter {
 
     @Override
     public void rewrite(String proofScript) {
-       // String formattedScript = formatScript(proofScript);
-       extractInformation(proofScript);
+       String formattedScript = formatScript(proofScript);
+       //extractInformation(proofScript);
 
-       System.out.println(getTextVersion());
+       //System.out.println(getTextVersion());
     }
 
     private String formatScript(String proofScript) {
@@ -218,9 +215,45 @@ public class PlainTextRewriter implements Rewriter {
         _inputsOutputs = Main.coqtop.execute(formattedScript);
 
         //Step 4: Build the proof tree
+        System.out.println("---------------------------------------------");
+        System.out.println("|                Proof Tree                 |");
+        System.out.println("---------------------------------------------");
+        System.out.println("digraph {");
+        Stack<String> s = new Stack<>();
+        int i = 0;
         for(Pair<Input,Output> p : _inputsOutputs) {
-            p.getValue().getNumberOfRemainingSubgoals();
+            if (p.getKey().getValue().equals("Qed.")) { break; }
+            if (i == 0) {
+                s.push(String.format("%d. %s", i, p.getKey().getValue()));
+            }
+            else if (i > 0) {
+                String previousNodeName = s.pop();
+                //if (!s.peek().isEmpty()) { previousNodeName = s.pop(); }
+
+                Pair<Input, Output> previousPair = _inputsOutputs.get(i-1);
+                int numberOfSubgoalsBeforeTactic = previousPair.getValue().getNumberOfRemainingSubgoals();
+                int numberOfSubgoalsAfterTactic = p.getValue().getNumberOfRemainingSubgoals();
+
+                int addedSubgoals = numberOfSubgoalsAfterTactic - numberOfSubgoalsBeforeTactic;
+                if (addedSubgoals > 0) {
+                    for(int j=0; j<=addedSubgoals; j++) {
+                        s.push(String.format("%d. %s", i, p.getKey().getValue()));
+                    }
+                    System.out.println(String.format("\"%s\" -> \"%d. %s\";", previousNodeName, i, p.getKey().getValue()));
+                }
+                else if (addedSubgoals == 0) {
+                    System.out.println(String.format("\"%s\" -> \"%d. %s\";", previousNodeName, i, p.getKey().getValue()));
+                    s.push(String.format("%d. %s", i, p.getKey().getValue()));
+                }
+                else if (addedSubgoals < 0) {
+                    System.out.println(String.format("\"%s\" -> \"%d. %s\";", previousNodeName, i, p.getKey().getValue()));
+                }
+
+
+            }
+            i++;
         }
+        System.out.println("}");
 
 
         //System.out.println(formattedScript);

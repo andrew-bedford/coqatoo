@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.ExecutionException;
 
 public class Output {
     private String _value;
@@ -26,9 +27,12 @@ public class Output {
     //Assuming that there are no bullets in the script, then the output will always start with "[int] subgoals".
     //We can make this assumption because Coqatoo should have removed the bullets.
     public int getNumberOfRemainingSubgoals() {
-        if (_value.startsWith("No more subgoals")) { return 0; }
-
-        return Integer.parseInt(_value.substring(0, _value.indexOf(" "))); //Extracts the [int] from the string "[int] subgoals] and returns it;
+       try {
+           return Integer.parseInt(_value.substring(0, _value.indexOf(" "))); //Extracts the [int] from the string "[int] subgoals] and returns it;
+       }
+       catch (Exception e) {
+           return 0; //If a string of the form "[int] subgoals" is not present, then it means that there are no remaining subgoals
+       }
     }
 
     private Goal determineGoal(String value) {
