@@ -1,28 +1,11 @@
 # Coqatoo
 Coqatoo (coq-to) is a command-line utility that generates natural language versions of Coq proofs.
 
-For example, from the following lemma:
+For example, from the following poorly-structured lemma:
 ```ML
 Lemma conj_imp_equiv : forall P Q R:Prop, ((P /\ Q -> R) <-> (P -> Q -> R)).
 Proof.
-  intros.
-  split.
-  -
-    intros H HP HQ.
-    apply H.
-    apply conj.
-    --
-        assumption.
-    --
-        assumption.
-  -
-    intros H HPQ.
-    inversion HPQ.
-    apply H.
-    --
-        assumption.
-    --
-        assumption.
+  intros. split. intros H HP HQ. apply H. apply conj. assumption. assumption. intros H HPQ. inversion HPQ. apply H. assumption. assumption.
 Qed.
 ```
 Coqatoo produces the following output:
@@ -62,7 +45,6 @@ Coqatoo was primarily designed for educational purposes. That is, to help Coq ne
 For the moment, Coqatoo makes a few assumptions about the proof:
  - The .v file given as input contains only the proof that we want to convert.
  - Proofs do not use automation (e.g., inline Ltac or the ; operator).
- - Proofs are structured using bullets.
 
 ### Supported Tactics
  - apply

@@ -88,7 +88,7 @@ In order to bring this useful feature to modern development environments, we hav
 \section{Overview of Coqatoo}
 Much like Nuprl's text generation algorithm~\cite{DBLP:conf/aaai/Holland-MinkleyBC99}, Coqatoo uses high-level proof scripts to generate natural language proofs instead of the low-level proof objects used by Coscoy et al. By doing so, we can avoid the verbosity that comes from using low-level objects~\cite{DBLP:conf/lacl/Coscoy96} and avoid losing valuable information such as the tactics that are used, the user's comments and the variable names. 
 
-Coqatoo's rewriting algorithm can be decomposed in two steps: information extraction and tactic-based rewriting. 
+Coqatoo's rewriting algorithm can be decomposed in three steps: information extraction, proof tree construction and tactic-based rewriting. 
 
 \paragraph{Step 1: Information extraction}
 Using an instance of the \texttt{coqtop} process and the proof script given as input, Coqatoo executes the tactics one by one and captures the intermediary proof states. 
@@ -110,33 +110,22 @@ For example, Listing~\ref{listing:before-intros} represents the initial state of
 \end{lstlisting}
 These intermediary states, which contains the current assumptions and remaining goals, allow us to identify the changes caused by the execution of a tactic (e.g., added/removed variables, hypotheses or subgoals).
 
+\paragraph{Step 2: Proof Tree Construction}
+We then build a tree representating the proof's structure. This is a necessary step for our rewriting algorithm as it allows it to determine where bullets should be inserted and when lines should be indented.
 
+\paragraph{Step 3: Tactic-based rewriting}
+Finally, we generate the actual final natural language version of the proof using simple rewriting rules. Each supported tactic has its own set of rules. For example, for the \lstinline{intros} tactic we first determine the types of the objects that are introduced. If they are variables, then we produce a sentence of the form \lstinline{"Assume that ... are arbitrary objects of type ..."}. If they are hypotheses, then we instead produce a sentence of the form \lstinline{"Suppose that ... are true"}. Finally, we insert a sentence indicating what is left to prove: \lstinline{"Let us show that ..."}. 
 
-\paragraph{Step 2: Tactic-based rewriting}
-Once the extraction of information is complete, we start the natural language proof generation. For each supported tactic, we have defined simple rewriting rules. 
-
-For example, for the \lstinline{intros} tactic we first determine the types of the objects that are introduced. If they are variables, then we produce a sentence of the form \lstinline{"Assume that ... are arbitrary objects of type ..."}. If they are hypotheses, then we instead produce a sentence of the form \lstinline{"Suppose that ... are true"}. Finally, we insert a sentence indicating what is left to prove: \lstinline{"Let us show that ..."}. 
-
-Note that the sentences that we use to produce the natural language versions are kept in files that are separate from the code. This allows Coqatoo to support multiple languages and proof styles. For the moment, it can output proofs in English or French, in plain text or in annotation mode (see Listing~\ref{listing:output} for example). In annotation mode, each tactic is accompanied with an informal explanation. We believe that this format will be particularly useful for new Coq users.
+Note that the sentences that we use to produce natural language versions are kept in files that are separate from the code. This allows Coqatoo to support multiple languages and proof styles. For the moment, it can output proofs in English or French, in plain text or in annotation mode (see Listing~\ref{listing:output} for example). In annotation mode, each tactic is accompanied with an informal explanation. We believe that this format will be particularly useful for new Coq users.
 
 \subsection{Example}
-To illustrate our approach, consider the proof script in Listing~\ref{listing:input}.
+To illustrate our approach, consider the proof script in Listing~\ref{listing:input} and Coqatoo's output in Listing~\ref{listing:output}.
 \begin{lstlisting}[label=listing:input,captionpos=b,caption=Proof script given as input]
   Lemma conj_imp_equiv : forall P Q R:Prop, 
     ((P /\ Q -> R) <-> (P -> Q -> R)).
   Proof.
-    intros.
-    split.
-    - intros H HP HQ.
-      apply H.
-      apply conj.
-      -- assumption.
-      -- assumption.
-    - intros H HPQ.
-      inversion HPQ.
-      apply H.
-      -- assumption.
-      -- assumption.
+    intros. split. intros H HP HQ. apply H. apply conj. assumption. assumption. 
+    intros H HPQ. inversion HPQ. apply H. assumption. assumption.
   Qed.
 \end{lstlisting}
 
@@ -167,7 +156,6 @@ To illustrate our approach, consider the proof script in Listing~\ref{listing:in
 \end{figure*}
 
 
-
 \pagebreak
 \section{Future Work}
 Coqatoo is only a proof-of-concept for the moment. As such, there remains much to be done before it can be of real use. 
@@ -176,11 +164,7 @@ Coqatoo is only a proof-of-concept for the moment. As such, there remains much t
 The number of tactics that it supports is limited to only a handful (see Coqatoo's GitHub repository~\cite{Coqatoo} for more details). We expect that, with the help of the community, we will be able to support enough tactics to generate natural language versions of most proofs in the \emph{Software Foundations} book.
 
 \paragraph{Add partial support for automation}
-In regards to automation, Coqatoo only supports the \lstinline{auto} tactic: if the \lstinline{auto} tactic is present within the script, it is replaced with \lstinline{info_auto} in order to obtain the sequence of tactics that is used by \lstinline{auto}. We plan on adding partial support for automation in the future, starting with the chaining operator "\lstinline{;}". To support this operator we will need to construct a tree representation of the proof. We are exploring the possibility of using the Prooftree library~\cite{Prooftree}.
-
-
-\paragraph{Automatically structure proofs}
-We currently assume that proofs are structured using "-" bullets and use these to determine the level of indentation that must be added to each line. Using the proof tree, we should be able to automatically insert bullets and hence, determine the correct indentation.
+In regards to automation, Coqatoo only supports the \lstinline{auto} tactic: if the \lstinline{auto} tactic is present within the script, it is replaced with \lstinline{info_auto} in order to obtain the sequence of tactics that is used by \lstinline{auto}. We plan on adding partial support for automation in the future, starting with the chaining operator "\lstinline{;}". To support this operator we will use our tree representation of proofs to "distribute" tactics on branches.
 
 \paragraph{Integration with development environments} Once it is sufficiently developed, we plan on integrating our utility in modern Coq development environments such as CoqIDE and ProofGeneral.
 
