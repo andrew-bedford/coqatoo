@@ -56,7 +56,7 @@ public class Main {
             System.out.println("|             Annotated Version             |");
             System.out.println("---------------------------------------------");
             AnnotationRewriter annotationRewriter = new AnnotationRewriter();
-            annotationRewriter.rewrite(fileContents);
+            //annotationRewriter.rewrite(fileContents);
 
 
         }

@@ -14,6 +14,7 @@ public class PlainTextRewriter implements Rewriter {
     String _script;
     String _scriptWithUnfoldedAutos;
     List<Pair<Input, Output>> _inputsOutputs;
+    Map<Integer, String> _bulletsToAddAfter;
 
     private String generateScriptWithUnfoldedAutos(List<Pair<Input, Output>> inputsOutputs) {
         String scriptWithUnfoldedAutos = "";
@@ -189,7 +190,7 @@ public class PlainTextRewriter implements Rewriter {
        String formattedScript = formatScript(proofScript);
        //extractInformation(proofScript);
 
-       //System.out.println(getTextVersion());
+       System.out.println(getTextVersion());
     }
 
     private String formatScript(String proofScript) {
@@ -215,20 +216,23 @@ public class PlainTextRewriter implements Rewriter {
         _inputsOutputs = Main.coqtop.execute(formattedScript);
 
         //Step 4: Build the proof tree
+        //TODO Clean this part
         System.out.println("---------------------------------------------");
         System.out.println("|                Proof Tree                 |");
         System.out.println("---------------------------------------------");
         System.out.println("digraph {");
-        Stack<String> s = new Stack<>();
+        Stack<Integer> s = new Stack<>();
+        Map<Integer, String> bulletLevel = new HashMap<>();
+        _bulletsToAddAfter = new HashMap<>();
+        String bulletStr = "";
         int i = 0;
         for(Pair<Input,Output> p : _inputsOutputs) {
             if (p.getKey().getValue().equals("Qed.")) { break; }
             if (i == 0) {
-                s.push(String.format("%d. %s", i, p.getKey().getValue()));
+                s.push(i);
             }
             else if (i > 0) {
-                String previousNodeName = s.pop();
-                //if (!s.peek().isEmpty()) { previousNodeName = s.pop(); }
+                Integer previousNode = s.pop();
 
                 Pair<Input, Output> previousPair = _inputsOutputs.get(i-1);
                 int numberOfSubgoalsBeforeTactic = previousPair.getValue().getNumberOfRemainingSubgoals();
@@ -237,26 +241,41 @@ public class PlainTextRewriter implements Rewriter {
                 int addedSubgoals = numberOfSubgoalsAfterTactic - numberOfSubgoalsBeforeTactic;
                 if (addedSubgoals > 0) {
                     for(int j=0; j<=addedSubgoals; j++) {
-                        s.push(String.format("%d. %s", i, p.getKey().getValue()));
+                        s.push(i);
                     }
-                    System.out.println(String.format("\"%s\" -> \"%d. %s\";", previousNodeName, i, p.getKey().getValue()));
+                    System.out.println(String.format("%d -> %d;", previousNode, i));
+                    bulletStr += "-";
+                    bulletLevel.put(i, bulletStr);
                 }
                 else if (addedSubgoals == 0) {
-                    System.out.println(String.format("\"%s\" -> \"%d. %s\";", previousNodeName, i, p.getKey().getValue()));
-                    s.push(String.format("%d. %s", i, p.getKey().getValue()));
+                    if (bulletLevel.get(previousNode) != null) {
+                        _bulletsToAddAfter.put(i, bulletLevel.get(previousNode));
+                    }
+                    System.out.println(String.format("%d -> %d;", previousNode, i));
+                    s.push(i);
                 }
                 else if (addedSubgoals < 0) {
-                    System.out.println(String.format("\"%s\" -> \"%d. %s\";", previousNodeName, i, p.getKey().getValue()));
+                    if (bulletLevel.get(previousNode) != null) {
+                        _bulletsToAddAfter.put(i, bulletLevel.get(previousNode));
+                    }
+                    System.out.println(String.format("%d -> %d;", previousNode, i));
+                    if (!s.empty()) {
+                        int nextNodeId = s.peek();
+                        bulletStr = bulletLevel.get(nextNodeId);
+                    }
                 }
-
-
             }
             i++;
         }
         System.out.println("}");
 
+        //Step 5: Insert bullets in _inputsOutputs
+        int numberOfInputsInserted = 0;
+        for(Integer index : _bulletsToAddAfter.keySet()) {
+            _inputsOutputs.add(index+numberOfInputsInserted, new Pair(new Input(_bulletsToAddAfter.get(index)), _inputsOutputs.get(index+numberOfInputsInserted-1).getValue()));
+            numberOfInputsInserted++;
+        }
 
-        //System.out.println(formattedScript);
         return formattedScript;
 
     }
