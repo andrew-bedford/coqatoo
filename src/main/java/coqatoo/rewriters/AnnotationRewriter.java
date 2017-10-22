@@ -259,10 +259,6 @@ public class AnnotationRewriter implements Rewriter {
 
         //Step 4: Build the proof tree
         //TODO Clean this part
-        System.out.println("---------------------------------------------");
-        System.out.println("|                Proof Tree                 |");
-        System.out.println("---------------------------------------------");
-        System.out.println("digraph {");
         Stack<Integer> s = new Stack<>();
         Map<Integer, String> bulletLevel = new HashMap<>();
         Map<Integer, String> bulletsToAddAfter = new HashMap<>();
@@ -285,7 +281,6 @@ public class AnnotationRewriter implements Rewriter {
                     for(int j=0; j<=addedSubgoals; j++) {
                         s.push(i);
                     }
-                    System.out.println(String.format("%d -> %d;", previousNode, i));
                     bulletStr += "-";
                     bulletLevel.put(i, bulletStr);
                 }
@@ -293,14 +288,12 @@ public class AnnotationRewriter implements Rewriter {
                     if (bulletLevel.get(previousNode) != null) {
                         bulletsToAddAfter.put(i, bulletLevel.get(previousNode));
                     }
-                    System.out.println(String.format("%d -> %d;", previousNode, i));
                     s.push(i);
                 }
                 else if (addedSubgoals < 0) {
                     if (bulletLevel.get(previousNode) != null) {
                         bulletsToAddAfter.put(i, bulletLevel.get(previousNode));
                     }
-                    System.out.println(String.format("%d -> %d;", previousNode, i));
                     if (!s.empty()) {
                         int nextNodeId = s.peek();
                         bulletStr = bulletLevel.get(nextNodeId);
@@ -309,7 +302,6 @@ public class AnnotationRewriter implements Rewriter {
             }
             i++;
         }
-        System.out.println("}");
 
         //Step 5: Insert bullets in _inputsOutputs
         int numberOfInputsInserted = 0;

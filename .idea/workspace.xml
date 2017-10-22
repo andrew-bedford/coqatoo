@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="da278831-57d9-4671-ba0f-08da0f7f96a3" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/coqatoo.jar" afterPath="$PROJECT_DIR$/bin/coqatoo.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/coqatoo/rewriters/AnnotationRewriter.java" afterPath="$PROJECT_DIR$/src/main/java/coqatoo/rewriters/AnnotationRewriter.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -30,11 +30,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AnnotationRewriter.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AnnotationRewriter.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/rewriters/AnnotationRewriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+            <state relative-caret-position="476">
+              <caret line="304" column="0" lean-forward="true" selection-start-line="304" selection-start-column="0" selection-end-line="304" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -94,7 +94,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="255">
@@ -183,8 +183,8 @@
         <option value="$PROJECT_DIR$/src/main/java/coqatoo/coq/Coqtop.java" />
         <option value="$PROJECT_DIR$/src/main/java/coqatoo/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/coqatoo/rewriters/PlainTextRewriter.java" />
-        <option value="$PROJECT_DIR$/src/main/java/coqatoo/rewriters/AnnotationRewriter.java" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/src/main/java/coqatoo/rewriters/AnnotationRewriter.java" />
       </list>
     </option>
   </component>
@@ -932,21 +932,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/rewriters/AnnotationRewriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="36" column="54" lean-forward="false" selection-start-line="36" selection-start-column="54" selection-end-line="36" selection-end-column="54" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/rewriters/AnnotationRewriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="304" column="0" lean-forward="true" selection-start-line="304" selection-start-column="0" selection-end-line="304" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
