@@ -46,17 +46,37 @@ public class Main {
             System.out.println("---------------------------------------------");
             System.out.println(fileContents);
 
-            System.out.println("---------------------------------------------");
-            System.out.println("|            Plain Text Version             |");
-            System.out.println("---------------------------------------------");
-            PlainTextRewriter plainTextRewriter = new PlainTextRewriter();
-            plainTextRewriter.rewrite(fileContents);
 
-            System.out.println("---------------------------------------------");
-            System.out.println("|             Annotated Version             |");
-            System.out.println("---------------------------------------------");
-            AnnotationRewriter annotationRewriter = new AnnotationRewriter();
-            //annotationRewriter.rewrite(fileContents);
+
+            if (parameters.containsKey("-mode")) {
+                String mode = parameters.get("-mode").get(0);
+
+                switch (mode) {
+                    case "annotated":
+                        System.out.println("---------------------------------------------");
+                        System.out.println("|             Annotated Version             |");
+                        System.out.println("---------------------------------------------");
+                        AnnotationRewriter annotationRewriter = new AnnotationRewriter();
+                        annotationRewriter.rewrite(fileContents);
+                        break;
+                    default: //Plain text is the default output mode
+                        System.out.println("---------------------------------------------");
+                        System.out.println("|            Plain Text Version             |");
+                        System.out.println("---------------------------------------------");
+                        PlainTextRewriter plainTextRewriter = new PlainTextRewriter();
+                        plainTextRewriter.rewrite(fileContents);
+                        break;
+                }
+
+            }
+            else { //Plain text is the default output mode
+                System.out.println("---------------------------------------------");
+                System.out.println("|            Plain Text Version             |");
+                System.out.println("---------------------------------------------");
+                PlainTextRewriter plainTextRewriter = new PlainTextRewriter();
+                plainTextRewriter.rewrite(fileContents);
+            }
+
 
 
         }

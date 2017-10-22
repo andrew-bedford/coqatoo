@@ -37,8 +37,9 @@ Coqatoo was primarily designed for educational purposes. That is, to help Coq ne
 
 ## Usage
 ```
--file [.v file]         The file containing the Coq proof.
--language [fr | en]     The target language. English by default.
+--file [.v file]            File containing the Coq proof.
+--language [en | fr]        Target language (English by default).
+--mode [plain | annotated]  Output mode (plain by default).
 ```
 
 ## Assumptions

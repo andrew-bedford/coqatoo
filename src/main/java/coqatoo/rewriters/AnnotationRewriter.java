@@ -4,10 +4,9 @@ import coqatoo.Main;
 import coqatoo.coq.*;
 import javafx.util.Pair;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
+
+import static java.lang.Thread.sleep;
 
 public class AnnotationRewriter implements Rewriter {
 
@@ -100,9 +99,16 @@ public class AnnotationRewriter implements Rewriter {
                     textVersion += indentation;
                     textVersion += input.getValue();
                     textVersion += " (* ";
-                    textVersion += String.format(rewritingBundle.getString("bullet"), input.getValue(), output.getGoal().toString());
+                    textVersion += String.format(rewritingBundle.getString("bullet"), "", output.getGoal().toString());
                     textVersion += " *)\n";
                     indentation += "  ";
+                    break;
+                case DESTRUCT:
+                    String destructedObject = input.getValue().substring(input.getValue().indexOf(" "), input.getValue().length()-1); //Obtains the "(A B)" in "destruct (A B)."
+                    textVersion += "(* ";
+                    textVersion += String.format(rewritingBundle.getString("destruct"), destructedObject);
+                    textVersion += "*) ";
+                    textVersion += input.getValue()+"\n";
                     break;
                 case INTRO:
                 case INTROS:
@@ -119,6 +125,13 @@ public class AnnotationRewriter implements Rewriter {
 
                     textVersion += String.format(rewritingBundle.getString("intros.goal"), output.getGoal().toString());
                     textVersion += "*) ";
+                    textVersion += input.getValue()+"\n";
+                    break;
+                case INTUITION:
+                    textVersion += indentation;
+                    textVersion += "(* ";
+                    textVersion += String.format(rewritingBundle.getString("intuition"), previousOutput.getGoal().toString());
+                    textVersion += " *)";
                     textVersion += input.getValue()+"\n";
                     break;
                 case INVERSION:
@@ -138,29 +151,57 @@ public class AnnotationRewriter implements Rewriter {
                         }
                     }
                     enumerationOfAddedAssumptions = enumerationOfAddedAssumptions.substring(0, enumerationOfAddedAssumptions.length()-2); //Remove the last ", "
+
                     textVersion += "(* ";
                     textVersion += String.format(rewritingBundle.getString("inversion"), inversionLemmaDefinition, enumerationOfAddedAssumptions);
-                    textVersion += "*) ";
+                    textVersion += " *)";
                     textVersion += input.getValue()+"\n";
                     break;
                 case LEMMA:
                     textVersion += input.getValue() + "\n";
                     break;
+                case OMEGA:
+                    textVersion += indentation;
+                    textVersion += "(* ";
+                    textVersion += rewritingBundle.getString("omega");
+                    textVersion += " *)";
+                    textVersion += input.getValue()+"\n";
+                    break;
                 case PROOF:
                     textVersion += input.getValue() + "\n";
                     break;
                 case REFLEXIVITY:
+                    textVersion += indentation;
                     textVersion += "(* ";
                     textVersion += rewritingBundle.getString("reflexivity");
-                    textVersion += "*) ";
+                    textVersion += " *)";
+                    textVersion += input.getValue()+"\n";
+                    break;
+                case SIMPL: //TODO "simpl in ..."
+                    textVersion += indentation;
+                    textVersion += "(* ";
+                    textVersion += String.format(rewritingBundle.getString("simpl"), previousOutput.getGoal().toString(), output.getGoal().toString());
+                    textVersion += " *)";
                     textVersion += input.getValue()+"\n";
                     break;
                 case SPLIT:
+                    textVersion += indentation;
+                    textVersion += input.getValue() + "\n";
+                    break;
+                case UNFOLD:
+                    textVersion += indentation;
+                    String unfoldedDefinition = input.getValue().split(" ")[1].replace(".", ""); //Obtains the "A" in "unfold A."
+                    textVersion += "(* ";
+                    textVersion += String.format(rewritingBundle.getString("unfold"), unfoldedDefinition, output.getGoal().toString());
+                    textVersion += " *)";
+                    textVersion += input.getValue()+"\n";
                     break;
                 case QED:
                     textVersion += "Qed\n";
                     break;
                 default:
+                    textVersion += indentation;
+                    textVersion += input.getValue() + "\n";
                     break;
             }
 
@@ -187,6 +228,100 @@ public class AnnotationRewriter implements Rewriter {
 
     @Override
     public void rewrite(String proofScript) {
+        String formattedScript = formatScript(proofScript);
+        //extractInformation(proofScript);
+
+        System.out.println(getTextVersion());
+    }
+
+    private String formatScript(String proofScript) {
+        String formattedScript = proofScript;
+
+        //Step 1: Format proof so that there is one tactic/chain per line
+        formattedScript = formattedScript.replaceAll("\\.", "\\.\n");
+
+        //Step 2: Remove bullets
+        String[] lines = formattedScript.split("\n");
+        formattedScript = "";
+        for(String line : lines) {
+            String l = line.trim();
+            while (l.startsWith("-") || l.startsWith("*") || l.startsWith("+") || l.startsWith("{") || l.startsWith("}")) {
+                l = l.substring(1, l.length()).trim();
+            }
+            if (!l.equals("")) {
+                formattedScript += l + "\n";
+            }
+        }
+
+        //Step 3: Execute formatted script to get the list of inputs/outputs
+        _inputsOutputs = Main.coqtop.execute(formattedScript);
+
+        //Step 4: Build the proof tree
+        //TODO Clean this part
+        System.out.println("---------------------------------------------");
+        System.out.println("|                Proof Tree                 |");
+        System.out.println("---------------------------------------------");
+        System.out.println("digraph {");
+        Stack<Integer> s = new Stack<>();
+        Map<Integer, String> bulletLevel = new HashMap<>();
+        Map<Integer, String> bulletsToAddAfter = new HashMap<>();
+        String bulletStr = "";
+        int i = 0;
+        for(Pair<Input,Output> p : _inputsOutputs) {
+            if (p.getKey().getValue().equals("Qed.")) { break; }
+            if (i == 0) {
+                s.push(i);
+            }
+            else if (i > 0) {
+                Integer previousNode = s.pop();
+
+                Pair<Input, Output> previousPair = _inputsOutputs.get(i-1);
+                int numberOfSubgoalsBeforeTactic = previousPair.getValue().getNumberOfRemainingSubgoals();
+                int numberOfSubgoalsAfterTactic = p.getValue().getNumberOfRemainingSubgoals();
+
+                int addedSubgoals = numberOfSubgoalsAfterTactic - numberOfSubgoalsBeforeTactic;
+                if (addedSubgoals > 0) {
+                    for(int j=0; j<=addedSubgoals; j++) {
+                        s.push(i);
+                    }
+                    System.out.println(String.format("%d -> %d;", previousNode, i));
+                    bulletStr += "-";
+                    bulletLevel.put(i, bulletStr);
+                }
+                else if (addedSubgoals == 0) {
+                    if (bulletLevel.get(previousNode) != null) {
+                        bulletsToAddAfter.put(i, bulletLevel.get(previousNode));
+                    }
+                    System.out.println(String.format("%d -> %d;", previousNode, i));
+                    s.push(i);
+                }
+                else if (addedSubgoals < 0) {
+                    if (bulletLevel.get(previousNode) != null) {
+                        bulletsToAddAfter.put(i, bulletLevel.get(previousNode));
+                    }
+                    System.out.println(String.format("%d -> %d;", previousNode, i));
+                    if (!s.empty()) {
+                        int nextNodeId = s.peek();
+                        bulletStr = bulletLevel.get(nextNodeId);
+                    }
+                }
+            }
+            i++;
+        }
+        System.out.println("}");
+
+        //Step 5: Insert bullets in _inputsOutputs
+        int numberOfInputsInserted = 0;
+        for(Integer index : bulletsToAddAfter.keySet()) {
+            _inputsOutputs.add(index+numberOfInputsInserted, new Pair(new Input(bulletsToAddAfter.get(index)), _inputsOutputs.get(index+numberOfInputsInserted-1).getValue()));
+            numberOfInputsInserted++;
+        }
+
+        return formattedScript;
+
+    }
+
+    private void extractInformation(String proofScript) {
         _script = proofScript;
         _inputsOutputs = Main.coqtop.execute(_script);
 
@@ -195,7 +330,5 @@ public class AnnotationRewriter implements Rewriter {
             Coqtop coqtop = new Coqtop();
             _inputsOutputs = coqtop.execute(_scriptWithUnfoldedAutos);
         }
-
-        System.out.println(getTextVersion());
     }
 }

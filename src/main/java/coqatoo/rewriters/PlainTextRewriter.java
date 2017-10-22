@@ -14,7 +14,6 @@ public class PlainTextRewriter implements Rewriter {
     String _script;
     String _scriptWithUnfoldedAutos;
     List<Pair<Input, Output>> _inputsOutputs;
-    Map<Integer, String> _bulletsToAddAfter;
 
     private String generateScriptWithUnfoldedAutos(List<Pair<Input, Output>> inputsOutputs) {
         String scriptWithUnfoldedAutos = "";
@@ -96,6 +95,7 @@ public class PlainTextRewriter implements Rewriter {
                     indentation += "  ";
                     break;
                 case DESTRUCT:
+                    textVersion += indentation;
                     String destructedObject = input.getValue().substring(input.getValue().indexOf(" "), input.getValue().length()-1); //Obtains the "(A B)" in "destruct (A B)."
                     textVersion += String.format(rewritingBundle.getString("destruct")+"\n", destructedObject);
                     break;
@@ -114,6 +114,7 @@ public class PlainTextRewriter implements Rewriter {
                     textVersion += String.format(rewritingBundle.getString("intros.goal")+"\n", output.getGoal().toString());
                     break;
                 case INTUITION:
+                    textVersion += indentation;
                     textVersion += String.format(rewritingBundle.getString("intuition")+"\n", previousOutput.getGoal().toString());
                     break;
                 case INVERSION:
@@ -140,20 +141,24 @@ public class PlainTextRewriter implements Rewriter {
                     textVersion += input.getValue() + "\n";
                     break;
                 case OMEGA:
+                    textVersion += indentation;
                     textVersion += rewritingBundle.getString("omega")+"\n";
                     break;
                 case PROOF:
                     textVersion += input.getValue() + "\n";
                     break;
                 case REFLEXIVITY:
+                    textVersion += indentation;
                     textVersion += rewritingBundle.getString("reflexivity")+"\n";
                     break;
                 case SIMPL: //TODO "simpl in ..."
+                    textVersion += indentation;
                     textVersion += String.format(rewritingBundle.getString("simpl")+"\n", previousOutput.getGoal().toString(), output.getGoal().toString());
                     break;
                 case SPLIT:
                     break;
                 case UNFOLD:
+                    textVersion += indentation;
                     String unfoldedDefinition = input.getValue().split(" ")[1].replace(".", ""); //Obtains the "A" in "unfold A."
                     textVersion += String.format(rewritingBundle.getString("unfold")+"\n", unfoldedDefinition, output.getGoal().toString());
                     break;
@@ -223,7 +228,7 @@ public class PlainTextRewriter implements Rewriter {
         System.out.println("digraph {");
         Stack<Integer> s = new Stack<>();
         Map<Integer, String> bulletLevel = new HashMap<>();
-        _bulletsToAddAfter = new HashMap<>();
+        Map<Integer, String> bulletsToAddAfter = new HashMap<>();
         String bulletStr = "";
         int i = 0;
         for(Pair<Input,Output> p : _inputsOutputs) {
@@ -249,14 +254,14 @@ public class PlainTextRewriter implements Rewriter {
                 }
                 else if (addedSubgoals == 0) {
                     if (bulletLevel.get(previousNode) != null) {
-                        _bulletsToAddAfter.put(i, bulletLevel.get(previousNode));
+                        bulletsToAddAfter.put(i, bulletLevel.get(previousNode));
                     }
                     System.out.println(String.format("%d -> %d;", previousNode, i));
                     s.push(i);
                 }
                 else if (addedSubgoals < 0) {
                     if (bulletLevel.get(previousNode) != null) {
-                        _bulletsToAddAfter.put(i, bulletLevel.get(previousNode));
+                        bulletsToAddAfter.put(i, bulletLevel.get(previousNode));
                     }
                     System.out.println(String.format("%d -> %d;", previousNode, i));
                     if (!s.empty()) {
@@ -271,8 +276,8 @@ public class PlainTextRewriter implements Rewriter {
 
         //Step 5: Insert bullets in _inputsOutputs
         int numberOfInputsInserted = 0;
-        for(Integer index : _bulletsToAddAfter.keySet()) {
-            _inputsOutputs.add(index+numberOfInputsInserted, new Pair(new Input(_bulletsToAddAfter.get(index)), _inputsOutputs.get(index+numberOfInputsInserted-1).getValue()));
+        for(Integer index : bulletsToAddAfter.keySet()) {
+            _inputsOutputs.add(index+numberOfInputsInserted, new Pair(new Input(bulletsToAddAfter.get(index)), _inputsOutputs.get(index+numberOfInputsInserted-1).getValue()));
             numberOfInputsInserted++;
         }
 
