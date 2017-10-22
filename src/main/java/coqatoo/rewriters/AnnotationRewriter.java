@@ -86,6 +86,10 @@ public class AnnotationRewriter implements Rewriter {
                         textVersion += "*) ";
                         textVersion += input.getValue()+"\n";
                     }
+                    else {
+                        textVersion += indentation;
+                        textVersion += input.getValue()+"\n";
+                    }
                     break;
                 case ASSUMPTION:
                     textVersion += indentation;
@@ -197,7 +201,7 @@ public class AnnotationRewriter implements Rewriter {
                     textVersion += input.getValue()+"\n";
                     break;
                 case QED:
-                    textVersion += "Qed\n";
+                    textVersion += input.getValue() + "\n";
                     break;
                 default:
                     textVersion += indentation;

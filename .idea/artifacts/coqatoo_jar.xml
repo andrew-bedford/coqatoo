@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="coqatoo:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/coqatoo_jar</output-path>
+    <root id="archive" name="coqatoo.jar">
+      <element id="module-output" name="coqatoo" />
+    </root>
+  </artifact>
+</component>
