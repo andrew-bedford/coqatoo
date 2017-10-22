@@ -1,5 +1,6 @@
 package coqatoo.coq;
 
+import coqatoo.Main;
 import javafx.util.Pair;
 
 import java.io.*;
@@ -10,7 +11,7 @@ import static java.lang.Thread.sleep;
 
 public class Coqtop {
 
-    Boolean _debugging = true;
+    Boolean _debugging = Main.debug;
     java.lang.Process _process;
     OutputStream _stdin;
     InputStream _stdout;

@@ -12,13 +12,17 @@ public class Main {
     static final Map<String, List<String>> parameters = new HashMap<String, List<String>>();
     public static Coqtop coqtop;
     public static Locale locale = new Locale("en"); //English is set as default locale
+    public static Boolean debug = false;
 
     public static void main(String[] args) {
         coqtop = new Coqtop();
         parseArguments(args);
         if (parameters.isEmpty() || parameters.containsKey("-help")) {
             System.out.println("Options:");
-            System.out.println("-text [.v file] [lemma/theorem name]\t\t Converts the Coq proof of [lemma/theorem name] in file [file] to plain text.");
+            System.out.println("--debug                                        Display debugging information");
+            System.out.println("--file [.v file]                               File containing the Coq proof");
+            System.out.println("--language [en (default) | fr]                 Target language");
+            System.out.println("--mode [plain (default) | annotated | dot]     Output mode");
         }
         if (parameters.containsKey("-language")) {
             String language = parameters.get("-language").get(0);
@@ -29,14 +33,14 @@ public class Main {
                 System.err.println("Unsupported language. Coqatoo currently supports: en, fr.");
                 System.exit(0);
             }
-
+        }
+        if (parameters.containsKey("-debug")) {
+            debug = true;
         }
         if (parameters.containsKey("-file")) {
             String filePath = parameters.get("-file").get(0);
-            //String lemmaName = parameters.get("-text").get(1);
 
             verifyFileExists(filePath);
-            //verifyLemmaIsPresentInFile(filePath, lemmaName);
             String fileContents = FileHelper.convertFileToString(new File(filePath));
 
             //TODO Feed entire file, but record only the inputs/outputs relevant to the lemma/theorem given as argument
@@ -51,6 +55,8 @@ public class Main {
             if (parameters.containsKey("-mode")) {
                 String mode = parameters.get("-mode").get(0);
 
+                PlainTextRewriter plainTextRewriter = new PlainTextRewriter();
+
                 switch (mode) {
                     case "annotated":
                         System.out.println("---------------------------------------------");
@@ -59,11 +65,14 @@ public class Main {
                         AnnotationRewriter annotationRewriter = new AnnotationRewriter();
                         annotationRewriter.rewrite(fileContents);
                         break;
+                    case "dot":
+                        plainTextRewriter.rewrite(fileContents);
+                        plainTextRewriter.outputProofTreeAsDot();
+                        break;
                     default: //Plain text is the default output mode
                         System.out.println("---------------------------------------------");
                         System.out.println("|            Plain Text Version             |");
                         System.out.println("---------------------------------------------");
-                        PlainTextRewriter plainTextRewriter = new PlainTextRewriter();
                         plainTextRewriter.rewrite(fileContents);
                         break;
                 }
@@ -75,6 +84,7 @@ public class Main {
                 System.out.println("---------------------------------------------");
                 PlainTextRewriter plainTextRewriter = new PlainTextRewriter();
                 plainTextRewriter.rewrite(fileContents);
+                plainTextRewriter.outputProofTreeAsDot();
             }
 
 

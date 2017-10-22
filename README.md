@@ -33,13 +33,17 @@ Proof.
 Qed.
 ```
 
+It can also be used to generate a tree representation of the proof's structure.
+![proof tree](https://i.imgur.com/3vwBaw0.png)
+
 Coqatoo was primarily designed for educational purposes. That is, to help Coq newcomers better understand Coq proofs and how they relate to classical proofs.
 
 ## Usage
 ```
---file [.v file]            File containing the Coq proof.
---language [en | fr]        Target language (English by default).
---mode [plain | annotated]  Output mode (plain by default).
+--debug                                        Display debugging information
+--file [.v file]                               File containing the Coq proof
+--language [en (default) | fr]                 Target language
+--mode [plain (default) | annotated | dot]     Output mode
 ```
 
 ## Assumptions
