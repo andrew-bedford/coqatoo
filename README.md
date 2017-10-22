@@ -34,7 +34,7 @@ Qed.
 ```
 
 It can also be used to generate a tree representation of the proof's structure.
-<div style="text-align:center"><img src="https://i.imgur.com/3vwBaw0.png" width="50%" /></div>
+<img src="https://i.imgur.com/3vwBaw0.png" width="50%" align="center" />
 
 ## Usage
 ```
