@@ -34,7 +34,7 @@ Qed.
 ```
 
 It can also be used to generate a tree representation of the proof's structure.
-div style="text-align:center"><img src="https://i.imgur.com/3vwBaw0.png" width="50%" /></div>
+<div style="text-align:center"><img src="https://i.imgur.com/3vwBaw0.png" width="50%" /></div>
 
 Coqatoo was primarily designed for educational purposes. That is, to help Coq newcomers better understand Coq proofs and how they relate to classical proofs.
 
