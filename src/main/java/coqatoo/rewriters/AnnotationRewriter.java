@@ -116,7 +116,7 @@ public class AnnotationRewriter implements Rewriter {
                     textVersion += indentation;
                     textVersion += "(* ";
                     for (Assumption a : assumptionsAddedAfterTactic) {
-                        if (a.isOfKnownType()) {
+                        if (a.typeContainsSpaces()) {
                             textVersion += String.format(rewritingBundle.getString("intros.assume"), a.getName(), a.getType());
                         }
                         else {
@@ -147,7 +147,7 @@ public class AnnotationRewriter implements Rewriter {
 
                     String enumerationOfAddedAssumptions = "";
                     for (Assumption a : assumptionsAddedAfterTactic) {
-                        if (!a.isOfKnownType()) {
+                        if (!a.typeContainsSpaces()) {
                             enumerationOfAddedAssumptions += a.getType() + ", ";
                         }
                     }

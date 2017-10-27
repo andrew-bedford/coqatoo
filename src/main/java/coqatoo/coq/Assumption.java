@@ -12,8 +12,9 @@ public class Assumption {
     public String getType() { return _type; }
     public String getName() { return _name; }
 
-    public Boolean isOfKnownType() {
-        if (_type.equals("Prop")) { return true; }
+    // If the type contains spaces, for example "H : forall x:nat, x >= 0", then it is a hypothesis
+    public Boolean typeContainsSpaces() {
+        if (_type.contains(" ")) { return true; }
         return false;
     }
 

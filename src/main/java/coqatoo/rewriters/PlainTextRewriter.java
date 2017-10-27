@@ -99,15 +99,28 @@ public class PlainTextRewriter implements Rewriter {
                 case INTRO:
                 case INTROS:
                     textVersion += indentation;
+
+                    String variableNames = "";
+                    String variablesTypes = "";
+                    String hypotheses = "";
                     for (Assumption a : assumptionsAddedAfterTactic) {
-                        if (a.isOfKnownType()) {
-                            textVersion += String.format(rewritingBundle.getString("intros.assume"), a.getName(), a.getType());
+                        if (!a.typeContainsSpaces()) {
+                            variableNames += a.getName() + ", ";
+                            variablesTypes += a.getType() + ", ";
                         }
                         else {
-                            textVersion += String.format(rewritingBundle.getString("intros.suppose"), a.getType());
+                            hypotheses += String.format("[%s], ", a.getType());
                         }
                     }
-
+                    if (!variableNames.isEmpty() && !variablesTypes.isEmpty()) {
+                        variableNames = variableNames.substring(0, variableNames.length() - 2);
+                        variablesTypes = variablesTypes.substring(0, variablesTypes.length() - 2);
+                        textVersion += String.format(rewritingBundle.getString("intros.assume"), variableNames, variablesTypes);
+                    }
+                    if (!hypotheses.isEmpty()) {
+                        hypotheses = hypotheses.substring(0, hypotheses.length() - 2);
+                        textVersion += String.format(rewritingBundle.getString("intros.suppose"), hypotheses);
+                    }
                     textVersion += String.format(rewritingBundle.getString("intros.goal")+"\n", output.getGoal().toString());
                     break;
                 case INTUITION:
@@ -126,7 +139,7 @@ public class PlainTextRewriter implements Rewriter {
 
                     String enumerationOfAddedAssumptions = "";
                     for (Assumption a : assumptionsAddedAfterTactic) {
-                        if (!a.isOfKnownType()) {
+                        if (!a.typeContainsSpaces()) {
                             enumerationOfAddedAssumptions += a.getType() + ", ";
                         }
                     }
