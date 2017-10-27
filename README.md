@@ -21,7 +21,7 @@ Proof.
     -- (* Case P: *)
        (* True, because it is one of our assumptions. *) assumption.
     -- (* Case Q: *)
-     (* True, because it is one of our assumptions. *) assumption.
+       (* True, because it is one of our assumptions. *) assumption.
   - (* Case (P -> Q -> R) -> P /\ Q -> R: *)
     (* Suppose that P /\ Q and P -> Q -> R are true. Let us show that R is true. *) intros H HPQ.
     (* By inversion on P /\ Q, we know that P, Q are also true. *) inversion HPQ.
