@@ -36,6 +36,8 @@ Qed.
 It can also be used to generate a tree representation of the proof's structure.
 <img src="https://i.imgur.com/3vwBaw0.png" width="50%" />
 
+**Note:** Coqatoo is only a proof-of-concept for the moment. There remains much to be done before it can be of real use. 
+
 ## Usage
 ```
 --debug                                        Display debugging information

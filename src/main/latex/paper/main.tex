@@ -52,6 +52,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{listings}
+\usepackage{todonotes}
 
 \input{definitions.tex}
 
@@ -73,20 +74,20 @@
 
 
 %% Abstract
-\begin{abstract}
-  We present \coqatoo, a command-line utility capable of automatically generating natural language versions of Coq proofs. We illustrate its use on a simple proof.
-\end{abstract}
+%\begin{abstract}
+%  We present \coqatoo, a command-line utility capable of automatically generating natural language versions of Coq proofs. We illustrate its use on a simple proof.
+%\end{abstract}
 
 \maketitle
 
 \section{Introduction}
-Due to their numerous advantages, formal proofs and proof assistants, such as Coq, are becoming increasingly popular. One disadvantage of using proof assistants is that the resulting proofs can sometimes be hard to read and understand, particularly for less-experienced users. In an attempt to address this issue, Coscoy et al.~\cite{DBLP:conf/tlca/CoscoyKT95} developed in 1995 an algorithm capable of \emph{generating natural language proofs} from Coq's proof objects (i.e., calculus of inductive construction $\lambda$-terms) and implemented their approach in two development environments: CtCoq~\cite{CtCoq} and its successor Pcoq~\cite{Pcoq}. Unfortunately, these development environments are no longer available or maintained; Pcoq's last version dates from 2003 and requires Coq 7.4.
+Due to their numerous advantages, formal proofs and proof assistants, such as Coq, are becoming increasingly popular. One disadvantage of using proof assistants is that the resulting proofs can sometimes be hard to read and understand, particularly for less-experienced users. In an attempt to address this issue, Coscoy et al.~\cite{DBLP:conf/tlca/CoscoyKT95} developed in 1995 an algorithm capable of generating natural language proofs from Coq's proof-terms (i.e., calculus of inductive construction $\lambda$-terms) and implemented their approach in two development environments: CtCoq~\cite{CtCoq,bertot1999ctcoq} and its successor Pcoq~\cite{Pcoq,amerkad2001mathematics}. Unfortunately, these development environments are no longer available or maintained; Pcoq's last version dates from 2003 and requires Coq 7.4.
 
 In order to bring this useful feature to modern development environments, we have implemented our own rewriting algorithm: Coqatoo.
 
 
 \section{Overview of Coqatoo}
-Much like Nuprl's text generation algorithm~\cite{DBLP:conf/aaai/Holland-MinkleyBC99}, Coqatoo uses high-level proof scripts to generate natural language proofs instead of the low-level proof objects used by Coscoy et al. By doing so, we can avoid the verbosity that comes from using low-level objects~\cite{DBLP:conf/lacl/Coscoy96} and avoid losing valuable information such as the tactics that are used, the user's comments and the variable names. 
+Much like Nuprl's text generation algorithm~\cite{DBLP:conf/aaai/Holland-MinkleyBC99}, Coqatoo generates natural language proofs from high-level proof scripts instead of the low-level proof-terms used by Coscoy et al. By doing so, we can avoid the verbosity that comes from using low-level proof-terms~\cite{DBLP:conf/lacl/Coscoy96} and avoid losing valuable information such as the tactics that are used, the user's comments and the variable names. 
 
 Coqatoo's rewriting algorithm can be decomposed in three steps: information extraction, proof tree construction and tactic-based rewriting. 
 
@@ -146,7 +147,7 @@ To illustrate our approach, consider the proof script in Listing~\ref{listing:in
     - (* Case (P -> Q -> R) -> P /\ Q -> R: *)
       (* Suppose that P /\ Q and P -> Q -> R are true. Let us show that R is true. *) intros H HPQ.
       (* By inversion on P /\ Q, we know that P, Q are also true. *) inversion HPQ.
-      (* By our hypothesis P -> Q -> R, we know that R is true if P -> Q  is true. *) apply H.
+      (* By our hypothesis P -> Q -> R, we know that R is true if P and Q are true. *) apply H.
       -- (* Case P: *)
          (* True, because it is one of our assumptions. *) assumption.
       -- (* Case Q: *)
@@ -157,6 +158,22 @@ To illustrate our approach, consider the proof script in Listing~\ref{listing:in
 
 
 \pagebreak
+\section{Comparison}
+\todo[inline]{Complete this section}
+Compared to Coscoy et al.~\cite{DBLP:conf/tlca/CoscoyKT95,DBLP:conf/lacl/Coscoy96}, the approach used in \coqatoo\ presents a few disadvantages and advantages.
+\paragraph{Disadvantages}
+\begin{itemize}
+  \item{The high-level proof script may contain facts that are not necessary for the final proof (e.g., an assertion which isn't used).}
+  \item{The set of tactics may change over time, which means that \coqatoo\ }
+\end{itemize}
+Since Coscoy et al. generate natural-language versions from Coq's proof-terms, their approach work  to generate natural-language versions. This means that they can generate a natural-language version of any proof. While \coqatoo\ 
+
+\paragraph{Advantages}
+\begin{itemize}
+  \item{The order and structure of the proof is maintained.}
+  \item{The size of the proof remains reasonable (i.e., one or two sentence per tactic).}
+\end{itemize}
+
 \section{Future Work}
 Coqatoo is only a proof-of-concept for the moment. As such, there remains much to be done before it can be of real use. 
 
@@ -168,7 +185,8 @@ In regards to automation, Coqatoo only supports the \lstinline{auto} tactic: if 
 
 \paragraph{Integration with development environments} Once it is sufficiently developed, we plan on integrating our utility in modern Coq development environments such as CoqIDE and ProofGeneral.
 
-\newpage
+\paragraph{Add a LaTeX output mode} 
+We plan on adding a LaTeX output mode so that the generated proofs can be easily inserted into LaTeX documents (.e.g, a paper).
 
 %% Acknowledgments
 \begin{acks}
