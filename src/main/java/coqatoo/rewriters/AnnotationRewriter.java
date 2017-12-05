@@ -79,7 +79,11 @@ public class AnnotationRewriter implements Rewriter {
                     if (indexOfLastImplication != -1) {
                         textVersion += indentation;
                         textVersion += "(* ";
-                        textVersion += String.format(rewritingBundle.getString("apply"), lemmaDefinition, previousOutput.getGoal().toString(), lemmaDefinition.substring(0, indexOfLastImplication));
+
+                        String[] propositionsLeftToProve = lemmaDefinition.substring(0, indexOfLastImplication).split("->");
+                        Arrays.stream(propositionsLeftToProve).map(String::trim).toArray(unused -> propositionsLeftToProve); //Removes whitespace from all elements of the array
+                        String commaSeparatedPropositionsLeftToProve = String.join(", ", propositionsLeftToProve);
+                        textVersion += String.format(rewritingBundle.getString("apply"), lemmaDefinition, previousOutput.getGoal().toString(), commaSeparatedPropositionsLeftToProve);
                         textVersion += "*) ";
                         textVersion += input.getValue()+"\n";
                     }

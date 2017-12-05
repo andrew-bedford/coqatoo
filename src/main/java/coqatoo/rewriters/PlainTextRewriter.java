@@ -78,7 +78,10 @@ public class PlainTextRewriter implements Rewriter {
                     int indexOfLastImplication = lemmaDefinition.lastIndexOf("->");
                     if (indexOfLastImplication != -1) {
                         textVersion += indentation;
-                        textVersion += String.format(rewritingBundle.getString("apply")+"\n", lemmaDefinition, previousOutput.getGoal().toString(), lemmaDefinition.substring(0, indexOfLastImplication));
+                        String[] propositionsLeftToProve = lemmaDefinition.substring(0, indexOfLastImplication).split("->");
+                        Arrays.stream(propositionsLeftToProve).map(String::trim).toArray(unused -> propositionsLeftToProve); //Removes whitespace from all elements of the array
+                        String commaSeparatedPropositionsLeftToProve = String.join(", ", propositionsLeftToProve);
+                        textVersion += String.format(rewritingBundle.getString("apply")+"\n", lemmaDefinition, previousOutput.getGoal().toString(), commaSeparatedPropositionsLeftToProve);
                     }
                     break;
                 case ASSUMPTION:
