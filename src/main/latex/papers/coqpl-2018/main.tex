@@ -115,12 +115,12 @@ For example, Listing~\ref{listing:before-intros} represents the initial state of
 These intermediary states, which contain the current assumptions and remaining goals, allow us to identify the changes caused by a tactic's execution (e.g., added/removed variables, hypotheses or subgoals).
 
 \paragraph{Step 2: Proof tree construction}
-We then build a tree representating the proof's structure. This is a necessary step for our rewriting algorithm as it allows it to determine where bullets should be inserted and when lines should be indented.
+We then build a tree representating the proof's structure (e.g., Figure~\ref{figure:proof-tree}). This is a necessary step for our rewriting algorithm as it allows it to determine where bullets should be inserted and when lines should be indented.
 
 \begin{figure}[ht]
-%  \label{figure:proof-tree}
   \includegraphics[width=0.5\columnwidth]{images/proof-tree.png}
   \caption{Proof tree of Listing~\ref{listing:input}}
+  \label{figure:proof-tree}
 \end{figure}
   
 
@@ -171,11 +171,11 @@ To illustrate our approach, consider the proof script in Listing~\ref{listing:in
 %\pagebreak
 \subsection{Comparison}
 %\todo[inline]{Complete this section}
-Compared to Coscoy et al.~\cite{DBLP:conf/tlca/CoscoyKT95,DBLP:conf/lacl/Coscoy96}, \coqatoo's approach presents a few disadvantages and advantages.
+Compared to Coscoy et al., \coqatoo's approach presents a few disadvantages and advantages.
 \paragraph{Disadvantages}
 \begin{itemize}
   \item{\coqatoo\ only works on proofs that use supported tactics, while Coscoy et al. could generate natural-language versions of any proof.}
-  \item{Since high-level proof scripts may contain facts that are not necessary for the final proof (e.g., an assertion which isn't used), \coqatoo\ has to perform additional verifications .}
+  \item{Since high-level proof scripts may contain facts that are not necessary for the final proof (e.g., an assertion which isn't used), \coqatoo\ has to perform additional verifications to ensure that unecessary information is not included in the generated text.}
 \end{itemize}
 
 \paragraph{Advantages}
