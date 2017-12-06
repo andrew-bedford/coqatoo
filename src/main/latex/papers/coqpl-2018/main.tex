@@ -1,7 +1,9 @@
 %% For double-blind review submission, w/o CCS and ACM Reference (max submission space)
 \documentclass[sigplan,screen,9pt]{acmart}
 \settopmatter{printfolios=true,printccs=false,printacmref=false}
-  
+\renewcommand\footnotetextcopyrightpermission[1]{} % removes footnote with conference information in first column
+
+
 %% For double-blind review submission, w/ CCS and ACM Reference
 %\documentclass[sigplan,review,anonymous]{acmart}\settopmatter{printfolios=true}
 %% For single-blind review submission, w/o CCS and ACM Reference (max submission space)
@@ -82,7 +84,7 @@
 \maketitle
 
 \section{Introduction}
-Due to their numerous advantages, formal proofs and proof assistants, such as Coq, are becoming increasingly popular. One disadvantage of using proof assistants is that the resulting proofs can sometimes be hard to read and understand, particularly for less-experienced users. In an attempt to address this issue, Coscoy et al.~\cite{DBLP:conf/tlca/CoscoyKT95} developed in 1995 an algorithm capable of generating natural language proofs from Coq's proof-terms (i.e., calculus of inductive construction $\lambda$-terms) and implemented their approach in two development environments: CtCoq~\cite{CtCoq,bertot1999ctcoq} and its successor Pcoq~\cite{Pcoq,amerkad2001mathematics}. Unfortunately, these development environments are no longer available or maintained; Pcoq's last version dates from 2003 and requires Coq 7.4.
+Due to their numerous advantages, formal proofs and proof assistants, such as Coq, are becoming increasingly popular. However, one disadvantage of using proof assistants is that the resulting proofs can sometimes be hard to read and understand, particularly for less-experienced users. In an attempt to address this issue, Coscoy et al.~\cite{DBLP:conf/tlca/CoscoyKT95} developed in 1995 an algorithm capable of generating natural language proofs from Coq proof-terms (i.e., calculus of inductive construction $\lambda$-terms) and implemented their approach in two development environments: CtCoq~\cite{CtCoq,bertot1999ctcoq} and its successor Pcoq~\cite{Pcoq,amerkad2001mathematics}. Unfortunately, these development environments are no longer available or maintained; Pcoq's last version dates from 2003 and requires Coq 7.4.
 
 In order to bring this useful feature to modern development environments, we have implemented our own rewriting algorithm: Coqatoo.
 
@@ -102,7 +104,7 @@ For example, Listing~\ref{listing:before-intros} represents the initial state of
   ============================
   forall P Q R : Prop, (P /\ Q -> R) <-> (P -> Q -> R)
 \end{lstlisting}
-\pagebreak
+%\pagebreak
 \begin{lstlisting}[label=listing:after-intros,captionpos=b,caption={State after executing the first intros tactic}]
   1 subgoal
   
@@ -110,10 +112,18 @@ For example, Listing~\ref{listing:before-intros} represents the initial state of
   ============================
   (P /\ Q -> R) <-> (P -> Q -> R)
 \end{lstlisting}
-These intermediary states, which contains the current assumptions and remaining goals, allow us to identify the changes caused by the execution of a tactic (e.g., added/removed variables, hypotheses or subgoals).
+These intermediary states, which contain the current assumptions and remaining goals, allow us to identify the changes caused by a tactic's execution (e.g., added/removed variables, hypotheses or subgoals).
 
-\paragraph{Step 2: Proof Tree Construction}
+\paragraph{Step 2: Proof tree construction}
 We then build a tree representating the proof's structure. This is a necessary step for our rewriting algorithm as it allows it to determine where bullets should be inserted and when lines should be indented.
+
+\begin{figure}[ht]
+%  \label{figure:proof-tree}
+  \includegraphics[width=0.5\columnwidth]{images/proof-tree.png}
+  \caption{Proof tree of Listing~\ref{listing:input}}
+\end{figure}
+  
+
 
 \paragraph{Step 3: Tactic-based rewriting}
 Finally, we generate the actual final natural language version of the proof using simple rewriting rules. Each supported tactic has its own set of rules. For example, for the \lstinline{intros} tactic we first determine the types of the objects that are introduced. If they are variables, then we produce a sentence of the form \lstinline{"Assume that ... are arbitrary objects of type ..."}. If they are hypotheses, then we instead produce a sentence of the form \lstinline{"Suppose that ... are true"}. Finally, we insert a sentence indicating what is left to prove: \lstinline{"Let us show that ..."}. 
@@ -158,20 +168,19 @@ To illustrate our approach, consider the proof script in Listing~\ref{listing:in
 \end{figure*}
 
 
-\pagebreak
-\section{Comparison}
-\todo[inline]{Complete this section}
-Compared to Coscoy et al.~\cite{DBLP:conf/tlca/CoscoyKT95,DBLP:conf/lacl/Coscoy96}, the approach used in \coqatoo\ presents a few disadvantages and advantages.
+%\pagebreak
+\subsection{Comparison}
+%\todo[inline]{Complete this section}
+Compared to Coscoy et al.~\cite{DBLP:conf/tlca/CoscoyKT95,DBLP:conf/lacl/Coscoy96}, \coqatoo's approach presents a few disadvantages and advantages.
 \paragraph{Disadvantages}
 \begin{itemize}
-  \item{The high-level proof script may contain facts that are not necessary for the final proof (e.g., an assertion which isn't used).}
-  \item{The set of tactics may change over time, which means that \coqatoo\ }
+  \item{\coqatoo\ only works on proofs that use supported tactics, while Coscoy et al. could generate natural-language versions of any proof.}
+  \item{Since high-level proof scripts may contain facts that are not necessary for the final proof (e.g., an assertion which isn't used), \coqatoo\ has to perform additional verifications .}
 \end{itemize}
-Since Coscoy et al. generate natural-language versions from Coq's proof-terms, their approach work  to generate natural-language versions. This means that they can generate a natural-language version of any proof. While \coqatoo\ 
 
 \paragraph{Advantages}
 \begin{itemize}
-  \item{The order and structure of the proof is maintained.}
+  \item{The order and structure of the user's original proof script is maintained; this is not necessarily the case in Coscoy et al.}
   \item{The size of the proof remains reasonable (i.e., one or two sentence per tactic).}
 \end{itemize}
 
