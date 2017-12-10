@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="da278831-57d9-4671-ba0f-08da0f7f96a3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/latex/paper/main.pdf" afterPath="$PROJECT_DIR$/src/main/latex/paper/main.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/RewritingBundle_en.properties" afterPath="$PROJECT_DIR$/src/main/java/RewritingBundle_en.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/RewritingBundle_fr.properties" afterPath="$PROJECT_DIR$/src/main/java/RewritingBundle_fr.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/coqatoo/rewriters/AnnotationRewriter.java" afterPath="$PROJECT_DIR$/src/main/java/coqatoo/rewriters/AnnotationRewriter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/coqatoo/rewriters/PlainTextRewriter.java" afterPath="$PROJECT_DIR$/src/main/java/coqatoo/rewriters/PlainTextRewriter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/latex/paper/main.tex" afterPath="$PROJECT_DIR$/src/main/latex/paper/main.tex" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,7 +20,7 @@
       <file leaf-file-name="PlainTextRewriter.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/rewriters/PlainTextRewriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
+            <state relative-caret-position="17">
               <caret line="83" column="185" lean-forward="false" selection-start-line="83" selection-start-column="185" selection-end-line="83" selection-end-column="185" />
               <folding />
             </state>
@@ -37,7 +30,7 @@
       <file leaf-file-name="Assumption.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/coq/Assumption.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
+            <state relative-caret-position="544">
               <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
               <folding />
             </state>
@@ -47,8 +40,8 @@
       <file leaf-file-name="AnnotationRewriter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/rewriters/AnnotationRewriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="84" column="114" lean-forward="true" selection-start-line="82" selection-start-column="24" selection-end-line="84" selection-end-column="114" />
+            <state relative-caret-position="1377">
+              <caret line="84" column="114" lean-forward="false" selection-start-line="82" selection-start-column="24" selection-end-line="84" selection-end-column="114" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -88,34 +81,34 @@
       </file>
       <file leaf-file-name="RewritingBundle_en.properties" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/RewritingBundle_en.properties">
-          <provider editor-type-id="ResourceBundle">
-            <state />
-          </provider>
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="63" lean-forward="false" selection-start-line="0" selection-start-column="63" selection-end-line="0" selection-end-column="63" />
               <folding />
             </state>
           </provider>
+          <provider editor-type-id="ResourceBundle">
+            <state />
+          </provider>
         </entry>
       </file>
       <file leaf-file-name="RewritingBundle_fr.properties" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/RewritingBundle_fr.properties">
-          <provider editor-type-id="ResourceBundle">
-            <state />
-          </provider>
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="79" lean-forward="false" selection-start-line="0" selection-start-column="79" selection-end-line="0" selection-end-column="79" />
               <folding />
             </state>
           </provider>
+          <provider editor-type-id="ResourceBundle">
+            <state />
+          </provider>
         </entry>
       </file>
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="172">
+            <state relative-caret-position="1003">
               <caret line="65" column="48" lean-forward="false" selection-start-line="65" selection-start-column="48" selection-end-line="65" selection-end-column="48" />
               <folding />
             </state>
@@ -126,7 +119,7 @@
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="527">
+              <first_editor relative-caret-position="459">
                 <caret line="27" column="25" lean-forward="false" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="31" />
                 <folding />
               </first_editor>
@@ -227,9 +220,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
       <pane id="Scratches" />
       <pane id="PackagesPane" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -490,13 +483,12 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32979852" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32979852" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32979852" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -512,6 +504,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32979852" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296875" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32979852" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -772,13 +765,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/test.v">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="4" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/test.v" />
     <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/rewriters/Rewriter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
@@ -830,7 +817,7 @@
       </provider>
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="527">
+          <first_editor relative-caret-position="459">
             <caret line="27" column="25" lean-forward="false" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="31" />
             <folding />
           </first_editor>
@@ -842,7 +829,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -872,7 +858,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/coq/Assumption.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
+        <state relative-caret-position="544">
           <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
           <folding />
         </state>
@@ -880,7 +866,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
+        <state relative-caret-position="1003">
           <caret line="65" column="48" lean-forward="false" selection-start-line="65" selection-start-column="48" selection-end-line="65" selection-end-column="48" />
           <folding />
         </state>
@@ -910,8 +896,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/rewriters/AnnotationRewriter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="84" column="114" lean-forward="true" selection-start-line="82" selection-start-column="24" selection-end-line="84" selection-end-column="114" />
+        <state relative-caret-position="1377">
+          <caret line="84" column="114" lean-forward="false" selection-start-line="82" selection-start-column="24" selection-end-line="84" selection-end-column="114" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -920,7 +906,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/rewriters/PlainTextRewriter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
+        <state relative-caret-position="17">
           <caret line="83" column="185" lean-forward="false" selection-start-line="83" selection-start-column="185" selection-end-line="83" selection-end-column="185" />
           <folding />
         </state>

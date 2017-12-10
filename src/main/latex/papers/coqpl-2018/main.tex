@@ -16,7 +16,7 @@
 %% Conference information
 %% Supplied to authors by publisher for camera-ready submission;
 %% use defaults for review submission.
-\acmConference[CoqPL 2018]{International Workshop on Coq for Programming Languages}{January 08--13, 2018}{Los Angeles, CA, USA}
+\acmConference[CoqPL 2018]{International Workshop on Coq for Programming Languages}{January 13, 2018}{Los Angeles, CA, USA}
 %\acmYear{2017}
 %\acmISBN{} % \acmISBN{978-x-xxxx-xxxx-x/YY/MM}
 %\acmDOI{} % \acmDOI{10.1145/nnnnnnn.nnnnnnn}
@@ -69,7 +69,7 @@
 \author{Andrew Bedford}
 \orcid{0000-0003-3101-4272}             %% \orcid is optional
 \affiliation{
-  \institution{Université Laval}            %% \institution is required
+  \institution{Laval University}            %% \institution is required
   \state{Quebec}
   \country{Canada}                    %% \country is recommended
 }
@@ -171,24 +171,25 @@ To illustrate our approach, consider the proof script in Listing~\ref{listing:in
 %\pagebreak
 \subsection{Comparison}
 %\todo[inline]{Complete this section}
-Compared to Coscoy et al., \coqatoo's approach presents a few disadvantages and advantages.
+Compared to Coscoy et al., our approach presents a few disadvantages and advantages.
 \paragraph{Disadvantages}
 \begin{itemize}
-  \item{\coqatoo\ only works on proofs that use supported tactics, while Coscoy et al. could generate natural-language versions of any proof.}
-  \item{Since high-level proof scripts may contain facts that are not necessary for the final proof (e.g., an assertion which isn't used), \coqatoo\ has to perform additional verifications to ensure that unecessary information is not included in the generated text.}
+  \item{It only works on proofs whose tactics are supported (see Section~\ref{section:future-work}), while the approach of Coscoy et al. worked on any proof.}
+  \item{It may require additional verifications to ensure that unecessary information (e.g., an assertion which isn't used) is not included in the generated proof.}
 \end{itemize}
 
 \paragraph{Advantages}
 \begin{itemize}
-  \item{The order and structure of the user's original proof script is maintained; this is not necessarily the case in Coscoy et al.}
-  \item{The size of the proof remains reasonable (i.e., one or two sentence per tactic).}
+  \item{It enables us to more easily control the size and verbosity of the generated proof (one or two sentences per tactic by default).}
+  \item{It maintains the order and structure of the user's original proof script; this is not necessarily the case in Coscoy et al. }
+  
 \end{itemize}
 
-\section{Future Work}
+\section{Future Work}\label{section:future-work}
 Coqatoo is only a proof-of-concept for the moment. As such, there remains much to be done before it can be of real use. 
 
 \paragraph{Increase the number of supported tactics}
-The number of tactics that it supports is limited to only a handful (see Coqatoo's GitHub repository~\cite{Coqatoo} for more details). We expect that, with the help of the community, we will be able to support enough tactics to generate natural language versions of most proofs in the \emph{Software Foundations} book.
+The number of tactics that it supports is limited to only a handful (see Coqatoo's GitHub repository~\cite{Coqatoo} for more details). We expect that, with the help of the community, we will be able to support enough tactics to generate natural language versions of most proofs in \emph{Software Foundations}~\cite{pierce2010software}.
 
 \paragraph{Add partial support for automation}
 In regards to automation, Coqatoo only supports the \lstinline{auto} tactic: if the \lstinline{auto} tactic is present within the script, it is replaced with \lstinline{info_auto} in order to obtain the sequence of tactics that is used by \lstinline{auto}. We plan on adding partial support for automation in the future, starting with the chaining operator "\lstinline{;}". To support this operator we will use our tree representation of proofs to "distribute" tactics on branches.
