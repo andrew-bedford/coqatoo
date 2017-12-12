@@ -49,6 +49,7 @@ It can also generate a tree representation of the proof's structure (using the o
 For the moment, Coqatoo makes a few assumptions about the proof:
  - The .v file given as input contains only the proof that we want to convert.
  - Proofs do not use automation (e.g., inline Ltac or the ; operator).
+ - Coq's bin path is in your environment
 
 ### Supported Tactics
  - apply
