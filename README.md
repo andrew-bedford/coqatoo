@@ -1,14 +1,13 @@
 # Coqatoo
-Coqatoo (coq-to) is a command-line utility that generates natural language versions of Coq proofs. Coqatoo was primarily designed for educational purposes. That is, to help Coq newcomers better understand Coq proofs and how they relate to classical proofs.
-
-For example, from the following poorly-structured lemma:
+Due to their numerous advantages, formal proofs and proof assistants, such as Coq, are becoming increasingly popular. However, one disadvantage of using proof assistants is that the resulting proofs can be sometimes hard to understand (e.g., proof below), particularly for less-experienced users. 
 ```ML
 Lemma conj_imp_equiv : forall P Q R:Prop, ((P /\ Q -> R) <-> (P -> Q -> R)).
 Proof.
   intros. split. intros H HP HQ. apply H. apply conj. assumption. assumption. intros H HPQ. inversion HPQ. apply H. assumption. assumption.
 Qed.
 ```
-Coqatoo produces the following output:
+
+Coqatoo (coq-to) attempts to address this issue by generating natural language versions of Coq proofs. For example, from the previous proof, Coqatoo produces the following output (using the option `--mode annotated`):
 ```ML
 Lemma conj_imp_equiv : forall P Q R:Prop, ((P /\ Q -> R) <-> (P -> Q -> R)).
 Proof.
@@ -25,7 +24,7 @@ Proof.
   - (* Case (P -> Q -> R) -> P /\ Q -> R: *)
     (* Suppose that P /\ Q and P -> Q -> R are true. Let us show that R is true. *) intros H HPQ.
     (* By inversion on P /\ Q, we know that P, Q are also true. *) inversion HPQ.
-    (* By our hypothesis P -> Q -> R, we know that R is true if P -> Q  is true. *) apply H.
+    (* By our hypothesis P -> Q -> R, we know that R is true if P and Q is true. *) apply H.
     -- (* Case P: *)
        (* True, because it is one of our assumptions. *) assumption.
     -- (* Case Q: *)
@@ -33,7 +32,7 @@ Proof.
 Qed.
 ```
 
-It can also be used to generate a tree representation of the proof's structure.
+It can also generate a tree representation of the proof's structure (using the option `--mode dot`).
 <img src="https://i.imgur.com/3vwBaw0.png" width="50%" />
 
 **Note:** Coqatoo is only a proof-of-concept for the moment. There remains much to be done before it can be of real use. 

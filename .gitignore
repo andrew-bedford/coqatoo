@@ -33,3 +33,4 @@ out/*
 *.fdb_latexmk
 *.bbl
 *.blg
+*.xml___jb_tmp___

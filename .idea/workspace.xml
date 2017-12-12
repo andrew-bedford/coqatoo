@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="da278831-57d9-4671-ba0f-08da0f7f96a3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="da278831-57d9-4671-ba0f-08da0f7f96a3" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,12 +15,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="PlainTextRewriter.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="PlainTextRewriter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/rewriters/PlainTextRewriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="83" column="185" lean-forward="false" selection-start-line="83" selection-start-column="185" selection-end-line="83" selection-end-column="185" />
-              <folding />
+            <state relative-caret-position="465">
+              <caret line="86" column="32" lean-forward="false" selection-start-line="86" selection-start-column="32" selection-end-line="86" selection-end-column="32" />
+              <folding>
+                <marker date="1512576564256" expanded="true" signature="9258:9735" ph="{...}" />
+                <marker date="1512576564256" expanded="true" signature="9796:9950" ph="{...}" />
+                <marker date="1512576564256" expanded="true" signature="10004:13139" ph="{...}" />
+                <marker date="1512576564256" expanded="true" signature="10831:10892" ph="//..." />
+                <marker date="1512576564256" expanded="true" signature="13180:15919" ph="{...}" />
+                <marker date="1512576564256" expanded="true" signature="15977:16335" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -40,21 +45,17 @@
       <file leaf-file-name="AnnotationRewriter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/rewriters/AnnotationRewriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1377">
-              <caret line="84" column="114" lean-forward="false" selection-start-line="82" selection-start-column="24" selection-end-line="84" selection-end-column="114" />
+            <state relative-caret-position="1428">
+              <caret line="88" column="21" lean-forward="false" selection-start-line="86" selection-start-column="24" selection-end-line="88" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <marker date="1512576564249" expanded="true" signature="10307:10784" ph="{...}" />
+                <marker date="1512576564249" expanded="true" signature="10845:11002" ph="{...}" />
+                <marker date="1512576564249" expanded="true" signature="11056:14191" ph="{...}" />
+                <marker date="1512576564249" expanded="true" signature="11883:11944" ph="//..." />
+                <marker date="1512576564249" expanded="true" signature="14232:16971" ph="{...}" />
+                <marker date="1512576564249" expanded="true" signature="17029:17387" ph="{...}" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="conj_imp_equiv.v" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/resources/conj_imp_equiv.v">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="19" lean-forward="false" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="19" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -83,7 +84,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/RewritingBundle_en.properties">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="63" lean-forward="false" selection-start-line="0" selection-start-column="63" selection-end-line="0" selection-end-column="63" />
+              <caret line="0" column="64" lean-forward="false" selection-start-line="0" selection-start-column="64" selection-end-line="0" selection-end-column="64" />
               <folding />
             </state>
           </provider>
@@ -96,7 +97,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/RewritingBundle_fr.properties">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="79" lean-forward="false" selection-start-line="0" selection-start-column="79" selection-end-line="0" selection-end-column="79" />
+              <caret line="0" column="80" lean-forward="false" selection-start-line="0" selection-start-column="80" selection-end-line="0" selection-end-column="80" />
               <folding />
             </state>
           </provider>
@@ -115,15 +116,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="459">
-                <caret line="27" column="25" lean-forward="false" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="31" />
+              <first_editor relative-caret-position="442">
+                <caret line="26" column="71" lean-forward="true" selection-start-line="26" selection-start-column="71" selection-end-line="26" selection-end-column="71" />
                 <folding />
               </first_editor>
               <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.tex" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/latex/papers/coqpl-2018/main.tex">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="544">
+              <caret line="86" column="286" lean-forward="true" selection-start-line="86" selection-start-column="286" selection-end-line="86" selection-end-column="286" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -220,9 +231,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -291,6 +299,30 @@
               <item name="coqatoo" type="b2602c69:ProjectViewProjectNode" />
               <item name="coqatoo" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="latex" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="coqatoo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="coqatoo" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="latex" type="462c0819:PsiDirectoryNode" />
+              <item name="papers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="coqatoo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="coqatoo" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="latex" type="462c0819:PsiDirectoryNode" />
+              <item name="papers" type="462c0819:PsiDirectoryNode" />
+              <item name="coqpl-2018" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="coqatoo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="coqatoo" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -305,6 +337,9 @@
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -809,19 +844,19 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="442">
+            <caret line="26" column="71" lean-forward="true" selection-start-line="26" selection-start-column="71" selection-end-line="26" selection-end-column="71" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
       <provider editor-type-id="text-editor">
         <state relative-caret-position="765">
           <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="459">
-            <caret line="27" column="25" lean-forward="false" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="31" />
-            <folding />
-          </first_editor>
-          <second_editor />
         </state>
       </provider>
     </entry>
@@ -873,42 +908,55 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/RewritingBundle_en.properties">
-      <provider editor-type-id="ResourceBundle">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="63" lean-forward="false" selection-start-line="0" selection-start-column="63" selection-end-line="0" selection-end-column="63" />
+          <caret line="0" column="64" lean-forward="false" selection-start-line="0" selection-start-column="64" selection-end-line="0" selection-end-column="64" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="ResourceBundle">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/RewritingBundle_fr.properties">
-      <provider editor-type-id="ResourceBundle">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="79" lean-forward="false" selection-start-line="0" selection-start-column="79" selection-end-line="0" selection-end-column="79" />
+          <caret line="0" column="80" lean-forward="false" selection-start-line="0" selection-start-column="80" selection-end-line="0" selection-end-column="80" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="ResourceBundle">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/rewriters/AnnotationRewriter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1377">
-          <caret line="84" column="114" lean-forward="false" selection-start-line="82" selection-start-column="24" selection-end-line="84" selection-end-column="114" />
+        <state relative-caret-position="1428">
+          <caret line="88" column="21" lean-forward="false" selection-start-line="86" selection-start-column="24" selection-end-line="88" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
+            <marker date="1512576564249" expanded="true" signature="10307:10784" ph="{...}" />
+            <marker date="1512576564249" expanded="true" signature="10845:11002" ph="{...}" />
+            <marker date="1512576564249" expanded="true" signature="11056:14191" ph="{...}" />
+            <marker date="1512576564249" expanded="true" signature="11883:11944" ph="//..." />
+            <marker date="1512576564249" expanded="true" signature="14232:16971" ph="{...}" />
+            <marker date="1512576564249" expanded="true" signature="17029:17387" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/coqatoo/rewriters/PlainTextRewriter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="83" column="185" lean-forward="false" selection-start-line="83" selection-start-column="185" selection-end-line="83" selection-end-column="185" />
-          <folding />
+        <state relative-caret-position="465">
+          <caret line="86" column="32" lean-forward="false" selection-start-line="86" selection-start-column="32" selection-end-line="86" selection-end-column="32" />
+          <folding>
+            <marker date="1512576564256" expanded="true" signature="9258:9735" ph="{...}" />
+            <marker date="1512576564256" expanded="true" signature="9796:9950" ph="{...}" />
+            <marker date="1512576564256" expanded="true" signature="10004:13139" ph="{...}" />
+            <marker date="1512576564256" expanded="true" signature="10831:10892" ph="//..." />
+            <marker date="1512576564256" expanded="true" signature="13180:15919" ph="{...}" />
+            <marker date="1512576564256" expanded="true" signature="15977:16335" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
