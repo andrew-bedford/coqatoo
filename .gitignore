@@ -34,3 +34,8 @@ out/*
 *.bbl
 *.blg
 *.xml___jb_tmp___
+*.xdv
+*.nav
+*.snm
+*.toc
+*.vrb

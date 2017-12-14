@@ -1,0 +1,41 @@
+\newcommand{\coqatoo}{Coqatoo}
+
+
+\definecolor{grey}{rgb}{0.8,0.8,0.8}
+\definecolor{code-background}{RGB}{255, 248, 220}
+\definecolor{code-comment}{RGB}{196, 42, 42}
+\definecolor{code-linenumber}{rgb}{0.5,0.5,0.5}
+\definecolor{code-keyword}{RGB}{148, 0, 211}
+\lstset{
+   backgroundcolor=\color{code-background},   	% choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+   basicstyle=\tt\scriptsize,       			% the size of the fonts that are used for the code
+   breakatwhitespace=false,         			% sets if automatic breaks should only happen at whitespace
+   breaklines=true,                 			% sets automatic line breaking
+   captionpos=none,                    			% sets the caption-position to bottom
+   commentstyle=\color{code-comment},   		% comment style
+   deletekeywords={...},            			% if you want to delete keywords from the given language
+   escapeinside={\%*}{*)},          			% if you want to add LaTeX within your code
+   extendedchars=true,              			% lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+   frame=tb,
+   framerule=0pt,
+   framextopmargin=0pt,
+   framexbottommargin=0pt,
+   keepspaces=true,                 			% keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+   keywordstyle=\color{code-keyword},       						% keyword style
+   language=ML,                 				% the language of the code
+   morekeywords={Lemma, Proof, Qed},            % if you want to add more keywords to the set
+   numbers=none,                    			% where to put the line-numbers; possible values are (none, left, right)
+   numbersep=5pt,	                   			% how far the line-numbers are from the code
+   numberstyle=\tiny\color{code-linenumber}, 	% the style that is used for the line-numbers
+   rulecolor=\color{black}, 	        		% if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+   showspaces=false,            	    		% show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+   showstringspaces=false,          			% underline spaces within strings only
+   showtabs=false,                  			% show tabs within strings adding particular underscores
+   stepnumber=1,                    			% the step between two line-numbers. If it's 1, each line will be numbered
+   stringstyle=\color{black},            		% string literal style
+   tabsize=2,                       			% sets default tabsize to 2 spaces
+   gobble=0,									% number of characters to remove at the beginning of each line
+   mathescape=true,								% to render math symbols in the listing (between $)
+   title=\lstname,                   			% show the filename of files included with \lstinputlisting; also try caption instead of title
+   belowcaptionskip = 0cm
+}

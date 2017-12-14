@@ -1,0 +1,129 @@
+\documentclass[pdf]{beamer}
+\usepackage{listings}
+\input{definitions.tex}
+
+\usetheme{Luebeck} %default, AnnArbor, Antibes, Bergen, Berkeley, Berlin, Boadilla, CambridgeUS, Copenhagen, Darmstadt, Dresden, EastLansing, Frankfurt, Goettingen, Hannover, Ilmenau, JuanLesPins, Luebeck, Madrid, Malmoe, Marburg, Montpellier, PaloAlto, Pittsburgh, Rochester, Singapore, Szeged, Warsaw
+
+\usecolortheme{beaver} %default, albatross, beaver, beetle, crane, dolphin, dove, fly, lily, orchid, rose, seagull, seahorse, whale, wolverine
+%\useinnertheme{circle} %circles, rectangles, rounded, inmargin 
+%\useoutertheme{tree} %infolines, smoothbars, sidebar, split, tree 
+
+\title[Coqatoo]{\includegraphics[width=50pt]{images/logo.png}\\Coqatoo}
+\subtitle{Generating Natural Language Versions of Coq Proofs}
+\author{Andrew Bedford}
+\institute{Laval University}
+\date{CoqPL 2018}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}{Motivation}
+    \begin{itemize}
+        \item Proofs can sometimes be hard to understand, particularly for less-experienced users
+        \item CtCoq and its successor Pcoq are no longer available
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Example}{Input}
+    \begin{lstlisting}[label=listing:input]
+    Lemma conj_imp_equiv : forall P Q R:Prop, 
+        (P /\ Q -> R) <-> (P -> Q -> R).
+    Proof.
+        intros. split. intros H HP HQ. apply H. apply conj. assumption. assumption. intros H HPQ. inversion HPQ. apply H. assumption. assumption.
+    Qed.
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    Coqatoo’s rewriting algorithm can be decomposed in three steps:
+    \begin{enumerate}
+        \item Information extraction
+        \item Proof tree construction
+        \item Tactic-based rewriting
+    \end{enumerate}
+\end{frame}
+
+
+\begin{frame}[fragile]{Step 1: Information extraction}
+    Coqatoo captures the intermediary proof states
+    \begin{lstlisting}[label=listing:before-intros, captionpos=b,caption={State before executing the first intros tactic}]
+    1 subgoal
+
+    ============================
+    forall P Q R : Prop, (P /\ Q -> R) <-> (P -> Q -> R)
+    \end{lstlisting}
+
+    \begin{lstlisting}[label=listing:after-intros,captionpos=b,caption={State after executing the first intros tactic}]
+    1 subgoal
+
+    P, Q, R : Prop
+    ============================
+    (P /\ Q -> R) <-> (P -> Q -> R)
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}{Step 2: Proof tree construction}
+    \vspace{-13pt}\center\includegraphics[height=0.85\textheight]{images/proof-tree.png}
+\end{frame}
+
+\begin{frame}{Step 3: Tactic-based rewriting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Example}{Output}
+\begin{lstlisting}[label=listing:output, captionpos=b, caption={Output in annotation mode},basicstyle=\tt\tiny]
+Lemma conj_imp_equiv : forall P Q R:Prop, ((P /\ Q -> R) <-> (P -> Q -> R)).
+Proof.
+  (* Assume that P, Q and R are arbitrary objects of type Prop. Let us show that (P /\ Q -> R) <-> (P -> Q -> R) is true. *) intros.
+  split.
+  - (* Case (P /\ Q -> R) -> P -> Q -> R: *) 
+    (* Suppose that P, Q and P /\ Q -> R are true. Let us show that R is true. *) intros H HP HQ.
+    (* By our hypothesis P /\ Q -> R, we know that R is true if P /\ Q  is true. *) apply H.
+    apply conj.
+    -- (* Case P: *)
+       (* True, because it is one of our assumptions. *) assumption.
+    -- (* Case Q: *)
+       (* True, because it is one of our assumptions. *) assumption.
+  - (* Case (P -> Q -> R) -> P /\ Q -> R: *)
+    (* Suppose that P /\ Q and P -> Q -> R are true. Let us show that R is true. *) intros H HPQ.
+    (* By inversion on P /\ Q, we know that P, Q are also true. *) inversion HPQ.
+    (* By our hypothesis P -> Q -> R, we know that R is true if P and Q are true. *) apply H.
+    -- (* Case P: *)
+       (* True, because it is one of our assumptions. *) assumption.
+    -- (* Case Q: *)
+       (* True, because it is one of our assumptions. *) assumption.
+Qed.
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \Huge \center Demonstration
+\end{frame}
+
+\begin{frame}{Comparison}{Disadvantages}
+    \begin{itemize}
+        \item{It only works on proofs whose tactics are supported, while the approach of Coscoy et al. worked on any proof.}
+        \item{It may require additional verifications to ensure that unecessary information (e.g., an assertion which isn't used) is not included in the generated proof.}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Comparison}{Advantages}
+    \begin{itemize}
+        \item{It enables us to more easily control the size and verbosity of the generated proof (one or two sentences per tactic by default).}
+        \item{It maintains the order and structure of the user's original proof script; this is not necessarily the case in Coscoy et al. }
+      \end{itemize}
+\end{frame}
+
+\begin{frame}{Future work}
+    \begin{itemize}
+        \item Increase the number of supported tactics
+        \item Add partial support for automation
+        \item Integration with existing development environments
+        \item Add a LaTeX output mode
+    \end{itemize}
+\end{frame}
+
+\end{document}
