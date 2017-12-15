@@ -68,4 +68,11 @@ public class Coqtop {
     }
 
 
+    public void stop() {
+        if (_process.isAlive()) {
+            _process.destroy();
+        }
+    }
+
+
 }

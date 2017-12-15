@@ -352,6 +352,7 @@ public class PlainTextRewriter implements Rewriter {
         if (!_scriptWithUnfoldedAutos.equals(_script)) {
             Coqtop coqtop = new Coqtop();
             _inputsOutputs = coqtop.execute(_scriptWithUnfoldedAutos);
+            coqtop.stop();
         }
     }
 }
