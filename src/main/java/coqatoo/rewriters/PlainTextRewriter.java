@@ -2,6 +2,8 @@ package coqatoo.rewriters;
 
 import coqatoo.Main;
 import coqatoo.coq.*;
+import helpers.SetHelper;
+
 import java.util.*;
 
 public class PlainTextRewriter implements Rewriter {
@@ -90,7 +92,7 @@ public class PlainTextRewriter implements Rewriter {
                 case BULLET:
                     indentation = updatedIndentationLevel(input);
                     textVersion += indentation;
-                    textVersion += String.format(rewritingBundle.getString("bullet")+"\n", input.toString(), output.getGoal().toString());
+                    textVersion += String.format(rewritingBundle.getString("bullet")+"\n", input.toString(), "<["+output.getGoal().toString()+"]>");
                     indentation += "  ";
                     break;
                 case DESTRUCT:
@@ -102,28 +104,49 @@ public class PlainTextRewriter implements Rewriter {
                 case INTROS:
                     textVersion += indentation;
 
+                    String variables = "";
                     String variableNames = "";
                     String variablesTypes = "";
                     String hypotheses = "";
+                    Map<String, Set<String>> typesToVariables = new HashMap<>();
+
                     for (Assumption a : assumptionsAddedAfterTactic) {
-                        if (!a.typeContainsSpaces()) {
-                            variableNames += a.getName() + ", ";
-                            variablesTypes += a.getType() + ", ";
+                        // To choose whether the rule intros.given or intros.suppose should be used, we need to determine the type of the current assumption.
+                        Boolean assumptionTypeIsAlsoVariableName = false;
+                        for (Assumption b : SetHelper.union(assumptionsBeforeTactic, assumptionsAddedAfterTactic)) {
+                            if (a.getType().equals(b.getName())) {
+                                assumptionTypeIsAlsoVariableName = true;
+                            }
+                        }
+
+                        if (!a.typeContainsSpaces() && !assumptionTypeIsAlsoVariableName) {
+                            // Need to use intros.given
+                            Set<String> variablesWithSameType = typesToVariables.getOrDefault(a.getType(), new HashSet<String>());
+                            variablesWithSameType.add(a.getName());
+                            typesToVariables.put(a.getType(), variablesWithSameType);
                         }
                         else {
-                            hypotheses += String.format("[%s], ", a.getType());
+                            // Need to use intros.suppose
+                            hypotheses += String.format("<[%s]>, ", a.getType());
                         }
                     }
-                    if (!variableNames.isEmpty() && !variablesTypes.isEmpty()) {
-                        variableNames = variableNames.substring(0, variableNames.length() - 2);
-                        variablesTypes = variablesTypes.substring(0, variablesTypes.length() - 2);
-                        textVersion += String.format(rewritingBundle.getString("intros.assume"), variableNames, variablesTypes);
+
+                    for (String type : typesToVariables.keySet()) {
+                        Set<String> variablesWithSameType = typesToVariables.get(type);
+                        variables += String.format("<[%s : %s]>, ", SetHelper.toString(variablesWithSameType), type);
+
+                    }
+
+                    textVersion += "<line>";
+                    if (!variables.isEmpty()) {
+                        variables = variables.substring(0, variables.length() - 2);
+                        textVersion += String.format(rewritingBundle.getString("intros.given"), variables);
                     }
                     if (!hypotheses.isEmpty()) {
                         hypotheses = hypotheses.substring(0, hypotheses.length() - 2);
                         textVersion += String.format(rewritingBundle.getString("intros.suppose"), hypotheses);
                     }
-                    textVersion += String.format(rewritingBundle.getString("intros.goal")+"\n", output.getGoal().toString());
+                    textVersion += String.format(rewritingBundle.getString("intros.goal")+"</line>\n", "<["+output.getGoal().toString()+"]>");
                     break;
                 case INTUITION:
                     textVersion += indentation;

@@ -9,7 +9,9 @@
 \author{Andrew Bedford}
 \institute{Laval University}
 \date{CoqPL 2018}
-
+\expandafter\def\expandafter\insertshorttitle\expandafter{%
+\insertshorttitle\hfill%
+\insertframenumber\,/\,\inserttotalframenumber}
 \begin{document}
 
 \begin{frame}
@@ -19,7 +21,6 @@
 \begin{frame}{Motivation}
     \begin{itemize}
         \item Proofs can sometimes be hard to understand, particularly for less-experienced users
-        \item CtCoq and its successor Pcoq are no longer available
     \end{itemize}
 \end{frame}
 
@@ -34,8 +35,38 @@ Qed.
 \end{adjustbox}
 \end{frame}
 
-\begin{frame}
-    Coqatoo’s rewriting algorithm can be decomposed in three steps:
+\begin{frame}[fragile]{Previous Work}{CtCoq and PCoq}
+CtCoq and its successor Pcoq are no longer available
+\begin{adjustbox}{minipage=\linewidth,bgcolor=coqatoo-gray,trim=-3pt 5pt -3pt 5pt}            
+\begin{lstlisting}
+conj_imp_equiv = 
+fun P Q R : Prop =>
+conj (fun (H : P /\ Q -> R) (HP : P) (HQ : Q) => H (conj HP HQ))
+    (fun (H : P -> Q -> R) (HPQ : P /\ Q) =>
+    let H0 :=
+        match HPQ with
+        | conj H0 H1 => (fun (H2 : P) (H3 : Q) => H H2 H3) H0 H1
+        end
+        :
+        R in
+    H0)
+        : forall P Q R : Prop, (P /\ Q -> R) <-> (P -> Q -> R)
+\end{lstlisting}
+\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Previous Work}{Disadvantages}
+\begin{itemize}
+    \item Verbosity
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Coqatoo}
+Different approach
+\end{frame}
+
+\begin{frame}{Overview of Coqatoo}
+    Coqatoo's rewriting algorithm can be decomposed in three steps:
     \begin{enumerate}
         \item Information extraction
         \item Proof tree construction
@@ -74,15 +105,18 @@ P, Q, R : Prop
 
 \end{frame}
 
-\begin{frame}{Example}
+\begin{frame}{Example}{Output Modes}
+\end{frame}
+
+\begin{frame}{Example}{Output (--mode plain)}
 \end{frame}
 
 \begin{frame}[fragile]{Example}{Output (--mode annotated)}
 \begin{adjustbox}{minipage=\linewidth,bgcolor=coqatoo-gray,trim=-3pt 5pt -3pt 5pt}
 \begin{lstlisting}[label=listing:output]
-Lemma conj_imp_equiv : forall P Q R:Prop, ((P /\ Q -> R) <-> (P -> Q -> R)).
+Lemma conj_imp_equiv : forall P Q R:Prop, (P /\ Q -> R) <-> (P -> Q -> R).
 Proof.
-  (* Assume that P, Q and R are arbitrary objects of type Prop. Let us show that (P /\ Q -> R) <-> (P -> Q -> R) is true. *) intros.
+  (* Given any P, Q, R : Prop. Let us show that (P /\ Q -> R) <-> (P -> Q -> R) is true. *) intros.
   split.
   - (* Case (P /\ Q -> R) -> P -> Q -> R: *) 
     (* Suppose that P, Q and P /\ Q -> R are true. Let us show that R is true. *) intros H HP HQ.
@@ -105,6 +139,14 @@ Qed.
 \end{adjustbox}
 \end{frame}
 
+\begin{frame}{Example}{Output (--mode latex)}
+    \begin{lemma} (conj\_imp\_equiv) $\forall P, Q, R : Prop, (P \land Q \Rightarrow R) \Leftrightarrow (P \Rightarrow Q \Rightarrow R)$
+    \end{lemma}
+    \begin{proof}
+        Given any $P, Q, R : Prop$. Let us show that $(P \land Q \Rightarrow R) \Leftrightarrow (P \Rightarrow Q \Rightarrow R)$ is true.
+        %Must define new environements for the case and subcases
+    \end{proof}
+\end{frame}
 
 \begin{frame}
     \Huge \center Demonstration
