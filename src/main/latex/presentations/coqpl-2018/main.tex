@@ -1,7 +1,8 @@
 \documentclass[pdf]{beamer}
 \usepackage{listings}
-\input{definitions.tex}
+\usepackage{adjustbox}
 \input{theme.tex}
+\input{definitions.tex}
 
 \title[Coqatoo]{\includegraphics[width=50pt]{images/logo.png}\\Coqatoo}
 \subtitle{Generating Natural Language Versions of Coq Proofs}
@@ -23,13 +24,14 @@
 \end{frame}
 
 \begin{frame}[fragile]{Example}{Input}
-    \begin{lstlisting}[label=listing:input]
-    Lemma conj_imp_equiv : forall P Q R:Prop, 
-        (P /\ Q -> R) <-> (P -> Q -> R).
-    Proof.
-        intros. split. intros H HP HQ. apply H. apply conj. assumption. assumption. intros H HPQ. inversion HPQ. apply H. assumption. assumption.
-    Qed.
-    \end{lstlisting}
+\begin{adjustbox}{minipage=\linewidth,bgcolor=coqatoo-gray,trim=-3pt 5pt -3pt 5pt}        
+\begin{lstlisting}[label=listing:input]
+Lemma conj_imp_equiv : forall P Q R:Prop, (P /\ Q -> R) <-> (P -> Q -> R).
+Proof.
+  intros. split. intros H HP HQ. apply H. apply conj. assumption. assumption. intros H HPQ. inversion HPQ. apply H. assumption. assumption.
+Qed.
+\end{lstlisting}
+\end{adjustbox}
 \end{frame}
 
 \begin{frame}
@@ -43,21 +45,25 @@
 
 
 \begin{frame}[fragile]{Step 1: Information extraction}
-    Coqatoo captures the intermediary proof states
-    \begin{lstlisting}[label=listing:before-intros, captionpos=b,caption={State before executing the first intros tactic}]
-    1 subgoal
+Coqatoo captures the intermediary proof states
+\begin{adjustbox}{minipage=\linewidth,bgcolor=coqatoo-gray,trim=-3pt 5pt -3pt 5pt}
+\begin{lstlisting}[label=listing:before-intros]
+1 subgoal
 
-    ============================
-    forall P Q R : Prop, (P /\ Q -> R) <-> (P -> Q -> R)
-    \end{lstlisting}
+============================
+forall P Q R : Prop, (P /\ Q -> R) <-> (P -> Q -> R)
+\end{lstlisting}
+\end{adjustbox}
+~\\~\\
+\begin{adjustbox}{minipage=\linewidth,bgcolor=coqatoo-gray,trim=-3pt 5pt -3pt 5pt}
+\begin{lstlisting}[label=listing:after-intros]
+1 subgoal
 
-    \begin{lstlisting}[label=listing:after-intros,captionpos=b,caption={State after executing the first intros tactic}]
-    1 subgoal
-
-    P, Q, R : Prop
-    ============================
-    (P /\ Q -> R) <-> (P -> Q -> R)
-    \end{lstlisting}
+P, Q, R : Prop
+============================
+(P /\ Q -> R) <-> (P -> Q -> R)
+\end{lstlisting}
+\end{adjustbox}
 \end{frame}
 
 \begin{frame}{Step 2: Proof tree construction}
@@ -68,8 +74,12 @@
 
 \end{frame}
 
-\begin{frame}[fragile]{Example}{Output}
-\begin{lstlisting}[label=listing:output, captionpos=b, caption={Output in annotation mode},basicstyle=\tt\tiny]
+\begin{frame}{Example}
+\end{frame}
+
+\begin{frame}[fragile]{Example}{Output (--mode annotated)}
+\begin{adjustbox}{minipage=\linewidth,bgcolor=coqatoo-gray,trim=-3pt 5pt -3pt 5pt}
+\begin{lstlisting}[label=listing:output]
 Lemma conj_imp_equiv : forall P Q R:Prop, ((P /\ Q -> R) <-> (P -> Q -> R)).
 Proof.
   (* Assume that P, Q and R are arbitrary objects of type Prop. Let us show that (P /\ Q -> R) <-> (P -> Q -> R) is true. *) intros.
@@ -92,7 +102,9 @@ Proof.
        (* True, because it is one of our assumptions. *) assumption.
 Qed.
 \end{lstlisting}
+\end{adjustbox}
 \end{frame}
+
 
 \begin{frame}
     \Huge \center Demonstration

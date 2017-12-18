@@ -9,7 +9,7 @@ public class Input {
         _type = determineType(_value);
     }
 
-    public String getValue() { return _value; }
+    public String toString() { return _value; }
     public InputType getType() { return _type; }
 
     private InputType determineType(String value) {

@@ -2,7 +2,6 @@ package coqatoo.rewriters;
 
 import coqatoo.Main;
 import coqatoo.coq.*;
-import javafx.util.Pair;
 import java.util.*;
 
 public class PlainTextRewriter implements Rewriter {
@@ -10,13 +9,13 @@ public class PlainTextRewriter implements Rewriter {
     ResourceBundle rewritingBundle = ResourceBundle.getBundle("RewritingBundle", Main.locale);
     String _script;
     String _scriptWithUnfoldedAutos;
-    List<Pair<Input, Output>> _inputsOutputs;
+    List<InputOutput> _inputsOutputs;
 
-    private String generateScriptWithUnfoldedAutos(List<Pair<Input, Output>> inputsOutputs) {
+    private String generateScriptWithUnfoldedAutos(List<InputOutput> inputsOutputs) {
         String scriptWithUnfoldedAutos = "";
-        for(Pair<Input, Output> p : _inputsOutputs) {
-            Input i = p.getKey();
-            Output o = p.getValue();
+        for(InputOutput p : _inputsOutputs) {
+            Input i = p.getInput();
+            Output o = p.getOutput();
             if (i.getType() == InputType.AUTO) {
                 String[] tacticsUsedByAuto = o.getValue().split("\n");
                 for (String s : tacticsUsedByAuto) {
@@ -27,16 +26,16 @@ public class PlainTextRewriter implements Rewriter {
 
             }
             else {
-                scriptWithUnfoldedAutos += i.getValue() + "\n";
+                scriptWithUnfoldedAutos += i.toString() + "\n";
             }
         }
         return scriptWithUnfoldedAutos;
     }
 
     public Goal getProofGlobalGoal() {
-        for(Pair<Input, Output> p : _inputsOutputs) {
-            Input i = p.getKey();
-            Output o = p.getValue();
+        for(InputOutput p : _inputsOutputs) {
+            Input i = p.getInput();
+            Output o = p.getOutput();
             if (i.getType() == InputType.LEMMA) {
                 return o.getGoal();
             }
@@ -50,16 +49,16 @@ public class PlainTextRewriter implements Rewriter {
         String indentation = "";
 
         int i = 0;
-        for(Pair<Input, Output> p : _inputsOutputs) {
-            Input input = p.getKey();
-            Output output = p.getValue();
+        for(InputOutput p : _inputsOutputs) {
+            Input input = p.getInput();
+            Output output = p.getOutput();
             Output previousOutput = null;
             Set<Assumption> assumptionsBeforeTactic = new HashSet<>();
             Set<Assumption> assumptionsAddedAfterTactic = new HashSet<>();
             assumptionsAddedAfterTactic.addAll(output.getAssumptions());
 
             if (i != 0) {
-                previousOutput = _inputsOutputs.get(i-1).getValue();
+                previousOutput = _inputsOutputs.get(i-1).getOutput();
                 assumptionsBeforeTactic.addAll(previousOutput.getAssumptions()); //TODO Cleaner
             }
 
@@ -67,7 +66,7 @@ public class PlainTextRewriter implements Rewriter {
 
             switch (input.getType()) {
                 case APPLY:
-                    String lemmaName = input.getValue().split(" ")[1].replace(".", ""); //Obtains the "A" in "apply A."
+                    String lemmaName = input.toString().split(" ")[1].replace(".", ""); //Obtains the "A" in "apply A."
                     String lemmaDefinition = "  ";
                     for (Assumption a : assumptionsBeforeTactic) {
                         if (a.getName().equals(lemmaName)) {
@@ -91,12 +90,12 @@ public class PlainTextRewriter implements Rewriter {
                 case BULLET:
                     indentation = updatedIndentationLevel(input);
                     textVersion += indentation;
-                    textVersion += String.format(rewritingBundle.getString("bullet")+"\n", input.getValue(), output.getGoal().toString());
+                    textVersion += String.format(rewritingBundle.getString("bullet")+"\n", input.toString(), output.getGoal().toString());
                     indentation += "  ";
                     break;
                 case DESTRUCT:
                     textVersion += indentation;
-                    String destructedObject = input.getValue().substring(input.getValue().indexOf(" "), input.getValue().length()-1); //Obtains the "(A B)" in "destruct (A B)."
+                    String destructedObject = input.toString().substring(input.toString().indexOf(" "), input.toString().length()-1); //Obtains the "(A B)" in "destruct (A B)."
                     textVersion += String.format(rewritingBundle.getString("destruct")+"\n", destructedObject);
                     break;
                 case INTRO:
@@ -132,7 +131,7 @@ public class PlainTextRewriter implements Rewriter {
                     break;
                 case INVERSION:
                     textVersion += indentation;
-                    String inversionLemmaName = input.getValue().split(" ")[1].replace(".", ""); //Obtains the "A" in "apply A."
+                    String inversionLemmaName = input.toString().split(" ")[1].replace(".", ""); //Obtains the "A" in "apply A."
                     String inversionLemmaDefinition = "";
                     for (Assumption a : assumptionsBeforeTactic) {
                         if (a.getName().equals(inversionLemmaName)) {
@@ -151,14 +150,14 @@ public class PlainTextRewriter implements Rewriter {
                     textVersion += String.format(rewritingBundle.getString("inversion")+"\n", inversionLemmaDefinition, enumerationOfAddedAssumptions);
                     break;
                 case LEMMA:
-                    textVersion += input.getValue() + "\n";
+                    textVersion += input.toString() + "\n";
                     break;
                 case OMEGA:
                     textVersion += indentation;
                     textVersion += rewritingBundle.getString("omega")+"\n";
                     break;
                 case PROOF:
-                    textVersion += input.getValue() + "\n";
+                    textVersion += input.toString() + "\n";
                     break;
                 case REFLEXIVITY:
                     textVersion += indentation;
@@ -172,7 +171,7 @@ public class PlainTextRewriter implements Rewriter {
                     break;
                 case UNFOLD:
                     textVersion += indentation;
-                    String unfoldedDefinition = input.getValue().split(" ")[1].replace(".", ""); //Obtains the "A" in "unfold A."
+                    String unfoldedDefinition = input.toString().split(" ")[1].replace(".", ""); //Obtains the "A" in "unfold A."
                     textVersion += String.format(rewritingBundle.getString("unfold")+"\n", unfoldedDefinition, output.getGoal().toString());
                     break;
                 case QED:
@@ -191,7 +190,7 @@ public class PlainTextRewriter implements Rewriter {
     private String updatedIndentationLevel(Input input) {
         //Assumes that the input is of type BULLET
         if (input.getType() == InputType.BULLET) {
-            int indentationLevel = input.getValue().split(" ")[0].length(); //The bullet length determines the indendation level (e.g., - = 1, -- = 2, --- = 3)
+            int indentationLevel = input.toString().split(" ")[0].length(); //The bullet length determines the indendation level (e.g., - = 1, -- = 2, --- = 3)
             String indentation = "";
             for (int i = 1; i <= indentationLevel; i++) {
                 indentation += "  ";
@@ -240,17 +239,17 @@ public class PlainTextRewriter implements Rewriter {
         Map<Integer, String> bulletsToAddAfter = new HashMap<>();
         String bulletStr = "";
         int i = 0;
-        for(Pair<Input,Output> p : _inputsOutputs) {
-            if (p.getKey().getValue().equals("Qed.")) { break; }
+        for(InputOutput p : _inputsOutputs) {
+            if (p.getInput().toString().equals("Qed.")) { break; }
             if (i == 0) {
                 s.push(i);
             }
             else if (i > 0) {
                 Integer previousNode = s.pop();
 
-                Pair<Input, Output> previousPair = _inputsOutputs.get(i-1);
-                int numberOfSubgoalsBeforeTactic = previousPair.getValue().getNumberOfRemainingSubgoals();
-                int numberOfSubgoalsAfterTactic = p.getValue().getNumberOfRemainingSubgoals();
+                InputOutput previousPair = _inputsOutputs.get(i-1);
+                int numberOfSubgoalsBeforeTactic = previousPair.getOutput().getNumberOfRemainingSubgoals();
+                int numberOfSubgoalsAfterTactic = p.getOutput().getNumberOfRemainingSubgoals();
 
                 int addedSubgoals = numberOfSubgoalsAfterTactic - numberOfSubgoalsBeforeTactic;
                 if (addedSubgoals > 0) {
@@ -282,7 +281,7 @@ public class PlainTextRewriter implements Rewriter {
         //Step 5: Insert bullets in _inputsOutputs
         int numberOfInputsInserted = 0;
         for(Integer index : bulletsToAddAfter.keySet()) {
-            _inputsOutputs.add(index+numberOfInputsInserted, new Pair(new Input(bulletsToAddAfter.get(index)), _inputsOutputs.get(index+numberOfInputsInserted-1).getValue()));
+            _inputsOutputs.add(index+numberOfInputsInserted, new InputOutput(new Input(bulletsToAddAfter.get(index)), _inputsOutputs.get(index+numberOfInputsInserted-1).getOutput()));
             numberOfInputsInserted++;
         }
 
@@ -300,24 +299,24 @@ public class PlainTextRewriter implements Rewriter {
         Map<Integer, String> bulletsToAddAfter = new HashMap<>();
         String bulletStr = "";
         int i = 0;
-        for(Pair<Input,Output> p : _inputsOutputs) {
-            if (p.getKey().getValue().equals("Qed.")) { break; }
+        for(InputOutput p : _inputsOutputs) {
+            if (p.getInput().toString().equals("Qed.")) { break; }
             if (i == 0) {
                 s.push(i);
             }
             else if (i > 0) {
                 Integer previousNode = s.pop();
 
-                Pair<Input, Output> previousPair = _inputsOutputs.get(i-1);
-                int numberOfSubgoalsBeforeTactic = previousPair.getValue().getNumberOfRemainingSubgoals();
-                int numberOfSubgoalsAfterTactic = p.getValue().getNumberOfRemainingSubgoals();
+                InputOutput previousPair = _inputsOutputs.get(i-1);
+                int numberOfSubgoalsBeforeTactic = previousPair.getOutput().getNumberOfRemainingSubgoals();
+                int numberOfSubgoalsAfterTactic = p.getOutput().getNumberOfRemainingSubgoals();
 
                 int addedSubgoals = numberOfSubgoalsAfterTactic - numberOfSubgoalsBeforeTactic;
                 if (addedSubgoals > 0) {
                     for(int j=0; j<=addedSubgoals; j++) {
                         s.push(i);
                     }
-                    System.out.println(String.format("\"%d. %s\" -> \"%d. %s\";", previousNode, _inputsOutputs.get(previousNode).getKey().getValue(), i, _inputsOutputs.get(i).getKey().getValue()));
+                    System.out.println(String.format("\"%d. %s\" -> \"%d. %s\";", previousNode, _inputsOutputs.get(previousNode).getInput().toString(), i, _inputsOutputs.get(i).getInput().toString()));
                     bulletStr += "-";
                     bulletLevel.put(i, bulletStr);
                 }
@@ -325,14 +324,14 @@ public class PlainTextRewriter implements Rewriter {
                     if (bulletLevel.get(previousNode) != null) {
                         bulletsToAddAfter.put(i, bulletLevel.get(previousNode));
                     }
-                    System.out.println(String.format("\"%d. %s\" -> \"%d. %s\";", previousNode, _inputsOutputs.get(previousNode).getKey().getValue(), i, _inputsOutputs.get(i).getKey().getValue()));
+                    System.out.println(String.format("\"%d. %s\" -> \"%d. %s\";", previousNode, _inputsOutputs.get(previousNode).getInput().toString(), i, _inputsOutputs.get(i).getInput().toString()));
                     s.push(i);
                 }
                 else if (addedSubgoals < 0) {
                     if (bulletLevel.get(previousNode) != null) {
                         bulletsToAddAfter.put(i, bulletLevel.get(previousNode));
                     }
-                    System.out.println(String.format("\"%d. %s\" -> \"%d. %s\";", previousNode, _inputsOutputs.get(previousNode).getKey().getValue(), i, _inputsOutputs.get(i).getKey().getValue()));
+                    System.out.println(String.format("\"%d. %s\" -> \"%d. %s\";", previousNode, _inputsOutputs.get(previousNode).getInput().toString(), i, _inputsOutputs.get(i).getInput().toString()));
                     if (!s.empty()) {
                         int nextNodeId = s.peek();
                         bulletStr = bulletLevel.get(nextNodeId);

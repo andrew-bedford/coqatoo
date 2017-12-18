@@ -1,7 +1,6 @@
 package coqatoo.coq;
 
 import coqatoo.Main;
-import javafx.util.Pair;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -33,9 +32,9 @@ public class Coqtop {
         catch (Exception e) { e.printStackTrace(); }
     }
 
-    public List<Pair<Input, Output>> execute(String script) {
+    public List<InputOutput> execute(String script) {
         String[] scriptLines = script.split("\n");
-        List<Pair<Input, Output>> inputsOutputs = new ArrayList<>();
+        List<InputOutput> inputsOutputs = new ArrayList<>();
 
         try {
             for (String input : scriptLines) {
@@ -51,7 +50,7 @@ public class Coqtop {
                     output += _reader.readLine() + "\n";
 
                 }
-                inputsOutputs.add(new Pair<>(new Input(input), new Output(output)));
+                inputsOutputs.add(new InputOutput(new Input(input), new Output(output)));
 
                 if (_debugging) {
                     System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
