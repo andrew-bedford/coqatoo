@@ -18,21 +18,22 @@
     \titlepage
 \end{frame}
 
-\begin{frame}{Motivation}
-    \begin{itemize}
-        \item Proofs can sometimes be hard to understand, particularly for less-experienced users
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Example}{Input}
+\begin{frame}[fragile]{Motivation}
+\begin{itemize}
+    \item Proofs can sometimes be hard to understand, particularly for less-experienced users
+\end{itemize}
 \begin{adjustbox}{minipage=\linewidth,bgcolor=coqatoo-gray,trim=-3pt 5pt -3pt 5pt}        
 \begin{lstlisting}[label=listing:input]
 Lemma conj_imp_equiv : forall P Q R:Prop, (P /\ Q -> R) <-> (P -> Q -> R).
 Proof.
-  intros. split. intros H HP HQ. apply H. apply conj. assumption. assumption. intros H HPQ. inversion HPQ. apply H. assumption. assumption.
+    intros. split. intros H HP HQ. apply H. apply conj. assumption. assumption. intros H HPQ. inversion HPQ. apply H. assumption. assumption.
 Qed.
 \end{lstlisting}
 \end{adjustbox}
+\end{frame}
+
+\begin{frame}[fragile]{Example}{Input}
+
 \end{frame}
 
 \begin{frame}[fragile]{Previous Work}{CtCoq and PCoq}
@@ -55,8 +56,8 @@ conj (fun (H : P /\ Q -> R) (HP : P) (HQ : Q) => H (conj HP HQ))
 \end{adjustbox}
 \end{frame}
 
-\begin{frame}{Previous Work}{Disadvantages}
-\begin{itemize}
+\begin{frame}{Previous Work}{Advantages / Disadvantages}
+    \begin{itemize}
     \item Verbosity
 \end{itemize}
 \end{frame}
@@ -176,6 +177,11 @@ Qed.
         \item Integration with existing development environments
         \item Add a LaTeX output mode
     \end{itemize}
+\end{frame}
+
+\begin{frame}{}{}
+    \center {\Huge Thank you!}\\~\\
+    github.com/andrew-bedford/coqatoo
 \end{frame}
 
 \end{document}

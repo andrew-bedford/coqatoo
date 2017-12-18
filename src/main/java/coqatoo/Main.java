@@ -1,8 +1,8 @@
 package coqatoo;
 
 import coqatoo.coq.Coqtop;
-import coqatoo.rewriters.AnnotationRewriter;
-import coqatoo.rewriters.PlainTextRewriter;
+import coqatoo.rewriters.coq.AnnotationRewriter;
+import coqatoo.rewriters.text.PlainTextRewriter;
 import helpers.FileHelper;
 
 import java.io.*;

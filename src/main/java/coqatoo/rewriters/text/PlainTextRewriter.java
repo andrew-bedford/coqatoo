@@ -1,19 +1,22 @@
-package coqatoo.rewriters;
+package coqatoo.rewriters.text;
 
 import coqatoo.Main;
 import coqatoo.coq.*;
+import coqatoo.rewriters.Rewriter;
+import coqatoo.rewriters.text.rules.Apply;
+import coqatoo.rewriters.text.rules.Destruct;
 import helpers.SetHelper;
 
 import java.util.*;
 
 public class PlainTextRewriter implements Rewriter {
 
-    ResourceBundle rewritingBundle = ResourceBundle.getBundle("RewritingBundle", Main.locale);
-    String _script;
-    String _scriptWithUnfoldedAutos;
-    List<InputOutput> _inputsOutputs;
+    protected ResourceBundle _rewritingBundle = ResourceBundle.getBundle("RewritingBundle", Main.locale);
+    protected String _script;
+    protected String _scriptWithUnfoldedAutos;
+    protected List<InputOutput> _inputsOutputs;
 
-    private String generateScriptWithUnfoldedAutos(List<InputOutput> inputsOutputs) {
+    protected String generateScriptWithUnfoldedAutos(List<InputOutput> inputsOutputs) {
         String scriptWithUnfoldedAutos = "";
         for(InputOutput p : _inputsOutputs) {
             Input i = p.getInput();
@@ -68,134 +71,53 @@ public class PlainTextRewriter implements Rewriter {
 
             switch (input.getType()) {
                 case APPLY:
-                    String lemmaName = input.toString().split(" ")[1].replace(".", ""); //Obtains the "A" in "apply A."
-                    String lemmaDefinition = "  ";
-                    for (Assumption a : assumptionsBeforeTactic) {
-                        if (a.getName().equals(lemmaName)) {
-                            lemmaDefinition = a.getType();
-                        }
-                    }
-                    //TODO Adapt output if definition is not of the form "A -> B"
-                    int indexOfLastImplication = lemmaDefinition.lastIndexOf("->");
-                    if (indexOfLastImplication != -1) {
-                        textVersion += indentation;
-                        String[] propositionsLeftToProve = lemmaDefinition.substring(0, indexOfLastImplication).split("->");
-                        Arrays.stream(propositionsLeftToProve).map(String::trim).toArray(unused -> propositionsLeftToProve); //Removes whitespace from all elements of the array
-                        String commaSeparatedPropositionsLeftToProve = String.join(", ", propositionsLeftToProve);
-                        textVersion += String.format(rewritingBundle.getString("apply")+"\n", lemmaDefinition, previousOutput.getGoal().toString(), commaSeparatedPropositionsLeftToProve);
-                    }
+                    textVersion += indentation;
+                    textVersion += Apply.apply(_rewritingBundle, input, output, assumptionsBeforeTactic, assumptionsAddedAfterTactic, previousOutput) + "\n";
                     break;
                 case ASSUMPTION:
                     textVersion += indentation;
-                    textVersion += rewritingBundle.getString("assumption")+"\n";
+                    textVersion += coqatoo.rewriters.text.rules.Assumption.apply(_rewritingBundle) +"\n";
                     break;
                 case BULLET:
                     indentation = updatedIndentationLevel(input);
                     textVersion += indentation;
-                    textVersion += String.format(rewritingBundle.getString("bullet")+"\n", input.toString(), "<["+output.getGoal().toString()+"]>");
+                    textVersion += String.format(_rewritingBundle.getString("bullet")+"\n", input.toString(), output.getGoal().toString());
                     indentation += "  ";
                     break;
                 case DESTRUCT:
                     textVersion += indentation;
-                    String destructedObject = input.toString().substring(input.toString().indexOf(" "), input.toString().length()-1); //Obtains the "(A B)" in "destruct (A B)."
-                    textVersion += String.format(rewritingBundle.getString("destruct")+"\n", destructedObject);
+                    textVersion += Destruct.apply(_rewritingBundle, input)+"\n";
                     break;
                 case INTRO:
                 case INTROS:
                     textVersion += indentation;
+                    textVersion += coqatoo.rewriters.text.rules.Intros.apply(_rewritingBundle, input, output, assumptionsBeforeTactic, assumptionsAddedAfterTactic, previousOutput) + "\n";
 
-                    String variables = "";
-                    String variableNames = "";
-                    String variablesTypes = "";
-                    String hypotheses = "";
-                    Map<String, Set<String>> typesToVariables = new HashMap<>();
-
-                    for (Assumption a : assumptionsAddedAfterTactic) {
-                        // To choose whether the rule intros.given or intros.suppose should be used, we need to determine the type of the current assumption.
-                        Boolean assumptionTypeIsAlsoVariableName = false;
-                        for (Assumption b : SetHelper.union(assumptionsBeforeTactic, assumptionsAddedAfterTactic)) {
-                            if (a.getType().equals(b.getName())) {
-                                assumptionTypeIsAlsoVariableName = true;
-                            }
-                        }
-
-                        if (!a.typeContainsSpaces() && !assumptionTypeIsAlsoVariableName) {
-                            // Need to use intros.given
-                            Set<String> variablesWithSameType = typesToVariables.getOrDefault(a.getType(), new HashSet<String>());
-                            variablesWithSameType.add(a.getName());
-                            typesToVariables.put(a.getType(), variablesWithSameType);
-                        }
-                        else {
-                            // Need to use intros.suppose
-                            hypotheses += String.format("<[%s]>, ", a.getType());
-                        }
-                    }
-
-                    for (String type : typesToVariables.keySet()) {
-                        Set<String> variablesWithSameType = typesToVariables.get(type);
-                        variables += String.format("<[%s : %s]>, ", SetHelper.toString(variablesWithSameType), type);
-
-                    }
-
-                    textVersion += "<line>";
-                    if (!variables.isEmpty()) {
-                        variables = variables.substring(0, variables.length() - 2);
-                        textVersion += String.format(rewritingBundle.getString("intros.given"), variables);
-                    }
-                    if (!hypotheses.isEmpty()) {
-                        hypotheses = hypotheses.substring(0, hypotheses.length() - 2);
-                        textVersion += String.format(rewritingBundle.getString("intros.suppose"), hypotheses);
-                    }
-                    textVersion += String.format(rewritingBundle.getString("intros.goal")+"</line>\n", "<["+output.getGoal().toString()+"]>");
-                    break;
-                case INTUITION:
-                    textVersion += indentation;
-                    textVersion += String.format(rewritingBundle.getString("intuition")+"\n", previousOutput.getGoal().toString());
-                    break;
-                case INVERSION:
-                    textVersion += indentation;
-                    String inversionLemmaName = input.toString().split(" ")[1].replace(".", ""); //Obtains the "A" in "apply A."
-                    String inversionLemmaDefinition = "";
-                    for (Assumption a : assumptionsBeforeTactic) {
-                        if (a.getName().equals(inversionLemmaName)) {
-                            inversionLemmaDefinition = a.getType();
-                        }
-                    }
-
-                    String enumerationOfAddedAssumptions = "";
-                    for (Assumption a : assumptionsAddedAfterTactic) {
-                        if (!a.typeContainsSpaces()) {
-                            enumerationOfAddedAssumptions += a.getType() + ", ";
-                        }
-                    }
-                    enumerationOfAddedAssumptions = enumerationOfAddedAssumptions.substring(0, enumerationOfAddedAssumptions.length()-2); //Remove the last ", "
-
-                    textVersion += String.format(rewritingBundle.getString("inversion")+"\n", inversionLemmaDefinition, enumerationOfAddedAssumptions);
                     break;
                 case LEMMA:
                     textVersion += input.toString() + "\n";
                     break;
                 case OMEGA:
                     textVersion += indentation;
-                    textVersion += rewritingBundle.getString("omega")+"\n";
+                    textVersion += _rewritingBundle.getString("omega")+"\n";
                     break;
                 case PROOF:
                     textVersion += input.toString() + "\n";
                     break;
                 case REFLEXIVITY:
                     textVersion += indentation;
-                    textVersion += rewritingBundle.getString("reflexivity")+"\n";
+                    textVersion += _rewritingBundle.getString("reflexivity")+"\n";
                     break;
                 case SIMPL: //TODO "simpl in ..."
                     textVersion += indentation;
-                    textVersion += String.format(rewritingBundle.getString("simpl")+"\n", previousOutput.getGoal().toString(), output.getGoal().toString());
+                    textVersion += String.format(_rewritingBundle.getString("simpl")+"\n", previousOutput.getGoal().toString(), output.getGoal().toString());
                     break;
                 case SPLIT:
                     break;
                 case UNFOLD:
                     textVersion += indentation;
                     String unfoldedDefinition = input.toString().split(" ")[1].replace(".", ""); //Obtains the "A" in "unfold A."
-                    textVersion += String.format(rewritingBundle.getString("unfold")+"\n", unfoldedDefinition, output.getGoal().toString());
+                    textVersion += String.format(_rewritingBundle.getString("unfold")+"\n", unfoldedDefinition, output.getGoal().toString());
                     break;
                 case QED:
                     textVersion += "Qed\n";
@@ -210,7 +132,7 @@ public class PlainTextRewriter implements Rewriter {
         return textVersion;
     }
 
-    private String updatedIndentationLevel(Input input) {
+    protected String updatedIndentationLevel(Input input) {
         //Assumes that the input is of type BULLET
         if (input.getType() == InputType.BULLET) {
             int indentationLevel = input.toString().split(" ")[0].length(); //The bullet length determines the indendation level (e.g., - = 1, -- = 2, --- = 3)
@@ -233,7 +155,7 @@ public class PlainTextRewriter implements Rewriter {
        System.out.println(getTextVersion());
     }
 
-    private String formatScript(String proofScript) {
+    protected String formatScript(String proofScript) {
         String formattedScript = proofScript;
 
         //Step 1: Format proof so that there is one tactic/chain per line
@@ -366,7 +288,7 @@ public class PlainTextRewriter implements Rewriter {
         System.out.println("}");
     }
 
-    private void extractInformation(String proofScript) {
+    protected void extractInformation(String proofScript) {
         _script = proofScript;
         _inputsOutputs = Main.coqtop.execute(_script);
 
