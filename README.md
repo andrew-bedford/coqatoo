@@ -11,7 +11,7 @@ Coqatoo (coq-to) attempts to address this issue by generating natural language v
 ```ML
 Lemma conj_imp_equiv : forall P Q R:Prop, ((P /\ Q -> R) <-> (P -> Q -> R)).
 Proof.
-  (* Assume that P, Q and R are arbitrary objects of type Prop. Let us show that (P /\ Q -> R) <-> (P -> Q -> R) is true. *) intros.
+  (* Given any P, Q, R : Prop. Let us show that (P /\ Q -> R) <-> (P -> Q -> R) is true. *) intros.
   split.
   - (* Case (P /\ Q -> R) -> P -> Q -> R: *)
     (* Suppose that P, Q and P /\ Q -> R are true. Let us show that R is true. *) intros H HP HQ.

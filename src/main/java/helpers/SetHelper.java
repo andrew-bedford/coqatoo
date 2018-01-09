@@ -48,9 +48,18 @@ public class SetHelper {
         int i = 0;
         String s = "";
         for (T element : set) {
-            s += element + ", ";
+            i++;
+            if (i == numberOfElementsInSet-1) {
+                s += element + " and ";
+            }
+            else if (i == numberOfElementsInSet) {
+                s += element;
+            }
+            else {
+                s += element + ", ";
+            }
         }
 
-        return s.substring(0, s.length()-2); //To remove the trailing comma
+        return s;
     }
 }
