@@ -1,15 +1,12 @@
-package coqatoo.rewriters.coq;
+package coqatoo.rewriters;
 
-import coqatoo.Main;
 import coqatoo.coq.*;
-import coqatoo.rewriters.Rewriter;
-import coqatoo.rewriters.text.PlainTextRewriter;
-import coqatoo.rewriters.text.rules.Apply;
-import coqatoo.rewriters.text.rules.Inversion;
+import coqatoo.rewriters.rules.Apply;
+import coqatoo.rewriters.rules.Inversion;
 
 import java.util.*;
 
-public class AnnotationRewriter extends PlainTextRewriter {
+public class CoqRewriter extends TextRewriter {
 
     public String getTextVersion() {
         String textVersion = "";
@@ -42,7 +39,7 @@ public class AnnotationRewriter extends PlainTextRewriter {
                 case ASSUMPTION:
                     textVersion += indentation;
                     textVersion += "(* ";
-                    textVersion += coqatoo.rewriters.text.rules.Assumption.apply(_rewritingBundle);
+                    textVersion += coqatoo.rewriters.rules.Assumption.apply(_rewritingBundle);
                     textVersion += "*) ";
                     textVersion += input.toString()+"\n";
                     break;
@@ -66,7 +63,7 @@ public class AnnotationRewriter extends PlainTextRewriter {
                 case INTROS:
                     textVersion += indentation;
                     textVersion += "(* ";
-                    textVersion += coqatoo.rewriters.text.rules.Intros.apply(_rewritingBundle, input, output, assumptionsBeforeTactic, assumptionsAddedAfterTactic, previousOutput);
+                    textVersion += coqatoo.rewriters.rules.Intros.apply(_rewritingBundle, input, output, assumptionsBeforeTactic, assumptionsAddedAfterTactic, previousOutput);
                     textVersion += " *) ";
                     textVersion += input.toString()+"\n";
                     break;
@@ -136,6 +133,8 @@ public class AnnotationRewriter extends PlainTextRewriter {
             i++;
         }
 
+        textVersion = textVersion.replace("<[{","");
+        textVersion = textVersion.replace("}]>","");
         return textVersion;
     }
 }

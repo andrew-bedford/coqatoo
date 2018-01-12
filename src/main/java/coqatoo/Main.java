@@ -1,8 +1,9 @@
 package coqatoo;
 
 import coqatoo.coq.Coqtop;
-import coqatoo.rewriters.coq.AnnotationRewriter;
-import coqatoo.rewriters.text.PlainTextRewriter;
+import coqatoo.rewriters.CoqRewriter;
+import coqatoo.rewriters.LatexRewriter;
+import coqatoo.rewriters.TextRewriter;
 import helpers.FileHelper;
 
 import java.io.*;
@@ -22,7 +23,7 @@ public class Main {
             System.out.println("--debug                                        Display debugging information");
             System.out.println("--file [.v file]                               File containing the Coq proof");
             System.out.println("--language [en (default) | fr]                 Target language");
-            System.out.println("--mode [plain (default) | annotated | dot]     Output mode");
+            System.out.println("--mode [text (default) | coq | latex | dot]     Output mode");
         }
         if (parameters.containsKey("-language")) {
             String language = parameters.get("-language").get(0);
@@ -55,25 +56,32 @@ public class Main {
             if (parameters.containsKey("-mode")) {
                 String mode = parameters.get("-mode").get(0);
 
-                PlainTextRewriter plainTextRewriter = new PlainTextRewriter();
+                TextRewriter textRewriter = new TextRewriter();
 
                 switch (mode) {
-                    case "annotated":
+                    case "coq":
                         System.out.println("---------------------------------------------");
-                        System.out.println("|             Annotated Version             |");
+                        System.out.println("|                Coq Version                |");
                         System.out.println("---------------------------------------------");
-                        AnnotationRewriter annotationRewriter = new AnnotationRewriter();
-                        annotationRewriter.rewrite(fileContents);
+                        CoqRewriter coqRewriter = new CoqRewriter();
+                        coqRewriter.rewrite(fileContents);
+                        break;
+                    case "latex":
+                        System.out.println("---------------------------------------------");
+                        System.out.println("|              LaTeX Version                |");
+                        System.out.println("---------------------------------------------");
+                        LatexRewriter latexRewriter = new LatexRewriter();
+                        latexRewriter.rewrite(fileContents);
                         break;
                     case "dot":
-                        plainTextRewriter.rewrite(fileContents);
-                        plainTextRewriter.outputProofTreeAsDot();
+                        textRewriter.rewrite(fileContents);
+                        textRewriter.outputProofTreeAsDot();
                         break;
                     default: //Plain text is the default output mode
                         System.out.println("---------------------------------------------");
-                        System.out.println("|            Plain Text Version             |");
+                        System.out.println("|               Text Version                |");
                         System.out.println("---------------------------------------------");
-                        plainTextRewriter.rewrite(fileContents);
+                        textRewriter.rewrite(fileContents);
                         break;
                 }
 
@@ -82,9 +90,9 @@ public class Main {
                 System.out.println("---------------------------------------------");
                 System.out.println("|            Plain Text Version             |");
                 System.out.println("---------------------------------------------");
-                PlainTextRewriter plainTextRewriter = new PlainTextRewriter();
-                plainTextRewriter.rewrite(fileContents);
-                plainTextRewriter.outputProofTreeAsDot();
+                TextRewriter textRewriter = new TextRewriter();
+                textRewriter.rewrite(fileContents);
+                textRewriter.outputProofTreeAsDot();
             }
 
 

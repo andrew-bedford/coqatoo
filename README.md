@@ -7,7 +7,7 @@ Proof.
 Qed.
 ```
 
-Coqatoo (coq-to) attempts to address this issue by generating natural language versions of Coq proofs. For example, from the previous proof, Coqatoo produces the following output (using the option `--mode annotated`):
+Coqatoo (coq-to) attempts to address this issue by generating natural language versions of Coq proofs. For example, from the previous proof, Coqatoo produces the following output (using the option `--mode coq`):
 ```ML
 Lemma conj_imp_equiv : forall P Q R:Prop, ((P /\ Q -> R) <-> (P -> Q -> R)).
 Proof.
@@ -42,7 +42,7 @@ It can also generate a tree representation of the proof's structure (using the o
 --debug                                        Display debugging information
 --file [.v file]                               File containing the Coq proof
 --language [en (default) | fr]                 Target language
---mode [plain (default) | annotated | dot]     Output mode
+--mode [text (default) | coq | latex | dot]    Output mode
 ```
 
 ## Assumptions

@@ -1,11 +1,8 @@
-package coqatoo.rewriters.text.rules;
+package coqatoo.rewriters.rules;
 
-import coqatoo.coq.Assumption;
 import coqatoo.coq.Input;
-import coqatoo.coq.Output;
 
 import java.util.ResourceBundle;
-import java.util.Set;
 
 public class Destruct {
     public static String apply(ResourceBundle bundle, Input input) {

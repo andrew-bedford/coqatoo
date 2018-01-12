@@ -1,4 +1,4 @@
-package coqatoo.rewriters.text.rules;
+package coqatoo.rewriters.rules;
 
 import coqatoo.coq.Assumption;
 import coqatoo.coq.Input;

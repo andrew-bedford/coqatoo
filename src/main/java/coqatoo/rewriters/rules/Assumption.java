@@ -1,10 +1,6 @@
-package coqatoo.rewriters.text.rules;
-
-import coqatoo.coq.Input;
-import coqatoo.coq.Output;
+package coqatoo.rewriters.rules;
 
 import java.util.ResourceBundle;
-import java.util.Set;
 
 public class Assumption {
     public static String apply(ResourceBundle bundle) {

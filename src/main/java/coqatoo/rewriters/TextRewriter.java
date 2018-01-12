@@ -1,15 +1,14 @@
-package coqatoo.rewriters.text;
+package coqatoo.rewriters;
 
 import coqatoo.Main;
 import coqatoo.coq.*;
 import coqatoo.rewriters.Rewriter;
-import coqatoo.rewriters.text.rules.Apply;
-import coqatoo.rewriters.text.rules.Destruct;
-import helpers.SetHelper;
+import coqatoo.rewriters.rules.Apply;
+import coqatoo.rewriters.rules.Destruct;
 
 import java.util.*;
 
-public class PlainTextRewriter implements Rewriter {
+public class TextRewriter implements Rewriter {
 
     protected ResourceBundle _rewritingBundle = ResourceBundle.getBundle("RewritingBundle", Main.locale);
     protected String _script;
@@ -76,7 +75,7 @@ public class PlainTextRewriter implements Rewriter {
                     break;
                 case ASSUMPTION:
                     textVersion += indentation;
-                    textVersion += coqatoo.rewriters.text.rules.Assumption.apply(_rewritingBundle) +"\n";
+                    textVersion += coqatoo.rewriters.rules.Assumption.apply(_rewritingBundle) +"\n";
                     break;
                 case BULLET:
                     indentation = updatedIndentationLevel(input);
@@ -91,7 +90,7 @@ public class PlainTextRewriter implements Rewriter {
                 case INTRO:
                 case INTROS:
                     textVersion += indentation;
-                    textVersion += coqatoo.rewriters.text.rules.Intros.apply(_rewritingBundle, input, output, assumptionsBeforeTactic, assumptionsAddedAfterTactic, previousOutput) + "\n";
+                    textVersion += coqatoo.rewriters.rules.Intros.apply(_rewritingBundle, input, output, assumptionsBeforeTactic, assumptionsAddedAfterTactic, previousOutput) + "\n";
 
                     break;
                 case LEMMA:
@@ -151,8 +150,10 @@ public class PlainTextRewriter implements Rewriter {
     public void rewrite(String proofScript) {
        String formattedScript = formatScript(proofScript);
        //extractInformation(proofScript);
-
-       System.out.println(getTextVersion());
+       String textVersion = getTextVersion();
+       textVersion = textVersion.replace("<[{","");
+       textVersion = textVersion.replace("}]>","");
+       System.out.println(textVersion);
     }
 
     protected String formatScript(String proofScript) {
