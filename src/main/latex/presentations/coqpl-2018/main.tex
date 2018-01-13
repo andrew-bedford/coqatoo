@@ -163,14 +163,17 @@ P, Q, R : Prop
 Each supported tactic has its own set of rules. Take {\tt intros} for example:
 \begin{itemize}
     \item If variables are introduced, then {\tt Given any...}
-    \item If hypotheses are introduced, then {\tt Suppose...}
+    \item If hypotheses are introduced, then {\tt Suppose that...}
     \item {\tt Let us prove...}
 \end{itemize}
+~\\
+Other example, if the {\tt omega} tactic is used then {\tt Using William Pugh's Omega algorithm, we can...}
 \end{frame}
 
-\begin{frame}[fragile]{Related Work}{CtCoq and PCoq}
+\begin{frame}[fragile]{Related Work}
 
-
+Work done by Coscoy et al. in the 90's\\
+~\\
 \begin{adjustbox}{minipage=\linewidth,bgcolor=coqatoo-gray,trim=-3pt 5pt -3pt 5pt}            
 \begin{lstlisting}
 conj_imp_equiv = 
@@ -193,14 +196,14 @@ conj (fun (H : P /\ Q -> R) (HP : P) (HQ : Q) => H (conj HP HQ))
 \begin{frame}{Comparison}{Advantages / Disadvantages}
     Disadvantages
     \begin{itemize}
-        \item{It only works on proofs whose tactics are supported, while the approach of Coscoy et al. worked on any proof.}
+        \item{Only works on proofs whose tactics are supported, while the approach of Coscoy et al. worked on any proof.}
         \item{Won't work well if there is a lot of automation}
     \end{itemize}
 
     Advantages
     \begin{itemize}
-        \item{It enables us to more easily control the size and verbosity of the generated proof (one or two sentences per tactic by default).}
-        \item{It maintains the order and structure of the user's original proof script; this is not necessarily the case in Coscoy et al. }
+        \item{More easy to control the size and verbosity of the generated proof (one or two sentences per tactic by default).}
+        \item{Itaintains the order and structure of the user's original proof script; this is not necessarily the case in Coscoy et al. }
       \end{itemize}
 \end{frame}
 
