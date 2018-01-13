@@ -40,7 +40,7 @@ It can also generate a tree representation of the proof's structure (using the o
 ## Usage
 ```
 --debug                                        Display debugging information
---file [.v file]                               File containing the Coq proof
+--input [.v file]                              File containing the Coq proof
 --language [en (default) | fr]                 Target language
 --mode [text (default) | coq | latex | dot]    Output mode
 ```

@@ -21,9 +21,9 @@ public class Main {
         if (parameters.isEmpty() || parameters.containsKey("-help")) {
             System.out.println("Options:");
             System.out.println("--debug                                        Display debugging information");
-            System.out.println("--file [.v file]                               File containing the Coq proof");
+            System.out.println("--input [.v file]                              File containing the Coq proof");
             System.out.println("--language [en (default) | fr]                 Target language");
-            System.out.println("--mode [text (default) | coq | latex | dot]     Output mode");
+            System.out.println("--mode [text (default) | coq | latex | dot]    Output mode");
         }
         if (parameters.containsKey("-language")) {
             String language = parameters.get("-language").get(0);
@@ -38,8 +38,8 @@ public class Main {
         if (parameters.containsKey("-debug")) {
             debug = true;
         }
-        if (parameters.containsKey("-file")) {
-            String filePath = parameters.get("-file").get(0);
+        if (parameters.containsKey("-input")) {
+            String filePath = parameters.get("-input").get(0);
 
             verifyFileExists(filePath);
             String fileContents = FileHelper.convertFileToString(new File(filePath));
@@ -92,7 +92,6 @@ public class Main {
                 System.out.println("---------------------------------------------");
                 TextRewriter textRewriter = new TextRewriter();
                 textRewriter.rewrite(fileContents);
-                textRewriter.outputProofTreeAsDot();
             }
 
 
