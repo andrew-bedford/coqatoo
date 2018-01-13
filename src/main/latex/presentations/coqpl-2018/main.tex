@@ -18,101 +18,53 @@
     \titlepage
 \end{frame}
 
-\begin{frame}[fragile]{Motivation}
-\begin{itemize}
-    \item Proofs can sometimes be hard to understand, particularly for less-experienced users
-\end{itemize}
+\begin{frame}{Motivation}
+Scenarios where having the natural-language version of a Coq proof could be useful:
+\begin{enumerate}
+    \item Learning
+    \item Communicating
+    \item Documenting
+\end{enumerate}
+~\\
+You could manually write natural-language version of your proofs, but...
+\end{frame}
+
+\begin{frame}[fragile]{Example}{Input}
 \begin{adjustbox}{minipage=\linewidth,bgcolor=coqatoo-gray,trim=-3pt 5pt -3pt 5pt}        
 \begin{lstlisting}[label=listing:input]
-Lemma conj_imp_equiv : forall P Q R:Prop, (P /\ Q -> R) <-> (P -> Q -> R).
+Lemma conj_imp_equiv : forall P Q R:Prop, 
+  (P /\ Q -> R) <-> (P -> Q -> R).
 Proof.
-    intros. split. intros H HP HQ. apply H. apply conj. assumption. assumption. intros H HPQ. inversion HPQ. apply H. assumption. assumption.
+  intros. split. intros H HP HQ. apply H. apply conj. assumption. assumption. 
+  intros H HPQ. inversion HPQ. apply H. assumption. assumption.
 Qed.
 \end{lstlisting}
 \end{adjustbox}
 \end{frame}
 
-\begin{frame}[fragile]{Example}{Input}
-
-\end{frame}
-
-\begin{frame}[fragile]{Previous Work}{CtCoq and PCoq}
-CtCoq and its successor Pcoq are no longer available
-\begin{adjustbox}{minipage=\linewidth,bgcolor=coqatoo-gray,trim=-3pt 5pt -3pt 5pt}            
-\begin{lstlisting}
-conj_imp_equiv = 
-fun P Q R : Prop =>
-conj (fun (H : P /\ Q -> R) (HP : P) (HQ : Q) => H (conj HP HQ))
-    (fun (H : P -> Q -> R) (HPQ : P /\ Q) =>
-    let H0 :=
-        match HPQ with
-        | conj H0 H1 => (fun (H2 : P) (H3 : Q) => H H2 H3) H0 H1
-        end
-        :
-        R in
-    H0)
-        : forall P Q R : Prop, (P /\ Q -> R) <-> (P -> Q -> R)
-\end{lstlisting}
-\end{adjustbox}
-\end{frame}
-
-\begin{frame}{Previous Work}{Advantages / Disadvantages}
-    \begin{itemize}
-    \item Verbosity
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Coqatoo}
-Different approach
-\end{frame}
-
-\begin{frame}{Overview of Coqatoo}
-    Coqatoo's rewriting algorithm can be decomposed in three steps:
-    \begin{enumerate}
-        \item Information extraction
-        \item Proof tree construction
-        \item Tactic-based rewriting
-    \end{enumerate}
-\end{frame}
-
-
-\begin{frame}[fragile]{Step 1: Information extraction}
-Coqatoo captures the intermediary proof states
+\begin{frame}[fragile]{Example}{Output (--mode text)}
 \begin{adjustbox}{minipage=\linewidth,bgcolor=coqatoo-gray,trim=-3pt 5pt -3pt 5pt}
-\begin{lstlisting}[label=listing:before-intros]
-1 subgoal
-
-============================
-forall P Q R : Prop, (P /\ Q -> R) <-> (P -> Q -> R)
+\begin{lstlisting}[keywordstyle=\color{white}]
+Given any P, Q and R : Prop. Let us show that (P /\ Q -> R) <-> (P -> Q -> R) is true.
+- Case (P /\ Q -> R) -> P -> Q -> R:
+    Suppose that P, Q, P /\ Q -> R are true. Let us show that R is true.
+    By our hypothesis P /\ Q -> R, we know that R is true if P /\ Q are true.
+    -- Case P:
+       True, because it is one of our assumptions.
+    -- Case Q:
+       True, because it is one of our assumptions.
+- Case (P -> Q -> R) -> P /\ Q -> R:
+    Suppose that P /\ Q, P -> Q -> R are true. Let us show that R is true.
+    By our hypothesis P -> Q -> R, we know that R is true if P, Q are true.
+    -- Case P:
+       True, because it is one of our assumptions.
+    -- Case Q:
+       True, because it is one of our assumptions.
 \end{lstlisting}
 \end{adjustbox}
-~\\~\\
-\begin{adjustbox}{minipage=\linewidth,bgcolor=coqatoo-gray,trim=-3pt 5pt -3pt 5pt}
-\begin{lstlisting}[label=listing:after-intros]
-1 subgoal
-
-P, Q, R : Prop
-============================
-(P /\ Q -> R) <-> (P -> Q -> R)
-\end{lstlisting}
-\end{adjustbox}
 \end{frame}
 
-\begin{frame}{Step 2: Proof tree construction}
-    \vspace{-13pt}\center\includegraphics[height=0.85\textheight]{images/proof-tree.png}
-\end{frame}
-
-\begin{frame}{Step 3: Tactic-based rewriting}
-
-\end{frame}
-
-\begin{frame}{Example}{Output Modes}
-\end{frame}
-
-\begin{frame}{Example}{Output (--mode plain)}
-\end{frame}
-
-\begin{frame}[fragile]{Example}{Output (--mode annotated)}
+\begin{frame}[fragile]{Example}{Output (--mode coq)}
 \begin{adjustbox}{minipage=\linewidth,bgcolor=coqatoo-gray,trim=-3pt 5pt -3pt 5pt}
 \begin{lstlisting}[label=listing:output]
 Lemma conj_imp_equiv : forall P Q R:Prop, (P /\ Q -> R) <-> (P -> Q -> R).
@@ -143,24 +95,109 @@ Qed.
 \begin{frame}{Example}{Output (--mode latex)}
     \begin{lemma} (conj\_imp\_equiv) $\forall P, Q, R : Prop, (P \land Q \Rightarrow R) \Leftrightarrow (P \Rightarrow Q \Rightarrow R)$
     \end{lemma}
-    \begin{proof}
-        Given any $P, Q, R : Prop$. Let us show that $(P \land Q \Rightarrow R) \Leftrightarrow (P \Rightarrow Q \Rightarrow R)$ is true.
-        %Must define new environements for the case and subcases
+    \begin{proof}\scriptsize
+        Given any $P, Q~and~R : Prop$. Let us show that $(P \land Q \Rightarrow R) \Leftrightarrow (P \Rightarrow Q \Rightarrow R)$ is true.\\
+\hspace{5mm}- Case $(P \land Q \Rightarrow R) \Rightarrow P \Rightarrow Q \Rightarrow R$:\\
+\hspace{5mm}\hspace{5mm}Suppose that $P, Q, P \land Q \Rightarrow R$ are true. Let us show that $R$ is true.\\
+\hspace{5mm}\hspace{5mm}By our hypothesis $P \land Q \Rightarrow R$, we know that $R$ is true if $P \land Q$ are true.\\
+\hspace{5mm}\hspace{5mm}-- Case $P$:\\
+\hspace{5mm}\hspace{5mm}\hspace{5mm}True, because it is one of our assumptions.\\
+\hspace{5mm}\hspace{5mm}-- Case $Q$:\\
+\hspace{5mm}\hspace{5mm}\hspace{5mm}True, because it is one of our assumptions.\\
+\hspace{5mm}- Case $(P \Rightarrow Q \Rightarrow R) \Rightarrow P \land Q \Rightarrow R$:\\
+\hspace{5mm}\hspace{5mm}Suppose that $P \land Q, P \Rightarrow Q \Rightarrow R$ are true. Let us show that $R$ is true.\\
+\hspace{5mm}\hspace{5mm}By our hypothesis $P \Rightarrow Q \Rightarrow R$, we know that $R$ is true if $P, Q$ are true.\\
+\hspace{5mm}\hspace{5mm}-- Case $P$:\\
+\hspace{5mm}\hspace{5mm}\hspace{5mm}True, because it is one of our assumptions.\\
+\hspace{5mm}\hspace{5mm}-- Case $Q$:\\
+\hspace{5mm}\hspace{5mm}\hspace{5mm}True, because it is one of our assumptions.\\
     \end{proof}
 \end{frame}
 
-\begin{frame}
-    \Huge \center Demonstration
-\end{frame}
-
-\begin{frame}{Comparison}{Disadvantages}
+\begin{frame}{Languages}
     \begin{itemize}
-        \item{It only works on proofs whose tactics are supported, while the approach of Coscoy et al. worked on any proof.}
-        \item{It may require additional verifications to ensure that unecessary information (e.g., an assertion which isn't used) is not included in the generated proof.}
+        \item Can generate proofs in multiple languages
+        \item Easy to add support for additional languages
+        \includegraphics[width=\textwidth]{images/sentences.png}
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Comparison}{Advantages}
+\begin{frame}{Overview of Coqatoo}
+    Coqatoo's rewriting algorithm can be decomposed in three steps:
+    \begin{enumerate}
+        \item Information extraction
+        \item Proof tree construction
+        \item Tactic-based rewriting
+    \end{enumerate}
+\end{frame}
+
+
+\begin{frame}[fragile]{Step 1: Information extraction}
+\begin{adjustbox}{minipage=\linewidth,bgcolor=coqatoo-gray,trim=-3pt 5pt -3pt 5pt}
+\begin{lstlisting}[label=listing:before-intros]
+1 subgoal
+
+============================
+forall P Q R : Prop, (P /\ Q -> R) <-> (P -> Q -> R)
+\end{lstlisting}
+\end{adjustbox}
+\vspace{0.25cm}~\\
+intros.\\
+\vspace{0cm}~\\
+\begin{adjustbox}{minipage=\linewidth,bgcolor=coqatoo-gray,trim=-3pt 5pt -3pt 5pt}
+\begin{lstlisting}[label=listing:after-intros]
+1 subgoal
+
+P, Q, R : Prop
+============================
+(P /\ Q -> R) <-> (P -> Q -> R)
+\end{lstlisting}
+\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Step 2: Proof tree construction}
+    \vspace{-13pt}\center\includegraphics[height=0.85\textheight]{images/proof-tree.png}
+\end{frame}
+
+\begin{frame}{Step 3: Tactic-based rewriting}
+Each supported tactic has its own set of rules. Take {\tt intros} for example:
+\begin{itemize}
+    \item If variables are introduced, then {\tt Given any...}
+    \item If hypotheses are introduced, then {\tt Suppose...}
+    \item {\tt Let us prove...}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Related Work}{CtCoq and PCoq}
+
+
+\begin{adjustbox}{minipage=\linewidth,bgcolor=coqatoo-gray,trim=-3pt 5pt -3pt 5pt}            
+\begin{lstlisting}
+conj_imp_equiv = 
+fun P Q R : Prop =>
+conj (fun (H : P /\ Q -> R) (HP : P) (HQ : Q) => H (conj HP HQ))
+    (fun (H : P -> Q -> R) (HPQ : P /\ Q) =>
+    let H0 :=
+        match HPQ with
+        | conj H0 H1 => (fun (H2 : P) (H3 : Q) => H H2 H3) H0 H1
+        end
+        :
+        R in
+    H0)
+        : forall P Q R : Prop, (P /\ Q -> R) <-> (P -> Q -> R)
+\end{lstlisting}
+\end{adjustbox}
+\end{frame}
+
+
+\begin{frame}{Comparison}{Advantages / Disadvantages}
+    Disadvantages
+    \begin{itemize}
+        \item{It only works on proofs whose tactics are supported, while the approach of Coscoy et al. worked on any proof.}
+        \item{Won't work well if there is a lot of automation}
+    \end{itemize}
+
+    Advantages
     \begin{itemize}
         \item{It enables us to more easily control the size and verbosity of the generated proof (one or two sentences per tactic by default).}
         \item{It maintains the order and structure of the user's original proof script; this is not necessarily the case in Coscoy et al. }
@@ -171,11 +208,12 @@ Qed.
     \begin{itemize}
         \item Increase the number of supported tactics
         \begin{itemize}
+            \item Currently supports only a handful
             \item Goal: Software Foundations
         \end{itemize}
         \item Add partial support for automation
+        \item Add support for other languages 
         \item Integration with existing development environments
-        \item Add a LaTeX output mode
     \end{itemize}
 \end{frame}
 

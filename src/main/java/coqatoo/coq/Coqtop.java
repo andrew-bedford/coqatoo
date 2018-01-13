@@ -48,8 +48,8 @@ public class Coqtop {
 
                 while (_reader.ready()) {
                     output += _reader.readLine() + "\n";
-
                 }
+
                 inputsOutputs.add(new InputOutput(new Input(input), new Output(output)));
 
                 if (_debugging) {

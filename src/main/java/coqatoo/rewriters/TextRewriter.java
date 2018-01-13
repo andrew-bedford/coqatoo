@@ -23,7 +23,7 @@ public class TextRewriter implements Rewriter {
             if (i.getType() == InputType.AUTO) {
                 String[] tacticsUsedByAuto = o.getValue().split("\n");
                 for (String s : tacticsUsedByAuto) {
-                    if (!s.contains("(* info auto: *)")) { //Ignore the first line of the info_auto
+                    if (!s.contains("(* info auto: *)") && !s.contains("No more subgoals")) { //Ignore the first line of the info_auto
                         scriptWithUnfoldedAutos += s.replace("simple ", "") + "\n"; //FIXME Temporary fix to transform the "simple apply" into "apply".
                     }
                 }
@@ -149,7 +149,7 @@ public class TextRewriter implements Rewriter {
     @Override
     public void rewrite(String proofScript) {
        String formattedScript = formatScript(proofScript);
-       //extractInformation(proofScript);
+       extractInformation(proofScript);
        String textVersion = getTextVersion();
        textVersion = textVersion.replace("<[{","");
        textVersion = textVersion.replace("}]>","");
@@ -291,7 +291,9 @@ public class TextRewriter implements Rewriter {
 
     protected void extractInformation(String proofScript) {
         _script = proofScript;
-        _inputsOutputs = Main.coqtop.execute(_script);
+        if (_inputsOutputs == null) {
+            _inputsOutputs = Main.coqtop.execute(_script);
+        }
 
         _scriptWithUnfoldedAutos = generateScriptWithUnfoldedAutos(_inputsOutputs);
         if (!_scriptWithUnfoldedAutos.equals(_script)) {
